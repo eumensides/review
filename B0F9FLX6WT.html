@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B0F9FLX6WT 评论洞察分析 — 接触冷感敷パッド</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg: #eef3f2;
+    --panel: #ffffff;
+    --ink: #12262a;
+    --ink-soft: #4c6167;
+    --teal-900: #0c4a52;
+    --teal-700: #0e7c86;
+    --teal-500: #2ca6a4;
+    --teal-300: #8fd0cd;
+    --teal-100: #dcf0ee;
+    --sun: #e7a13b;
+    --clay: #c1502e;
+    --line: #d3e2e0;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 8% 0%, rgba(44,166,164,0.10), transparent 42%),
+      radial-gradient(circle at 96% 10%, rgba(12,74,82,0.08), transparent 40%);
+    color: var(--ink);
+    font-family: "Hiragino Sans GB","PingFang SC","Noto Sans SC","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:1360px;margin:0 auto;padding:40px 28px 80px;}
+
+  header.top{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+    border-bottom:2px solid var(--teal-900);
+    padding-bottom:22px;margin-bottom:28px;flex-wrap:wrap;
+  }
+  header.top .titleblock h1{
+    font-size:30px;margin:0 0 6px;letter-spacing:.2px;color:var(--teal-900);
+    font-weight:700;
+  }
+  header.top .titleblock p{margin:0;color:var(--ink-soft);font-size:14px;}
+  header.top .asinlist{font-size:12px;color:var(--ink-soft);max-width:520px;line-height:1.7;}
+  header.top .asinlist b{color:var(--teal-700);}
+
+  .stats{
+    display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px;
+  }
+  .stat{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 22px;min-width:150px;flex:1;
+  }
+  .stat .num{font-size:26px;font-weight:700;color:var(--teal-900);}
+  .stat .label{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+
+  .section-title{
+    font-size:15px;font-weight:700;color:var(--teal-900);
+    margin:38px 0 16px;padding-left:10px;border-left:4px solid var(--teal-500);
+  }
+
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:20px;
+  }
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 20px 12px;position:relative;
+  }
+  .card h3{margin:0 0 2px;font-size:16px;color:var(--ink);}
+  .card .hint{font-size:11.5px;color:var(--ink-soft);margin:0 0 10px;}
+  .chart-holder{position:relative;height:280px;}
+  .legend-list{
+    display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .legend-item{
+    display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);
+    cursor:pointer;padding:3px 6px;border-radius:6px;transition:background .15s;
+  }
+  .legend-item:hover{background:var(--teal-100);color:var(--teal-900);}
+  .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .legend-item .cnt{font-weight:700;color:var(--ink);}
+
+  /* Modal */
+  .modal-mask{
+    display:none;position:fixed;inset:0;background:rgba(12,30,32,.45);
+    z-index:999;align-items:flex-start;justify-content:center;padding:5vh 20px;
+    backdrop-filter: blur(1px);
+  }
+  .modal-mask.open{display:flex;}
+  .modal{
+    background:#fff;border-radius:16px;max-width:1040px;width:100%;max-height:88vh;
+    display:flex;flex-direction:column;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .modal-head{
+    padding:18px 24px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .modal-head .htxt h2{margin:0;font-size:18px;color:var(--teal-900);}
+  .modal-head .htxt p{margin:3px 0 0;font-size:12.5px;color:var(--ink-soft);}
+  .modal-head .close-btn{
+    border:none;background:var(--teal-100);color:var(--teal-900);width:32px;height:32px;
+    border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0;
+  }
+  .modal-search{padding:12px 24px;border-bottom:1px solid var(--line);}
+  .modal-search input{
+    width:100%;padding:9px 14px;border-radius:8px;border:1px solid var(--line);
+    font-size:13px;background:var(--bg);outline:none;
+  }
+  .modal-search input:focus{border-color:var(--teal-500);}
+  .modal-body{overflow:auto;padding:0 24px 20px;flex:1;}
+  table.reviews{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.reviews thead th{
+    text-align:left;position:sticky;top:0;background:#fff;
+    padding:10px 8px;border-bottom:2px solid var(--teal-900);color:var(--teal-900);
+    white-space:nowrap;
+  }
+  table.reviews tbody td{
+    padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink);
+  }
+  table.reviews tbody tr:hover{background:var(--teal-100);}
+  .star-badge{
+    display:inline-block;padding:1px 8px;border-radius:20px;font-weight:700;font-size:11.5px;
+  }
+  .s5{background:#dcf0ee;color:var(--teal-700);}
+  .s4{background:#e6f2ce;color:#5a7a1a;}
+  .s3{background:#fdefd0;color:#a06b0d;}
+  .s2{background:#fbe0d0;color:#a44a1f;}
+  .s1{background:#f7d6d6;color:#a3312f;}
+  td.content-cell{max-width:340px;}
+  td.content-cell .orig{color:var(--ink-soft);font-size:11px;margin-top:3px;}
+  .empty-hint{padding:40px;text-align:center;color:var(--ink-soft);font-size:13px;}
+
+  footer{margin-top:50px;color:var(--ink-soft);font-size:11.5px;text-align:center;}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:22px;}
+    .chart-holder{height:230px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="titleblock">
+      <h1>评论洞察分析 · 接触冷感敷パッド</h1>
+      <p>ASIN B0F9FLX6WT 及关联型号 · 日本站评论数据 · 导出日期 2026-09-08</p>
+    </div>
+    <div class="asinlist" id="asinlist"></div>
+  </header>
+
+  <div class="stats" id="statsRow"></div>
+
+  <div class="section-title">星级与人群分布</div>
+  <div class="grid" id="gridTop"></div>
+
+  <div class="section-title">使用期望 · 客户购买时希望达成的目的与改进诉求</div>
+  <div class="grid" id="gridExpect"></div>
+
+  <div class="section-title">实际体验感受</div>
+  <div class="grid" id="gridExperience"></div>
+
+  <div class="section-title">价值体验</div>
+  <div class="grid" id="gridValue"></div>
+
+  <footer>点击任意扇区或图例，可查看对应标签下的具体评论内容原文与译文。</footer>
+</div>
+
+<div class="modal-mask" id="modalMask">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="htxt">
+        <h2 id="modalTitle">数据详情</h2>
+        <p id="modalSub"></p>
+      </div>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-search">
+      <input type="text" id="modalSearch" placeholder="在结果中搜索关键词…" oninput="renderTable()">
+    </div>
+    <div class="modal-body">
+      <table class="reviews">
+        <thead>
+          <tr>
+            <th>ASIN</th><th>星级</th><th>标题</th><th>评论内容</th><th>型号</th><th>评论人</th><th>日期</th>
+          </tr>
+        </thead>
+        <tbody id="modalTbody"></tbody>
+      </table>
+      <div class="empty-hint" id="emptyHint" style="display:none;">未找到匹配的评论</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const REVIEWS = [{"asin":"B0F9FLX6WT","title":"看起来一年四季都可以用","title_orig":"通年使えそう","content":"感觉又好又酷。\n凉爽的一面即使冬天也可以使用，如果介意的话也可以放在背面，这样一年四季都可以使用。\n安装在垫子上后不会移位。\n","content_orig":"ヒンヤリとして気持ちが良いです。\nヒンヤリする面は冬でも使えそうですし、気になるなら裏側にしても良いので、通年使えそうです。\nマットに設置後ズレる事もありません。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"ユッキー","date":"2026-08-02","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3TACV4OEETIJI/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["容易移位"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"感觉很好。","title_orig":"気持ちよかです。","content":"天气又冷又滑，只穿着内衣睡觉的感觉真好。即使很粗糙，也很酷而且很好\n","content_orig":"冷たくてサラサラしてて、下着だけで寝ると気持ちよくて爆睡です。ゴロゴロしても、ヒンヤリしてグッド\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"クーパー","date":"2026-07-08","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R23ZTRH32H7888/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["触感粗糙"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"凉垫","title_orig":"ひんやりした敷パット","content":"我对快速运输和立即使用感到非常满意。\n","content_orig":"発送も早く直ぐに使って大満足です。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"山本 裕子","date":"2026-05-18","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R27FNO40AK3ZTW/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"有点令人失望","title_orig":"少し残念","content":"使用大约两周后，内容物开始有点弹出。\n\n很遗憾，因为使用起来很舒服\n","content_orig":"使い始めて二週間ほどで、中身が少し飛び出すようになりました。\n\n使い心地が良い分残念です\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":3,"reviewer":"ラス","date":"2026-03-29","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2RS4PHOCUVB7G/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"夏天很舒服","title_orig":"夏は快適です","content":"质地光滑，即使翻来覆去也很舒适，不会感到闷热。凉爽的一面非常适合夏季，背面透气，可以全年使用。只需将其擦干即可保持清洁！\n","content_orig":"さらっとした肌ざわりで、寝返りしてもムレにくく快適。冷感面は夏にぴったりで、裏面は通気性もよく年中使える。干すだけで清潔さが保てるのも助かる！\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":4,"reviewer":"ナッツ","date":"2025-10-29","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R23TDDNETVM3BS/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["透气性差"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"光滑的","title_orig":"ツルツル","content":"使用光滑的。寒冷的感觉很好。然而，在潮湿的夜晚，它很粘，很难入睡。\n夏季，建议睡觉时除湿并开空调。\n","content_orig":"ツルツルな方を使用。冷たさは良く感じる。が、湿気のある夜はペタペタして寝にくいこともあった。\n夏は除湿、冷房を付けっぱなしにして寝ることをすすめる。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":4,"reviewer":"低所得社会人","date":"2025-09-28","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1F8PY4HHI3LVJ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["吸湿"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"夏天我可以在空调房里舒适地使用它。","title_orig":"夏場のクーラーの効いた部屋では快適に使用できました。","content":"它将以高度压缩的状态到达。\n布料结实厚实，缝线做得很好。\n正如描述所说的“清凉感”，感觉有点凉。\n尤其是在空调房间里，你会感受到更强烈的寒冷感。\n我订购这个是为了照顾我的父母，这是一个很好的避暑垫。\n它是可水洗的，洗几次后我没有发现手感有任何变化，但我很好奇它的耐用性如何。\n我也很好奇在即将到来的冬季使用时会有什么感觉。\n","content_orig":"かなり圧縮した状態で届きます。\nしっかりした分厚い生地で裁縫もしっかりとしていました。\n「冷感」と記載されているだけあって、少しひんやりした感じがします。\n特にクーラーの効いた部屋だとより強く冷感を感じます。\n親の介護用に注文しましたが、夏向けには良い敷きパットでした。\n洗濯も可能で数回の洗濯ではそう感じは変わりませんでしたが、どれぐらいの耐久性があるか気になるところです。\nまた、これからの冬期に使用するとどのような感じになるかも気になるところです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"通りすがりの利用者","date":"2025-09-12","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/RBO0DEPO2XJOC/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["冷感","耐用","触感舒适"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"不适合软床垫","title_orig":"柔らかいマットレスには不向き","content":"我用的是软床，但是当我使用这个床垫时，感觉很硬，可能是因为布料没有弹性。它不适合我。\n不过，它制作精良，给人一种很酷的感觉。\n","content_orig":"柔らかいベットを使用してますが、この敷きパッドを使用すると、生地が伸びないせいか、固く感じます。私には合いませんでした。\nただ、作りもよく、ヒンヤリ感もありました。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":3,"reviewer":"aqua","date":"2025-09-04","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R312X1YLPEVLXX/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"与一般的散热垫有很大不同","title_orig":"一般的な冷感敷きパッドとかなり違った","content":"正如标题所说，当我真正使用它时，它是完全不同的。\n之前我用的是一款名为Q-MAX0.542的散热垫，售价约2,600日元，但相比之下，它不会积热，即使我面朝上睡觉也很舒服。我不知道是否是因为您在照片中看到的硅胶片的原因，但我认真推荐给那些对目前使用的散热垫不满意的人。\n","content_orig":"タイトルにもあるように実際に使ってみたらかなり違いました。\n以前は2,600円ほどのQ-MAX0.542とかいう接触冷感敷きパッドを使ってたのですが、それと比較して熱がこもりにくく、上を向いて寝ても快適でした。写真にもあるシリカゲルシートのおかげなのかはわかりませんが、今使ってる接触冷感の敷きパッドに不満がある方にはマジでオススメです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"カミセ","date":"2025-08-21","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2F2O356K15ZFK/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"全面防止潮湿和异味！ ！","title_orig":"湿気と臭い対策万全！！","content":"我为我有老化气味的丈夫买了这个。\n通常情况下，如果我不经常清洗罩子，它会发出汗味并受潮，所以我会考虑将其扔掉，但这款产品既去除了气味又去除了水分，我非常满意。\n","content_orig":"加齢臭の主人に購入しました。\nいつもは、頻繁に洗濯しないと汗の臭いや湿気もあり、カバー捨てようかと思うのですが、こちらの商品は、臭いも湿気もとってくれて大満足です。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"まりーん","date":"2025-08-19","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3K1FAUXI3BRF6/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"出色的清凉感和质感","title_orig":"素晴らしい冷感と肌触り","content":"它触感柔软，有一种美妙的清凉感，让我摆脱了夏天睡觉的不适。\n总的来说，这是一款我非常满意的产品。\n","content_orig":"肌触りが良いかつ、素晴らしい冷感で夏の寝苦しさから解放されました。\n総じて大満足出来る商品でした。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"梅干し","date":"2025-07-23","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R24L129ARQL6RP/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"坚固的面料手感很好","title_orig":"しっかりした生地感で気持ちいいです","content":"我以前也用过类似的降温垫，但布料蓬松，经常扭曲，压力很大。\n然后，固定橡胶从床上脱落……类似的事情就会发生。\n然而，该产品采用坚固的面料，因此不会松动并能很好地保持其形状。\n\n虽然清凉感不是极强，但触感却很顺滑，不会有紧贴肌肤的感觉，非常舒服。我喜欢它。\n","content_orig":"同じような冷感パッドを使っていましたが、生地がふにゃふにゃで、ヨレたりすることが多く地味にストレスでした。\nそしてベッドから固定ゴムが外れて・・・みたいな事態にも。\nただ、こちらの商品は生地がしっかりしていることもあり、ヨレヨレにはならず、しっかり形を保持してくれます。\n\n冷感がめちゃくちゃ強いわけではないですが、さらっとした触り心地で、肌にまとわりついてくる感じがなく非常に快適です。気に入りました。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"なにいろにーろ","date":"2025-07-15","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1WFCYEDT178H1/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"我认为从性价比来看还不错。","title_orig":"コスパ的にも悪くはないと思います。","content":"我一洗，味道就消失了。\n\n我认为从性价比来看还不错。\n","content_orig":"一度洗えば臭いも気にならなくなりました。\n\nコスパ的にも悪くはないと思います。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":3,"reviewer":"しろうちゃん","date":"2025-07-14","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1FLPHAZNWTBSF/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"舒服的","title_orig":"快適","content":"对于床垫来说，它又厚又重，但它很坚固，可以双面使用。\n他在空调房里使用，所以非常凉爽，不会让睡觉不舒服。\n除了抗菌、除臭之外，还具有除湿、除臭功能，让您使用安心。\n我只使用这个垫，因为它在皮肤上感觉很好。\n它也很好，因为它很厚，所以不会移动或扭曲。\n","content_orig":"厚みがあり敷きパッドとしては重いのですがその分しっかりしていて両面使えるのは良いです。\n冷房をかけた部屋で使用しているのでとてもヒンヤリしていて、寝苦しくないそうです。\n抗菌防臭に加え除湿消臭機能もあるということで気持ちよく使えます。\n肌触りも良いのでこのパッドばかり使っています。\n厚みがあるおかげでズレたりヨレたりしないのも良いです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"明姫","date":"2025-07-10","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/RLSSMHYOOFTAZ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"表面光滑又厚实，看起来可以用很长时间。","title_orig":"表面は滑らかで厚みがあり長く使えそう","content":"如果降低室温，房间就会变凉。\n仅除湿就可以提供舒适感。\n翻来覆去几次，我感觉很舒服，最后就睡着了。\n硅胶+硅藻土具有吸收水分的能力，这似乎有助于提高舒适度。\n\n表面光滑粘稠，无粘腻感。\n夏天我不喜欢蒲团，所以我强迫自己躺在沙滩椅上，很舒服。\n\n即使在夏季阴凉处干燥也很快，因此可以每天清洗。\n如果你把它放在洗衣袋里清洗，它会持续更长时间。\n","content_orig":"室温を下げるとヒンヤリしていきます。\n除湿だけでも快適になる場合があります。\n何度か寝返りをうっている間にヒンヤリ感が心地よくそのうち寝てしまいます。\nシリカゲル+珪藻土で吸湿してくれる機能があり快適さに寄与しているようです。\n\n表面はサラサラでベタつき、はりつき感はありません。\n夏の布団が苦手でビーチチェアに強いて寝転がっても快適でした。\n\n夏の昼間なら陰干しでも乾きが早いので毎日でも洗えます。\n洗濯ネットに入れて洗うと長持ちします。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"Amazon力ス夕マ─","date":"2025-07-09","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1XUBS2LRS9WX2/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"即使冷接触面朝下也不会移位。","title_orig":"接触冷感面が下でもズレません。","content":"这是一款双面床垫，由触感凉爽的面料和网眼面料制成。\n凉爽触感的面料触感光滑，触碰或翻身时感觉凉爽舒适。网眼织物触感光滑，感觉舒适。\n有些凉感床垫在凉感的一面放在蒲团的一侧时太滑，所以当你翻来覆去时，凉垫很容易卡在中间，而你不想使用凉感床垫的另一面。不过，该产品的床垫不是特别厚，但可能是因为它的质地很脆，即使你醒来也不会滑落，所以这一面也很好。\n","content_orig":"接触冷感生地とメッシュ生地のリバーシブルの敷パッドになっています。\n接触冷感生地は滑らかな肌触りで触れた瞬間や寝返りを打つとヒンヤリを\n感じられ快適でした。メッシュ生地の方はサラッとした肌触りでこちらも\n気持ち良いです。\n接触冷感の敷パッドは接触冷感面を布団側にすると滑りが良過ぎるため\n寝返り等でパッドがズレ中央に括れたようになり、接触冷感の反対側は\n使う気にならないものがありますが、本品はパッドの厚みは特に厚くは\n有りませんがパリッと張りがある仕様のためか、寝起きでもほぼズレが\nなくこの面でもとても良かったです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"６６","date":"2025-07-05","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2H226E91GPLVF/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["容易移位"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"貌似是可逆的","title_orig":"リバーシブルらしい","content":"这是一个降温垫，所以非常适合即将到来的季节。\n当我查看标签并在使用前清洗它时，\n据说应该放在网上用30℃以下的水清洗，不要使用织物柔软剂。\n我不情愿地只使用洗涤剂，因为我认为没有织物柔软剂。\n结果，即使洗了，新的气味也没有消失。\n嗯，这并没有那么令人不快，当我把它放在室内晾干几天后，它就不再困扰我了，所以我终于使用了它。\n\n首先，我使用冷面。\n表面有光泽。\n第一次接触的时候确实感觉很冷。\n需要几秒钟的时间来适应，所以最好不要抱有太高的期望。\n\n背面感觉很粗糙。\n这只是一个普通的垫子。\n由于一年中的这个时间，我只使用了一天，但是\n我的印象是表面并不像我想象的那么坚硬。\n\n不要对清凉感抱有太高的期望，\n我不认为这种凉爽的触感有什么虚假。\n","content_orig":"冷感パッドという事でこれからの時期に良いですね。\nまず使う前に洗おうとタグを見たところ、\nネットに入れて柔軟剤禁止の30℃以下の水で洗うとの事。\n柔軟剤無しかぁと渋々洗剤のみで。\n結局洗い終わっても新品のニオイが落ちませんでした。\nまあそこまで不快ではないし数日部屋干ししてたら\n気にならなくなったので、ようやく実戦投入となりました。\n\nまずは冷感側から使用しました。\n表面がテカテカのほうですね。\n確かに初めて触る部分は冷たい感じがします。\n数秒で慣れるので過度な期待は持たないほうが良いです。\n\n裏面の方はザラっとした感じですね。\nこちらはまあ普通のパッドです。\n時期が時期なので1日しか使用してないですが、\n思ったよりは表面が硬くなかったというくらい普通な感想です。\n\n冷感に過度の期待をしてはいけませんが、\n接触冷感に偽りは無いかと思います。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":4,"reviewer":"lBM","date":"2025-07-02","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2FSYISKDNSNPJ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["冷感","触感舒适"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["触感粗糙"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"轻盈蓬松，非常适合夏天","title_orig":"さっぱりさらふわ、夏用に最適そう","content":"正面具有夏季舒适的凉爽触感，背面具有柔软的质感，具有吸引力。正反两用，四季皆可使用，非常实用。垫子可清洗，卫生，即使经常清洗，也能长时间保持凉爽，请放心。有评论称清凉感的影响不大，所以对于那些寻求强烈清凉感的人来说可能有点不太满意，但与空调配合使用时似乎使用起来相当舒服。我认为它适合那些重视功能性且价格实惠的人，以及想要为家人拥有多件物品的人。对于那些想要减少床上用品质地和减少夜间出汗不适的人来说，这似乎值得一试。\n","content_orig":"表面は夏に心地よいひんやり感、裏面はふんわりとした肌ざわりが魅力的。リバーシブル仕様でオールシーズン使える点は非常に実用的です。洗えるパッドで衛生面にも配慮されており、こまめに洗濯しても冷感が長持ちするという点にも安心感があります。口コミでは「冷感のインパクトは控えめ」との声もあるので、強冷感を求める方にはやや物足りなさがあるかもしれませんが、エアコンと併用すれば十分快適に使えそうです。お手頃価格で機能性重視の方、家族用に複数枚揃えたい方にも向いている一枚だと思います。寝具の質感や汗ばむ夜の不快感を軽減したい方には試す価値がありそうです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":4,"reviewer":"とさとと","date":"2025-06-30","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R20FJRYS23POOC/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["冷感","触感舒适","高级感","防螨抗菌"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["触感舒适"],"价值体验":["物有所值"]},{"asin":"B0F9FLX6WT","title":"炭灰色的颜色与男士房间很相配。","title_orig":"男性の部屋にマッチするチャコールグレーが良い感じ","content":"许多冷却垫是浅蓝色的，\n虽然对于喜欢暗色调的男士来说，这是一种很难搭配的颜色，\n该产品为炭灰色，因此可以很好地融入房间。\n\n最重要的是性能，但是如果你提前用空调给房间降温，\n护垫表面温度适中，有利于睡眠。\n\n由于是用六角形针迹编织而成，\n我喜欢这样的感觉，当我移动手脚时，衬垫面料对我的皮肤感觉很好，而且不会感到紧绷。\n\n我从未洗过它，所以我不知道它有多耐用，也不知道织物表面随着时间的推移会发生什么变化。\n这款降温垫肯定会成为夏季的必备单品。\n","content_orig":"冷感敷きパッドはライトブルーの商品が多くて、\nダークトーンを好む男性の部屋には馴染にくいカラーですが、\n本アイテムはチャコールグレーなので部屋に馴染みやすくて良いです。\n\n肝心の性能ですが、クーラーで事前に部屋を冷やしておくと、\nパッドの表面が程よい冷たさになるので、快眠を促してくれます。\n\nヘキサゴン(6角形)のステッチで編み込まれているので、\n手や足を動かした時、パッドの生地が突っ張らず肌触りが良くて気に入っています。\n\n一度も洗濯したことがないので、耐久性や生地表面の経年変化はわかりませんが、\n夏シーズンは手放せないアイテムになること間違いない冷感敷きパッドです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"ダイダロス","date":"2025-06-30","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3HAI4XJ3WKO4S/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"品质好","title_orig":"品質良いよ","content":"我想要黑色床单，所以这对我来说是理所当然的。使用10天后的感受是，触感光滑，温暖舒适。很抱歉说的是陈词滥调，但就是这样的感觉。床单是用坚固的面料制成的，床单不凹凸不平，睡起来很舒服。虽然价格不高，但摸起来凉爽舒适。我认为这是我可以推荐的超值产品。\n","content_orig":"ブラックのシーツが欲しかったので自分的にはドンピシャでした。１０日間使っての感想はサラッとした触り心地でヒヤッとして心地よいです。ありきたりの言葉で申し訳ありませんがそんな感じで、しっかりとした生地で寝ていてシーツの偏りも無くとても寝やすく、値段も高くは無いのに冷たさや肌触りが心地よい。おススメできるお買い得品だと思います。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"レンレン５９５","date":"2025-06-30","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R23EC3VW3ZSFP0/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["冷感","触感舒适","颜色"],"冷感体验":["冷感体验好"],"产品质量":["品质牢固"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"功能与体验◎我持续感觉睡眠质量有所改善","title_orig":"機能性、体感◎睡眠の質が良くなった感じが続いてます","content":"安装非常简单，只需将其放在床垫上即可。我喜欢它是如此简单，即使是孩子也能做到。\n如果安装起来很麻烦，每次清洗都会很麻烦，所以这个简单的安装非常有帮助。\n\n即使在难以入睡的盛夏，您也能感受到舒适柔滑的质感和清凉的感觉，让您拥有舒适的睡眠。我平时很难入睡，但换了这个床垫后，我发现自己马上就睡着了。这甚至令我感到惊讶。\n一款在您睡觉时吸收汗水的出色产品。我只能说，一年四季都能体验这种干燥的感觉，很舒服。看起来这个床垫可以帮助我舒适地睡一会儿。\n","content_orig":"設置はベッドマットの上へ敷くだけで簡単に設置できました。子供でも出来る簡単仕様なのがいいです。\n設置だけで疲れてしまうアイテムだと洗濯のたびに億劫になりがちなので、この簡単設置は非常に助かりました。\n\n真夏の寝苦しい時期に快適なサラサラ質感と冷感を感じられて、快適な睡眠が摂れます。寝つきも普段は悪い方でしたがこの敷きパッドに替えてからは、直ぐに寝ている自分に気付きました。これは自分でも驚きです。\n寝ている間の発汗も吸収してくれる優れもの。このサラサラ感を年中体感できるのは快適としか言いようがありませんね。暫くはこの敷きパッドで快適な睡眠を助けてもらえそうです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"Amazon カスタマー","date":"2025-06-29","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R635LAAJXEM9T/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"舒适的夏季床垫，比看起来凉爽。","title_orig":"見た目よりしっかり涼しい、快適な夏用敷きパッドです。","content":"这款夏季床上用品采用触感凉爽的材质制成的床垫，让您保持凉爽。\n\n优点：厚实坚固，触感光滑舒适 - 不会滞留热量，即使在睡觉时也能保持凉爽\n\n缺点/没什么特别的\n\n总结：这款床垫的降温效果比看上去要好，让你即使在夏天也能睡得舒适。\n","content_orig":"接触冷感素材を使用した敷きパッドで、ひんやり感が持続する夏用寝具です。\n\n良いところ\n・分厚くてしっかりしており、手触りがサラサラで気持ちいい\n・寝ていても熱がこもらず、涼しさが持続する\n\n良くないところ\n・特にありません\n\n総括\n・見た目以上に冷感効果があり、夏でも快適に眠れる敷きパッドです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"Amazonカスタマー","date":"2025-06-25","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2RSIDMV6K96HH/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"高品质、豪华、舒适的床垫","title_orig":"上質で高級感のある快適な寝心地の敷きパッド","content":"质地光滑，手感顺滑有嚼劲，具有良好的缓冲性和柔软性，睡起来非常舒服。\n当我触摸它时，我感觉有一种凉爽的感觉，当我与空调结合使用时，凉爽的感觉增加了，所以我每次翻身都有一种凉爽的感觉，减轻了睡眠的不适，让我睡得很香。它有除湿的作用，即使出汗也能睡觉，没有潮湿或闷热的感觉，真是太棒了。\n而且，即使含有除湿片或硅藻土，也可以彻底清洗。\n它还具有抗菌和除臭作用，这很好，因为它消除了这种不适。\n\n我还喜欢它是双面的，这样你就可以根据你的使用方式在整个季节使用它。\n它缝制精良，质量上乘，看起来很耐用，我喜欢它，因为它有一种奢华的感觉。\n我对它的性能和功能非常满意，因为它让我睡得很舒服。\n包装也有一种奢华的感觉，所以也推荐作为礼物。\n","content_orig":"サラッとした肌触りで滑らかなもっちり感とクッション性もよく柔らかさがありとても心地の良い寝心地です。\n触るとひんやり冷感を感じられて冷房と併用するとひんやり感が増すので寝返りの度にひんやり感があり寝苦しさが解消されて快眠できました。除湿効果もあり汗をかいてもジメジメや蒸れを感じなく眠れたのは素晴らしいです。\nまた、除湿シートや珪藻土がが配合されていても洗濯で丸洗いができますし、\n抗菌防臭効果もあるのでそういう不快感も解消されるのでいいですね。\n\nリバーシブルになっていて使い方によってはオールシーズン使用できるのも嬉しいです。\n縫製もしっかりしており上質な作りなので耐久性もありそうですし、高級感もあり気に入りました。\n性能面や機能面でも快適に眠ることができるようにとても満足しております。\nパッケージも高級感があるのでギフトにもおすすめです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"Verified","date":"2025-06-25","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R25KBABQE5MXU5/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["送礼"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["耐用度高"],"感官感受":["透气性差"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"作为床垫虽然不能说便宜，但质感高，做工精良。","title_orig":"敷パッドとして安価とは言えないが、上質感もあって出来は良い","content":"当你打开包装（图1）时，你会发现一张被安全地装在塑料袋里的床垫、一张纸上的简短说明以及一本封闭的小册子里的使用说明书。\n\n那张纸上，有关于冷感的信息，以及背面的联系信息。\n使用说明书（照片2）长8页，宽182mm×宽129mm。\n它是用易于阅读的字体书写的，并且以易于阅读的方式精心书写。\n\n当你触摸垫子时，表面（图3）摸起来很光滑，你可以感受到自然的凉爽感，但并不是真正的凉爽。\n有些人对此不满意，所以他们可能会在纸上解释它。\n然而，我再次感受到了一种自然的清凉感，我认为这很好。\n背面（图4）感觉有点模糊，这一面似乎是为了透气而不是为了散热。\n这一面的触感也很好。\n\n正面和背面的穿孔和边缘都排列整齐，我认为缝线很好。\n我一开始就知道这个颜色，但它是一种略深的灰色，给人一种炎热的感觉，与“凉爽”相反。\n我觉得如果再薄一点，配合清爽的感觉就更好了，不过……好吧，这个看个人喜好了。\n\n我不认为这是一款便宜的床垫，但它具有高品质的感觉并且做工精良。\n","content_orig":"開封する（写真1）と、ビニール袋にしっかり収められた敷パッドと、紙片1枚の簡単な説明と閉じられた小冊子の取扱説明書。\n\n紙片の方には接触冷感についてと裏面に連絡先。\n取扱説明書（写真2）は縦182mmX横129mm8ページ。\n楽に読める大きさの字で、丁寧に読みやすく書かれている。\n\n敷パッドを触ってみると、表面（写真3）はサラッと肌触りが良く自然な冷感が感じられるが、すごくひんやりというほどではない。\nこれに不満を感じる人がいるので、紙片で説明しているのだろう。\nしかし繰り返しになるが、自然な程よい冷感は感じられて、これはこれで良いと思う。\n裏面（写真4）は少し毛羽だった感じで、こちら側はひんやり感ではなく通気性を意図しているようだ。\nこちら側も肌触りは良い。\n\nミシン目や縁の処理は、表・裏面ともきれいに揃っていて、縫製は良いと思う。\n色は、初めからわかっていたが、ちょっと濃いめのグレーで、「ひんやり」とは逆の暑苦しめの印象。\nもう少し薄めの方が清涼感とマッチして良いと思うのだが・・・、まあ好みの問題。\n\n敷パッドとして安価な方ではないように思うが、上質感もあって出来は良い。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":4,"reviewer":"ElectronMan","date":"2025-06-25","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1QV4BE9UL5174/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"我终于逃离了这个又湿又热的环境。","title_orig":"このジメジメ蒸し暑い環境から抜け出せました","content":"天气又湿又热，我无法忍受直到上床睡觉，但多亏了你，我才能睡得更好。\n顺滑顺滑，带着恰到好处的清凉感。即使在夏天，这也会让您在入睡之初保持凉爽，因此您可以使用通风设备。\n","content_orig":"寝る時までジメジメで暑くてもう我慢できませんでしたが、お陰様でガッチリ寝つきが良くなりました。\nサラサラスベスベで、適度な冷感です。夏場でもこれなら寝始めが涼しいので送風でもいけるかもしれません。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"SamansaSamazon","date":"2025-06-25","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R36QOHLOFTO07V/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"对于出汗的孩子","title_orig":"汗をかく子ども用に","content":"我将它连接到单一尺寸的床垫上使用。\n它做工精良，有一定的厚度。\n\n我经常很难入睡，但现在我睡着了，因为我喜欢这种光滑的感觉。\n最近，连晚上都很热，所以有一些东西让我感觉更舒服一点，这对我很有帮助。\n\n每年这个时候我都会盗汗，但这种材料很容易干，所以我认为今年夏天它会派上用场。\n","content_orig":"シングルサイズのマットレスに装着して使っています。\nしっかりとした作りで厚みもそこそこあります。\n\nよく寝苦しそうにしていましたがサラサラ感が気持ちいいと気に入って寝てくれています。\n最近は夜でも暑い日が続いているため少しでも快適になるものがあって大変助かっています。\n\nこの時期寝汗も多く出ますが乾きやすい素材なこともあってこの夏は重宝しそうです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"pepepe","date":"2025-06-25","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R22TNFYDVVI5H4/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"夏天我只想用光滑的一面。","title_orig":"夏はさらさら面だけ使いたい","content":"虽然是散热垫，但是摸起来凉凉的表面肯定是有点凉的。它是双面的，相反的网面感觉不太酷。凉爽的触感表面光滑，触感舒适，但我不会说网状表面不好，但相比起来确实感觉不太光滑。\n四个角有橡皮筋，可让您将其固定在床或床垫上。我认为穿脱都很容易。我觉得我推荐的是双面的，但我想我基本上只会使用夏天摸起来凉爽的一面。我认为即使你不把网面朝上，它也会提供一些除湿性能，并且考虑到手感和凉爽度，我认为摸起来凉爽的一面更舒适。所以我想夏天我基本上会使用冷却表面。我认为春季或秋季可能会有网状面，但冬季我想知道他们是否会推出不同类型的毛皮垫。而且，简单地翻过来也很痛苦。\n","content_orig":"冷感敷パッドですが、接触冷感の面は確かに多少はひんやりします。リバーシブルで反対のメッシュ面はひんやり感はないです。接触冷感の面は触り心地もサラサラで心地よいですが、メッシュ面の方は悪いとまでは言いませんが、比較するとやっぱりサラサラ感は薄れます。\n　四隅はゴムバンドでベッドや敷布団に固定できるようになっています。着脱は簡単だと思います。リバーシブルを推している感じですが、基本夏は接触冷感の面だけを使いたいなと思いました。メッシュ面を上にしなくてもある程度の除湿性能は発揮してくれると思いますし、触り心地とかひんやり感を考えても接触冷感の面が快適かなと。なので夏は基本接触冷感面を使うかなと思います。春とか秋ならメッシュの面もありかなと思いますが、冬は別の毛がついている敷パッドを出すのでないかなと。あと単純に裏返すの面倒だしね。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":4,"reviewer":"6ai13t2","date":"2025-06-24","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1KBJQR67RT566/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"易于翻身","title_orig":"寝返りしやすい","content":"用于三折式床垫。厚度为10cm，但可以固定，有足够的空间。扭结也更少。\n材质光滑凉爽，手感清凉舒适，适合夏季使用。它比冬季专用的抓绒面料更滑、更容易翻身。您可以轻松地当场改变姿势，让您睡得舒适。\n\n它是可翻转的并且制作精良。背面的网面也经过精心缝制，因此看起来无论您使用哪一面都可以持续很长时间。洗涤后，由于颜色较深，在阳光下很快就会干燥。如果你想在室内烘干，就需要烘干机。\n\n不仅夏天可以用，冬天也可以用。推荐作为良好的睡眠产品。\n","content_orig":"三つ折りタイプのマットレスに使用しています。厚みは10cmですが、余裕で固定できています。ヨレも少ないです。\n冷感素材でサラサラしているので冷感があり心地よく、夏の時期に使いやすいです。冬仕様の起毛ものと比べて滑りがよく、寝返りがうちやすいです。その場でするりと体勢を変えられるため、快適に眠れます。\n\nリバーシブル対応で、作りもしっかりしています。裏面のメッシュ面も裁縫が丁寧で、どちらの面を使っても長く使えそうです。洗濯後、色が濃いため天日干しですぐに乾きました。部屋干しの場合は乾燥機が必要になります。\n\n夏だけでなく冬でも使えます。快眠グッズとしておすすめです。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"adsc","date":"2025-06-23","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2MPQB02B82ZRY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["冷感","厚度","触感舒适","颜色","不易移位"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"它仍在不断发展","title_orig":"まだまだ進化しますね","content":"我一直在使用GOKUMIN的床垫，但这是我第一次使用床垫。\n我用过很多床垫，厚实的印象和黑色的床垫给人一种奢华的感觉。\n我以为床垫只有两个功能：“光滑”和“凉爽”，但很高兴增加了“除湿”功能。\n当我触摸它时，我感觉还有其他床垫感觉更凉爽。\n我是和空调一起用的，所以效果还不错。\n它也可双面使用，因此即使在凉爽的秋季也可以使用。\n对于床垫来说有点贵，但我认为除湿垫等优点足以弥补它。\n","content_orig":"GOKUMINさんのマットレスは使わせて貰っていますが、敷きパッドは初めてです。\n敷きパッドは今まで何枚も使用していますが、厚みがありしっかりとした印象と黒色の敷きパッドは高級感を感じます。\n敷きパッドは機能性として、「サラサラ」「冷感」の２つくらいかと思っていたけど、プラス「除湿」が加わって嬉しいですね。\n触った時ですが、もっと冷んやり感を感じる敷きパッドは他にもあった印象。\nエアコンと一緒に使っているので、そこはあまりマイナスにはならなかったですね。\nリバーシブルなので、涼しくなる秋口からも使えるのでここも嬉しい。\n敷きパッドにしては少し高価ですが、除湿パッド効果などプラスアルファの部分が十分補っていると思います。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"ヨルヨル","date":"2025-06-22","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R18MJEKC2I3T5V/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"冷房前提","title_orig":"冷房前提","content":"有正确的使用说明书，与折扣店的廉价产品不同，坚固厚实的面料不易扭曲（卷起）并且触感光滑。\n\n我担心的点： 不开空调感觉很冷 我不喜欢空调（空调风），所以我预计即使不开空调也会感觉很冷，但是除非我打开空调，否则根本没有凉爽的感觉（如说明书上所述）\n・“冷”的感觉很弱，所以我打开空调并尝试冷却冷却垫（？！），但我只能认为它相当于某个伯德先生的1级。 ・它被接缝卡住。从结构的角度来看，这可能是不可避免的，但接缝被卡在皮肤中作为阻力（我想知道是否可以以某种方式做到这一点......）\n\n ☆4 如果你想称之为护垫，☆2 如果你想要清凉感\n价格的话，如果是3000日元的话，我会给☆4，但是……是超过5000日元吗？\n\n GOKUMIN 床垫，单人，凉爽感，凉爽床垫 [光滑舒适的质感持续] 凉爽触感，吸湿，快干，可水洗床垫，双面，抗菌防臭，四季可用，夏季 G-JRS（评论时 5,398 日元）\n","content_orig":"きちんとした説明書もありディスカウントストアの安物とは違って、しっかりした分厚い生地\nおかげで簡単にヨレる（捲れる）こともありません\nサラサラとした肌触りです\n\n気になった点\n・冷房が無いと冷感激弱\n冷房（クーラーの風）が苦手なので冷房なしでも冷感があるのかと期待しましたが、冷房を入れないと冷感は全くありません（説明書に明記）\n・「冷た～い」感が薄い\nで、冷房を入れて冷感パッドを冷やしてみた（？！）ものの、某〇鳥さんのレベル1と同等としか思えない\n・縫い目の引っ掛かり\n構造的に仕方ないことでしょうが、縫い目が肌に抵抗として引っ掛かります（どうにかならないんですかね・・・）\n\nパッドと割り切るなら☆４、冷感を謳うなら☆２\n価格面からは、これが3000円なら☆4ですが・・・オーバー5000円ですか・・・そうですか\n総評して☆2よりの☆3\n\nGOKUMIN 敷きパッド シングル 冷感 ひんやり敷きパッド 【さらっと快適な肌ざわり続く】 接触冷感 吸湿速乾 洗える ベッドパッド リバーシブル 抗菌防臭 オールシーズンで使える 夏 G-JRS（レビュー時￥5,398）\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":3,"reviewer":"Amazonカスタマー","date":"2025-06-22","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3IIG5KA7UN47K/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["冷感","速干","双面可用","触感舒适","高级感","吸湿","防螨抗菌"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"躺下的第一感觉是最好的","title_orig":"寝転んだ時の最初のひんやり感が最高","content":"光滑的垫子，触感凉爽。\n我一直喜欢触感凉爽的产品，但这是最有价值的护垫！\n在冬天，它可能会变得闷热或可能出现凝结。我一年四季都使用触感凉爽的产品，因为我有时会有这样的感觉。\n就质感而言，我认为它与其他凉爽的触感没有什么不同。\n有些东西用了一段时间才明白，所以补充一下。\n","content_orig":"接触冷感でサラサラした敷きパットです。\n以前から接触冷感のものは愛用していましたが、敷きパットで最高額です！\n冬も場合によっては蒸れるというか結露？のようなときがあるので年中接触冷感のものを使っていますが、\n肌触りに関しては他の接触冷感とそれほど違いは無いように感じます。\n暫く使ってみないとわからないところがあるので、追伸したいと思います。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":4,"reviewer":"いわみん","date":"2025-06-22","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R32PVGP52HXY3S/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["透气性差"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"除湿的好方法","title_orig":"除湿に対するアプローチが見事","content":"我非常喜欢在炎热潮湿的天气里在这款豪华床垫上度过时光。\n有时，我会改变姿势并躺下。\n光滑的材质接触膝盖和小腿，即使移动时也感觉良好。\n\n在雨季和夏季，我会穿着T恤和短裤等舒适的衣服睡觉。\n接触到皮肤时感觉凉爽，但又不会让你感觉太冷，让你感觉很舒服。\n\n床垫针对潮湿天气进行了优化，睡起来非常舒适。\n厚实的高品质衬垫提供支撑。\n即使出汗，吸湿材料也会吸收汗水，让您感觉舒适。\n\n不管怎样，很容易消磨时间，因为它不热气也不粘。\n虽然有很多产品强调清凉感，\n该产品感觉凉爽，除湿效果非常好。\n日本夏季的特点是潮湿。\n可以说，这款床垫就是为了迎面这种湿热而设计的。\n含有硅胶和硅藻土的内置除湿片能这么舒服吗？\n\n我以前感觉又热又湿，每次都翻来覆去。\n这个床垫不动是因为我不喜欢它，而是因为我喜欢它的凉爽和舒适。\n我一边看着智能手机一边改变姿势。\n\n炎热潮湿的夜晚变成了凉爽舒适的夜晚。\n我想用这款床垫来享受即将到来的炎热潮湿的季节。\n我也期待着从秋季开始改用双面网垫。\n而且通风良好，呆在里面看起来很舒服。\n","content_orig":"蒸し暑い季節の中で、この高級感ある敷きパッドで過ごすのが堪らなく好きだ。\n時折、体勢を変えて寝転ぶ。\nサラサラした素材が膝やふくらはぎに触れて、動いてもずっと気持ちがいい。\n\n私は梅雨〜夏の時期はTシャツ、短パンと楽な格好で眠るのだが、\nこの肌が当たるとひんやりとしつつも、冷え過ぎないで快適に過ごせる感じが良い。\n\n蒸し暑さに対応して最適化された敷きパッドであり寝心地も非常に良い。\nしっかりと厚みのある上質なパッドが支えてくれる。\n汗ばんでいても吸湿性のある素材が吸い取ってくれて、心地が良い。\n\nとにかく蒸したりベタつかないので過ごしやすい。\n冷却感をアピールする製品が多い中で、\nこの製品は涼しさも感じられて除湿という部分のアプローチが見事だ。\n日本の夏の特徴はまさに湿気にある。\nこの蒸し暑さに対して、正面から向き合っている敷きパッドと言える。\nシリカゲルと珪藻土を配合した除湿シートを内蔵するとここまで快適になれるのか。\n\n以前は蒸し暑く感じて、その度に寝返りを打ったりしていた。\nこの敷きパッドは嫌だから動くというより、ひんやりと快適さが好きだから、\nスマホを見ながら体勢変えたりしている。\n\n蒸し暑い不快な夜が涼しくて心地のいい夜に変わった。\nこの敷きパッドでこれからの蒸し暑い季節を楽しんでいきたいと思う。\nまた秋からはリバーシブルのメッシュ素材の敷きパッドに切り替えるのも楽しみである。\nこちらも通気性が良くて過ごしやすそうである。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"Amazonカスタマー","date":"2025-06-20","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1JFTVC39CTBXF/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["冷感","双面可用","吸湿"],"冷感体验":["冷感体验好"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0F9FLX6WT","title":"厚重又奢华◎！一款在舒适度、设计和功能方面都非常令人满意的床垫。","title_orig":"分厚くて高級感◎！寝心地・デザイン・機能すべてに大満足の敷きパッド","content":"我尝试了GOKUMIN的清凉床垫来对抗夏季睡眠的不适。\n当它到达时，首先给我留下深刻印象的是高品质和坚固的外观。\n它采用坚固的盒子包装，具有高级感，非常适合作为礼物。\n\n [◎优点]\n\n ■厚实蓬松，睡起来非常舒服。整个垫子很厚，有软垫，睡起来很舒服。\n填充物采用硅胶和硅藻土，不用担心汗水或潮湿。\n\n ■ 双重舒适功能：清凉感+除湿 表面一触即凉。\n每次翻身都能感受到清凉的感觉，让你不用把空调温度调得太低，就能舒服地入睡。\n而且，我能够平稳舒适地睡到早上，没有任何粘稠的盗汗。\n\n ■ 双面使用，四季皆宜 正面具有清凉感，背面采用网状材质，春、秋、冬均可作为除湿垫使用。\n我很高兴在季节变换时不用更换床垫。\n\n ■ 易于清洗和处理，减少家务麻烦 可机洗，快干，易于护理。\n也建议父母都工作并抚养孩子的家庭使用，因为它可以减少日常工作的麻烦。\n\n ■ 不易滑动，有稳定感。四个角配有橡皮筋，无论是蒲团还是床垫，都具有防止滑动的结构。\n即使睡了一夜，它仍然保持稳定。\n\n [概述]\n这是一款高度完整的床垫，外观和功能都很棒，让您觉得“这就是我所需要的。”\n我们可以自信地向任何寻求高品质床上用品或考虑将其作为礼物赠送的人推荐该产品。\n我感觉它比价格更有价值。\n如果您有疑问，请检查一下。\n","content_orig":"夏の寝苦しさ対策に、GOKUMINの冷感敷きパッドを試してみました。\n届いてまず驚いたのが、見た目の上質さとしっかりとした厚み。\nしっかりした箱に梱包されており、ギフトとしても通用するレベルの高級感があります。\n\n【◎ 良かった点】\n\n■ 分厚くてふかふか、寝心地が抜群\nパッド全体がしっかりとした厚みでクッション性があり、寝心地がとても良いです。\n中材にシリカゲルと珪藻土が使われているため、汗や湿気も気になりません。\n\n■ 冷感＋除湿のW快適機能\n表面は触れた瞬間に「ひんやり」。\n寝返りを打つたびに接触冷感を感じられ、エアコンの温度を下げすぎなくても快眠できます。\nまた、寝汗のベタつきもなく、朝までサラッと快適に眠れました。\n\n■ リバーシブルでオールシーズン対応\n表が冷感、裏がメッシュ素材になっており、春秋や冬でも除湿パッドとして活躍。\n季節の変わり目に敷きパッドを入れ替える必要がないのがありがたいです。\n\n■ 洗えて扱いやすい＆家事の手間も軽減\n洗濯機で丸洗いでき、乾きも早くてお手入れ簡単。\n日常の手間が減るので、共働き家庭や子育て中の方にもおすすめです。\n\n■ ズレにくく、安定感あり\n四隅にゴムバンドがついており、敷布団でもベッドマットレスでもズレにくい構造。\n一晩寝てもピシッと安定していました。\n\n【総評】\n見た目も機能もすばらしく、「これ1枚でいい」と思える完成度の高い敷きパッドです。\n高品質な寝具を探している方、ギフト用としても検討している方には自信をもっておすすめできます。\n価格以上の価値を実感しました。\n迷っている方はぜひ。\n","model":"サイズ: シングル - 敷きパッド | ユニット数: 1.0","star":5,"reviewer":"おっこつ","date":"2025-06-20","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/RBHMVYGR2UHR1/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["送礼"],"使用期望":["冷感","速干","双面可用","高级感","吸湿","不易移位"],"冷感体验":["冷感体验好"],"产品质量":["容易移位"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]}]
+
+const PALETTE = ["#0e7c86","#2ca6a4","#8fd0cd","#e7a13b","#c1502e","#6b8f3f",
+                 "#3c6e8f","#a6667a","#8a7dc9","#5aa0c9","#d68c3a","#7a9e6b",
+                 "#b06a9e","#4f8a8b"];
+const GREY = "#c7d3d1";
+
+function colorFor(label, idx){
+  if(label === '无匹配标签') return GREY;
+  return PALETTE[idx % PALETTE.length];
+}
+
+// ---------- stats ----------
+function renderStats(){
+  const total = REVIEWS.length;
+  const avg = (REVIEWS.reduce((s,r)=>s+(r.star||0),0)/REVIEWS.filter(r=>r.star).length).toFixed(2);
+  const asins = [...new Set(REVIEWS.map(r=>r.asin).filter(Boolean))];
+  const withImg = REVIEWS.filter(r=>r['产品质量'].some(t=>t!=='无匹配标签')).length;
+  const coolGood = REVIEWS.filter(r=>r['冷感体验'].includes('冷感体验好')).length;
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat"><div class="num">${total}</div><div class="label">评论总数</div></div>
+    <div class="stat"><div class="num">${avg} ★</div><div class="label">平均星级</div></div>
+    <div class="stat"><div class="num">${asins.length}</div><div class="label">关联 ASIN / 型号数</div></div>
+    <div class="stat"><div class="num">${coolGood}</div><div class="label">明确反馈冷感体验好</div></div>
+    <div class="stat"><div class="num">${withImg}</div><div class="label">提及具体品质问题</div></div>
+  `;
+  document.getElementById('asinlist').innerHTML =
+    '涉及 ASIN：<b>' + asins.join('</b> · <b>') + '</b>';
+}
+
+// ---------- generic pie builder ----------
+// dim: field name in REVIEWS, or 'star' special
+function buildCounts(dim){
+  const counts = {};
+  if(dim === 'star'){
+    for(let s=1;s<=5;s++) counts[s+' 星'] = 0;
+    REVIEWS.forEach(r=>{ if(r.star) counts[r.star+' 星']++; });
+  } else {
+    REVIEWS.forEach(r=>{
+      (r[dim]||[]).forEach(tag=>{
+        counts[tag] = (counts[tag]||0)+1;
+      });
+    });
+  }
+  return counts;
+}
+
+function filterReviews(dim, label){
+  if(dim === 'star'){
+    const s = parseInt(label);
+    return REVIEWS.filter(r=>r.star===s);
+  }
+  return REVIEWS.filter(r=>(r[dim]||[]).includes(label));
+}
+
+function makeCard(container, opts){
+  const {id, title, hint, dim} = opts;
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <h3>${title}</h3>
+    <p class="hint">${hint}</p>
+    <div class="chart-holder"><canvas id="${id}"></canvas></div>
+    <div class="legend-list" id="${id}_legend"></div>
+  `;
+  container.appendChild(card);
+
+  const counts = buildCounts(dim);
+  let labels = Object.keys(counts);
+  // sort: for star keep natural order 5..1 desc by convention (5,4,3,2,1), else by count desc but 无匹配标签 last
+  if(dim === 'star'){
+    labels = ['5 星','4 星','3 星','2 星','1 星'];
+  } else {
+    labels.sort((a,b)=>{
+      if(a==='无匹配标签') return 1;
+      if(b==='无匹配标签') return -1;
+      return counts[b]-counts[a];
+    });
+  }
+  const data = labels.map(l=>counts[l]);
+  const colors = labels.map((l,i)=>colorFor(l,i));
+
+  const ctx = document.getElementById(id).getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data, backgroundColor: colors, borderColor:'#ffffff', borderWidth:2 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      cutout:'52%',
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          callbacks:{
+            label: (c)=>{
+              const total = c.dataset.data.reduce((a,b)=>a+b,0);
+              const pct = total? (c.parsed/total*100).toFixed(1):0;
+              return `${c.label}: ${c.parsed} 条 (${pct}%)`;
+            }
+          }
+        }
+      },
+      onClick: (evt, elements)=>{
+        if(!elements.length) return;
+        const idx = elements[0].index;
+        openModal(dim, title, labels[idx], colors[idx]);
+      }
+    }
+  });
+
+  // legend
+  const legendEl = document.getElementById(id+'_legend');
+  const total = data.reduce((a,b)=>a+b,0);
+  labels.forEach((l,i)=>{
+    const pct = total? (data[i]/total*100).toFixed(1):0;
+    const item = document.createElement('div');
+    item.className='legend-item';
+    item.innerHTML = `<span class="legend-dot" style="background:${colors[i]}"></span>${l} <span class="cnt">${data[i]}</span> (${pct}%)`;
+    item.onclick = ()=> openModal(dim, title, l, colors[i]);
+    legendEl.appendChild(item);
+  });
+}
+
+// ---------- modal ----------
+let currentResults = [];
+function openModal(dim, title, label, color){
+  currentResults = filterReviews(dim, label);
+  document.getElementById('modalTitle').innerText = `${title} — ${label}`;
+  document.getElementById('modalSub').innerText = `共 ${currentResults.length} 条相关评论 · 点击行可查看日文原文`;
+  document.getElementById('modalSearch').value = '';
+  document.getElementById('modalMask').classList.add('open');
+  renderTable();
+}
+function closeModal(){
+  document.getElementById('modalMask').classList.remove('open');
+}
+document.getElementById('modalMask').addEventListener('click', (e)=>{
+  if(e.target.id==='modalMask') closeModal();
+});
+
+function starBadge(s){
+  return `<span class="star-badge s${s}">${'★'.repeat(s)}${'☆'.repeat(5-s)}</span>`;
+}
+
+function renderTable(){
+  const q = document.getElementById('modalSearch').value.trim().toLowerCase();
+  let rows = currentResults;
+  if(q){
+    rows = rows.filter(r =>
+      (r.content||'').toLowerCase().includes(q) ||
+      (r.title||'').toLowerCase().includes(q) ||
+      (r.asin||'').toLowerCase().includes(q) ||
+      (r.model||'').toLowerCase().includes(q)
+    );
+  }
+  const tbody = document.getElementById('modalTbody');
+  const emptyHint = document.getElementById('emptyHint');
+  if(rows.length===0){
+    tbody.innerHTML='';
+    emptyHint.style.display='block';
+    return;
+  }
+  emptyHint.style.display='none';
+  tbody.innerHTML = rows.map(r=>`
+    <tr onclick="this.querySelector('.orig').classList.toggle('shown')">
+      <td>${r.asin||''}</td>
+      <td>${r.star? starBadge(r.star):''}</td>
+      <td>${escapeHtml(r.title||'')}</td>
+      <td class="content-cell">${escapeHtml(r.content||'').replace(/\n/g,'<br>')}
+        <div class="orig">${escapeHtml(r.content_orig||'').replace(/\n/g,'<br>')}</div>
+      </td>
+      <td>${escapeHtml(r.model||'')}</td>
+      <td>${escapeHtml(r.reviewer||'')}</td>
+      <td>${r.date||''}</td>
+    </tr>
+  `).join('');
+}
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ---------- build all cards ----------
+renderStats();
+
+makeCard(document.getElementById('gridTop'), {
+  id:'chartStar', title:'星级分布', dim:'star',
+  hint:'评论星级 1～5 星占比'
+});
+makeCard(document.getElementById('gridTop'), {
+  id:'chartUser', title:'使用人群', dim:'使用人群',
+  hint:'自用 或 送礼 购买动机判定'
+});
+
+makeCard(document.getElementById('gridExpect'), {
+  id:'chartExpect', title:'使用期望', dim:'使用期望',
+  hint:'购买动机、期待达成的核心目的与改进建议'
+});
+
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartCool', title:'冷感功能体验', dim:'冷感体验',
+  hint:'对冷却/接触凉感效果的实际体验反馈'
+});
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartQuality', title:'产品质量', dim:'产品质量',
+  hint:'耐用性、工艺与质量问题的具体反馈'
+});
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartSensory', title:'感官感受', dim:'感官感受',
+  hint:'触感、颜色、透气性等主观感受'
+});
+
+makeCard(document.getElementById('gridValue'), {
+  id:'chartValue', title:'价值体验', dim:'价值体验',
+  hint:'价格与体验是否匹配的评价'
+});
+</script>
+</body>
+</html>
