@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B0DFPNQHLX 评论洞察分析 — 毛圈纯棉敷布垫</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg: #eef3f2;
+    --panel: #ffffff;
+    --ink: #12262a;
+    --ink-soft: #4c6167;
+    --teal-900: #0c4a52;
+    --teal-700: #0e7c86;
+    --teal-500: #2ca6a4;
+    --teal-300: #8fd0cd;
+    --teal-100: #dcf0ee;
+    --sun: #e7a13b;
+    --clay: #c1502e;
+    --line: #d3e2e0;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 8% 0%, rgba(44,166,164,0.10), transparent 42%),
+      radial-gradient(circle at 96% 10%, rgba(12,74,82,0.08), transparent 40%);
+    color: var(--ink);
+    font-family: "Hiragino Sans GB","PingFang SC","Noto Sans SC","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:1360px;margin:0 auto;padding:40px 28px 80px;}
+
+  header.top{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+    border-bottom:2px solid var(--teal-900);
+    padding-bottom:22px;margin-bottom:28px;flex-wrap:wrap;
+  }
+  header.top .titleblock h1{
+    font-size:30px;margin:0 0 6px;letter-spacing:.2px;color:var(--teal-900);
+    font-weight:700;
+  }
+  header.top .titleblock p{margin:0;color:var(--ink-soft);font-size:14px;}
+  header.top .asinlist{font-size:12px;color:var(--ink-soft);max-width:520px;line-height:1.7;}
+  header.top .asinlist b{color:var(--teal-700);}
+
+  .stats{
+    display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px;
+  }
+  .stat{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 22px;min-width:150px;flex:1;
+  }
+  .stat .num{font-size:26px;font-weight:700;color:var(--teal-900);}
+  .stat .label{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+
+  .section-title{
+    font-size:15px;font-weight:700;color:var(--teal-900);
+    margin:38px 0 16px;padding-left:10px;border-left:4px solid var(--teal-500);
+  }
+
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:20px;
+  }
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 20px 12px;position:relative;
+  }
+  .card h3{margin:0 0 2px;font-size:16px;color:var(--ink);}
+  .card .hint{font-size:11.5px;color:var(--ink-soft);margin:0 0 10px;}
+  .chart-holder{position:relative;height:280px;}
+  .legend-list{
+    display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .legend-item{
+    display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);
+    cursor:pointer;padding:3px 6px;border-radius:6px;transition:background .15s;
+  }
+  .legend-item:hover{background:var(--teal-100);color:var(--teal-900);}
+  .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .legend-item .cnt{font-weight:700;color:var(--ink);}
+
+  /* Modal */
+  .modal-mask{
+    display:none;position:fixed;inset:0;background:rgba(12,30,32,.45);
+    z-index:999;align-items:flex-start;justify-content:center;padding:5vh 20px;
+    backdrop-filter: blur(1px);
+  }
+  .modal-mask.open{display:flex;}
+  .modal{
+    background:#fff;border-radius:16px;max-width:1040px;width:100%;max-height:88vh;
+    display:flex;flex-direction:column;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .modal-head{
+    padding:18px 24px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .modal-head .htxt h2{margin:0;font-size:18px;color:var(--teal-900);}
+  .modal-head .htxt p{margin:3px 0 0;font-size:12.5px;color:var(--ink-soft);}
+  .modal-head .close-btn{
+    border:none;background:var(--teal-100);color:var(--teal-900);width:32px;height:32px;
+    border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0;
+  }
+  .modal-search{padding:12px 24px;border-bottom:1px solid var(--line);}
+  .modal-search input{
+    width:100%;padding:9px 14px;border-radius:8px;border:1px solid var(--line);
+    font-size:13px;background:var(--bg);outline:none;
+  }
+  .modal-search input:focus{border-color:var(--teal-500);}
+  .modal-body{overflow:auto;padding:0 24px 20px;flex:1;}
+  table.reviews{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.reviews thead th{
+    text-align:left;position:sticky;top:0;background:#fff;
+    padding:10px 8px;border-bottom:2px solid var(--teal-900);color:var(--teal-900);
+    white-space:nowrap;
+  }
+  table.reviews tbody td{
+    padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink);
+  }
+  table.reviews tbody tr:hover{background:var(--teal-100);}
+  .star-badge{
+    display:inline-block;padding:1px 8px;border-radius:20px;font-weight:700;font-size:11.5px;
+  }
+  .s5{background:#dcf0ee;color:var(--teal-700);}
+  .s4{background:#e6f2ce;color:#5a7a1a;}
+  .s3{background:#fdefd0;color:#a06b0d;}
+  .s2{background:#fbe0d0;color:#a44a1f;}
+  .s1{background:#f7d6d6;color:#a3312f;}
+  td.content-cell{max-width:340px;}
+  td.content-cell .orig{color:var(--ink-soft);font-size:11px;margin-top:3px;}
+  .empty-hint{padding:40px;text-align:center;color:var(--ink-soft);font-size:13px;}
+
+  footer{margin-top:50px;color:var(--ink-soft);font-size:11.5px;text-align:center;}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:22px;}
+    .chart-holder{height:230px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="titleblock">
+      <h1>评论洞察分析 · 毛圈纯棉敷布垫</h1>
+      <p>ASIN B0DFPNQHLX 及关联型号 · 日本站评论数据 · 导出日期 2026-09-08</p>
+    </div>
+    <div class="asinlist" id="asinlist"></div>
+  </header>
+
+  <div class="stats" id="statsRow"></div>
+
+  <div class="section-title">星级与人群分布</div>
+  <div class="grid" id="gridTop"></div>
+
+  <div class="section-title">使用期望 · 客户购买时希望达成的目的与改进诉求</div>
+  <div class="grid" id="gridExpect"></div>
+
+  <div class="section-title">实际体验感受</div>
+  <div class="grid" id="gridExperience"></div>
+
+  <div class="section-title">价值体验</div>
+  <div class="grid" id="gridValue"></div>
+
+  <footer>点击任意扇区或图例，可查看对应标签下的具体评论内容原文与译文。</footer>
+</div>
+
+<div class="modal-mask" id="modalMask">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="htxt">
+        <h2 id="modalTitle">数据详情</h2>
+        <p id="modalSub"></p>
+      </div>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-search">
+      <input type="text" id="modalSearch" placeholder="在结果中搜索关键词…" oninput="renderTable()">
+    </div>
+    <div class="modal-body">
+      <table class="reviews">
+        <thead>
+          <tr>
+            <th>ASIN</th><th>星级</th><th>标题</th><th>评论内容</th><th>型号</th><th>评论人</th><th>日期</th>
+          </tr>
+        </thead>
+        <tbody id="modalTbody"></tbody>
+      </table>
+      <div class="empty-hint" id="emptyHint" style="display:none;">未找到匹配的评论</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const REVIEWS = [{"asin": "B0DFPNNNZ2", "title": "好的。", "title_orig": "よいです。", "content": "尺寸正好适合我的蒲团。\n好的。\n", "content_orig": "サイズは私の布団にジャストでした。\n良いです。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 4, "reviewer": "しげ", "date": "2026-09-02", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R4G0MDZHSVUTY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPMGCXQ", "title": "简单的", "title_orig": "お手軽", "content": "价格还算合理，看起来四季都可以用。\n它重量轻，因此易于清洗。它似乎也很快干燥。\n", "content_orig": "値段も手ごろで、オールシーズン使えそうです。\n軽いので、洗うのもラク。乾くのも速そうです。\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 5, "reviewer": "小林大将", "date": "2026-09-01", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2KBNK4ZS5J465/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["速干"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "让毛巾爱好者感到失望", "title_orig": "タオル好きにはがっかり", "content": "这是绒布，但不是毛圈布。\n我不向那些喜欢毛巾堆感觉的人推荐这款产品。\n制作精良。\n", "content_orig": "パイル地だけどタオル地ではない。\nタオルの毛足の感触が好きな方には勧めません。\n作りはちゃんとしています。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 3, "reviewer": "グリーン", "date": "2026-08-28", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2XEO4EQAG70W4/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "睡觉很有趣", "title_orig": "寝のが楽しい", "content": "当我买来它并放在我的蒲团上时，它仍然保持在原位，没有皱纹，可能因为它是棉质的，所以没有起球，这很棒。\n", "content_orig": "買って布団に引いたときと今もズレがなくシワがなく綿のためか毛玉がなく最高です\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "村上晃", "date": "2026-08-27", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2VKX0RCNXTOVQ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["起球"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "皮肤感觉良好。", "title_orig": "肌触りがよい。", "content": "皮肤感觉良好。可以用洗衣机清洗也很好。\n", "content_orig": "肌触りがよい。洗濯機で丸洗いできるのも良い。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "Ofa", "date": "2026-08-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RQ81DLEP32HC5/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPLKVCB", "title": "最高", "title_orig": "最高", "content": "触感柔软，让您安心入睡\n", "content_orig": "肌触り良く気持ちよう寝られます\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: グレー", "star": 5, "reviewer": "Amazon カスタマー", "date": "2026-08-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R18ZQE34V4DBYO/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPHJQ3", "title": "清洗会改变你的皮肤感觉！", "title_orig": "洗濯で肌触りが変わる！", "content": "它很轻，皮肤感觉很好。\n我夏天天天洗，最大的好处就是干得快！刚开始用的时候感觉比较粗糙，还好，但是每天洗之后，布料越来越柔软，现在摸起来感觉蓬松。一年四季都可以使用，强烈推荐！\n", "content_orig": "軽くて肌触りもいいです。\n夏場は毎日洗っていますが、すぐ乾くのも嬉しい点です！使いはじめはザラザラとしておりそれもいいのですが、毎日洗っていると生地がどんどん柔らかくなり今はふわふわした肌触りに変わりました。年中使えるのでとてもおすすめです！\n", "model": "サイズ: 03.ダブル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 5, "reviewer": "まる", "date": "2026-08-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2CRD0BTGELURI/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["速干", "触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适", "触感粗糙"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "光。", "title_orig": "軽い。", "content": "清爽合适吗？\n", "content_orig": "爽やかにふさわしいのかな?\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "森文男", "date": "2026-08-07", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2ULX66MUVUCYI/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["冷感体验好"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP167D4", "title": "粗糙而僵硬", "title_orig": "ザラザラゴワゴワ", "content": "当我触摸我的皮肤时，感觉粗糙、僵硬，触感不太好。\n感觉就像你的指甲被卡住了，这使得它成为最糟糕的睡觉地方。\n这个产品好像评价不错，但根本不适合我。\n", "content_orig": "肌に触れるとザラザラゴワゴワしていて肌触りがとてもよくないです。\n爪が引っかかる感じもあり、寝心地としては最悪ですね。\n評判がよい商品のようですが、私にはまったく合いませんでした。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 1, "reviewer": "aco", "date": "2026-07-19", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2GHUEH7360UK6/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感粗糙"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP167D4", "title": "也许这取决于你如何使用它", "title_orig": "使い方次第かも知れませんが", "content": "它很快就开始起球，根据我如何使用它，它变黑了，我觉得它看起来不干净。\n", "content_orig": "結構早くに毛玉ができて使い方によっては黒くなり、清潔感がなくなるなと感じました。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 3, "reviewer": "谷嵜 政博", "date": "2026-07-16", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1YCEIMBPJ4PYQ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["起球"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "感觉很好！", "title_orig": "気持ちがいい！", "content": "我有敏感皮肤。它具有光滑的手感，使用起来很舒适。我认为米黄色比图像更浓。\n", "content_orig": "肌が弱い方です。さらさら感があって気持ちよく使っています。画像よりベージュの黄色味が強いと思いました。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 4, "reviewer": "honey", "date": "2026-07-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RT3EEAX6CNG7J/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "不太蓬松，适合日常使用的床垫", "title_orig": "ふわふわすぎない、普段使いにちょうどいい敷きパッド", "content": "我买这个是因为我喜欢毛巾垫。它不是像酒店床上用品那样厚实、蓬松的类型，而是具有类似于普通毛巾的光滑质感。一开始我觉得它有点薄，但是当我睡在上面时，它并不太热，我发现它适合日常使用。\n\n即使出汗也不会粘在皮肤上，也没有冷感材料的滑感，因此无论什么季节都可以轻松使用。米色也是一种平静的颜色，可以很好地融入卧室。\n\n它很容易用橡胶固定在四个角上，并且易于拆卸清洗。洗完后，可以调整形状并悬挂晾干，这样更容易晾干，而且易于清洗也很有帮助。我认为它适合那些追求可以日常使用、可以经常洗涤的实用性而不是奢华的人。\n", "content_orig": "タオル地の敷きパッドが好きなので購入しました。ホテルの寝具のような厚手でふかふかのタイプではなく、さらっとした普通のタオルに近い肌触りです。最初は少し薄いかなと思いましたが、寝てみると暑苦しくなく、普段使いにはこのくらいがちょうどよく感じました。\n\n汗をかく時期でも肌に張り付きにくく、冷感素材のようなツルツル感がないので、季節を問わず使いやすいです。ベージュも落ち着いた色で、寝室になじみました。\n\n四隅のゴムで簡単に取り付けられ、洗濯のために外すのも楽です。洗った後は形を整えて干せば乾きやすく、気軽に洗えるところも助かります。高級感よりも、毎日使えてこまめに洗える実用性を求める方に合うと思います。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 5, "reviewer": "ちん", "date": "2026-07-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1FE2LTY9NRTYK/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["冷感", "颜色", "不易移位"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "最低品质", "title_orig": "最低品質", "content": "使用一周后出现一个洞。没有耐用性。\n", "content_orig": "使用1週間で穴が空いた。耐久性無し。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 1, "reviewer": "恐怖のみそ汁", "date": "2026-07-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R77ZTHZJTLTGB/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["耐用"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPM1RX2", "title": "夏季绒毛面料光滑清爽🛌", "title_orig": "夏向きパイル地がサラサラ爽やかで心地良い🛌", "content": "我正在为我的孩子寻找毛巾布垫。\n我一收到就洗了，天气晴朗，所以大约一个小时就干了。\n我忘记把它放到网上了，只是把它放在洗衣机里洗了，但它没有磨损，仍然状况良好。\n我非常喜欢它，所以我立即订购了它进行新的清洗。\n", "content_orig": "子供用に、パイル地の敷きパッドを探していました。\n届いてすぐに洗濯をして、晴れていたので１時間程で乾きました。\nネットに入れ忘れて、そのまま洗濯機で洗ってしまいましたが、ほつれることもなくキレイな状態のままです。\n大変気に入りましたので、洗い替え用に即リピートしました。\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ブルー", "star": 5, "reviewer": "MATIRDA", "date": "2026-07-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3CY5YBN1UR2YO/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["冷感体验好"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "毕竟是棉的", "title_orig": "やっぱ綿よ", "content": "这是棉花。自然是好的。\n人们常说，它感觉冷，但又粘。\n毕竟是棉的。棉质也是内衣的最佳选择。\n", "content_orig": "綿なんよ。自然は善なんよ。\nよく冷感なんとかってありますが、ベタベタするんすよね。\nやっぱ綿すよ。下着も綿が一番。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 5, "reviewer": "ル・ポコ", "date": "2026-07-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R352NJPJDP915M/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "使用一年后的印象", "title_orig": "使用1年の感想", "content": "摸起来感觉很好。但很容易起球，就负1了。而且宽度也缩小了，不再适合床垫的尺寸，所以又多了一个负。\n", "content_orig": "肌触りは良かった。でも毛玉がつきやすくてマイナス１。あと横幅が縮んでマットレスのサイズに合わなくなってしまったのでさらにマイナス１。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 3, "reviewer": "geezer", "date": "2026-07-01", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RJQTP9WH8V0YC/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["起球"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP17FF4", "title": "干得很快", "title_orig": "乾くのが早い", "content": "我夏天买的。\n皮肤感觉很好很光滑，而且我认为洗后很快就会干。我立即又买了一个。\n它很轻，所以即使你睡在上面它也不会移动。\n", "content_orig": "夏用に購入しました。\n肌触りも良くさらっとしていて、洗った後の乾きも早いと思います。すぐにもう１枚購入しました。\n軽いので敷いて寝るとズレます。\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 4, "reviewer": "さとまん", "date": "2026-06-30", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/ROSFH9H0M1992/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP9C1YN", "title": "适合全年使用，具有良好的毛圈质感", "title_orig": "年中使えてタオル地の肌触りが良い", "content": "同样面料的枕套我已经用了半年了，所以很了解它的感觉。\n这次我要使用床的材料，但和枕套一样，用毛圈布就好。\n根据我们的经验，对于 90 厘米 x 200 厘米的标准单人床，我们建议使用小双人床尺寸。\n它舒适又完美。\n", "content_orig": "同じ生地の枕カバーを半年使ってきたので肌触りなどはよくわかります、\n今回はベッドのひきものですが、枕カバー同様タオル地で良い物です、\n経験からして標準的なシングルベッド90cm×200cmにはセミダブルサイズをお勧めします、\n余裕でピッタリです。\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: アイボリー", "star": 5, "reviewer": "越前海岸の釣り人", "date": "2026-06-02", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2RDPAN6E52DX7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "我对这个叫西川的品牌感觉很好。", "title_orig": "西川っていうだけのブランドの気分がいい", "content": "西川的产品价格便宜，但触感良好，尽管可能会积聚一点热量。\n", "content_orig": "西川の商品では安いけど 肌触りはいいですよ\n少し熱は こもる かもしれませんけど\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 4, "reviewer": "Amazon カスタマー", "date": "2026-05-29", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3OKPCD740MRX7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP167D4", "title": "太好了！", "title_orig": "良かったです！", "content": "我寄给了远方的妈妈。\n我对它的顺畅和愉快的感觉感到非常满意。\n", "content_orig": "遠方の母に送ったのですが、\nサラサラして気持ちが良い、と\nとても喜ばれました。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 5, "reviewer": "tomo", "date": "2026-05-28", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R201EZB0P7HKPS/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "西川品牌是决定因素！", "title_orig": "西川ブランドが決め手！", "content": "在夏季，您很容易盗汗，因此拥有可供选择的床垫很有用。我需要这个才能在干净的床上睡个好觉，我选择它的原因是因为它是西川品牌，但价格便宜。放在床上时很厚实且舒适。\n", "content_orig": "夏のシーズンは寝汗をかくので選択できる敷きパッドは重宝します。清潔なベッドでの安眠には、これが必要となり、また西川ブランドなのに安かったのが選んで決めた理由です。ベッドに敷くと厚みもあるので快適です。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "Sea Masters", "date": "2026-05-28", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R32M1JP9848Q55/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP167D4", "title": "柔软舒适♪", "title_orig": "ふかふかで気持ちいい♪", "content": "毛茸茸的，摸起来很舒服♪\n即使清洗后，它也能很好地干燥并且看起来不错。\n", "content_orig": "ふかふかで、気持ちいいです♪\nお洗濯後も、よく乾いてgoodです。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 5, "reviewer": "まみぃ", "date": "2026-05-25", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3K0UVEUYVY63U/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "我终于找到了一张舒服的地毯。多亏了你，我才能睡个好觉。", "title_orig": "よーやく快適な敷物に出会えました。おかげさまで快適な睡眠をGETできました。", "content": "不愧是西川先生的寝具！我直接睡在这个垫子上，非常舒服。我以为垫子是应该放在床单下面的，但是有了这种毛圈布，你就可以舒服地直立睡觉了。我喜欢毛圈布，所以睡觉时通常用毛圈布作为床单，但由于我的宝宝睡得不好，所以我必须确保将四个角牢牢地放在垫子之间，否则早上他就会消失。所以我一直在寻找一种可以用带子之类的东西固定在四个角上的毛圈布床单，但我找不到任何好的东西，因为它很脆弱，摸起来很不舒服。但是，我注意到床垫有一条橡胶带，可以用来将四个角固定在垫子上，所以我寻找一种可以直接睡在上面的毛圈布床单，我找到了这个产品。我马上尝试了一下，很受欢迎。能够在触感舒适的舒适床上睡个好觉，真是一件幸福的事。\n", "content_orig": "さすが寝具の西川さん！このパット上に直接寝ていますが、快適～。パットはシーツの下に敷くものだと思い込んでいましたが、このタオル地なら直寝で気持ちよく眠れます。タオル地が好きなので、普段はタオルケットをシーツ代わりにして寝ているのですが、寝相が悪いので四隅をしっかりマットに挟んでおかないと朝にはどっかに行ってしまっています。そこでしっかりバンドのようなもので四隅を固定できるタオル地のシーツを探していたのですが、ペラペラだったり触り心地が悪かったり、なかなか良いものに出会えませんでしたが、敷きパットが四隅をゴムベルトでマットに固定できるようになっていることに気付き、直寝できるタオル地のものはないかと探したら本商品を見つけ、早速試してみたら大当たりでした。触り心地のよい快適な寝具で熟睡できるのは実に幸せです。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "ねっち", "date": "2026-05-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2QX7ULRCF6WQE/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适", "不易移位"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "薄的", "title_orig": "薄い", "content": "它比我想象的要薄。\n您可以在家居中心买到更好、更便宜的产品。\n", "content_orig": "思ったより薄っぺらい。\nホームセンターでもっと安く良いものが手に入ります。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 2, "reviewer": "石田 賢二", "date": "2026-05-18", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R17B7QK3O0PWOB/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "这是一个好产品", "title_orig": "良い商品です", "content": "摸起来感觉很好，我睡了一个好觉。\n", "content_orig": "肌触りも良く　快眠でした\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "岡本 行史", "date": "2026-05-17", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R18G5JW5V1ATSO/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "它是浅米色的。我喜欢这个颜色", "title_orig": "薄いベージュでした。色味は好き", "content": "正如西川所料。起绒面料手感很好。确实，我的指甲被夹住了，但那也是没办法的事。\n", "content_orig": "さすが西川。パイル地が気持ちよい。確かに爪が引っかかるが、それはしょうがない\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 5, "reviewer": "lily", "date": "2026-05-16", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3425NMTN4BGKT/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适", "颜色"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "看起来很坚固", "title_orig": "丈夫そう", "content": "首先，这个价格是西川的产品，所以感觉很划算。我一直在用在五金店买的类似产品，但这一款似乎更耐用。因为是毛巾材质，摸起来感觉有点硬。我认为它不适合喜欢光滑手感的人，但我能买到很好的产品。\n", "content_orig": "まず、この値段で西川の商品ということで非常にお買い得感があります\n今までホームセンターで購入した同様の商品を使用していましたが、こちらの方が丈夫そうです\n触り心地はタオル生地なので少しごわつき感があります\nサラサラな感触が好みの方には合わないと思いますが、私は非常にいい買い物ができました\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "十兵衛", "date": "2026-05-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1RXAFY68LEUQH/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["耐用", "触感舒适", "具有性价比"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "不耐用", "title_orig": "耐久性が無い", "content": "会形成类似毛球的东西。正面和背面都有很多白色绒毛。\n整个季节...一季后我就把它扔掉了...\n", "content_orig": "毛玉のようなものがポロポロと出来ます。表も裏も白い毛玉がポロポロと。\nオールシーズン…1シーズンで捨てました…\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 2, "reviewer": "suzuki", "date": "2026-04-12", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R20W7ZQCIK72YE/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["耐用"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "好品牌，好品质", "title_orig": "good brand with great quality", "content": "我对这张纸的使用效果感到惊讶。我想尝试更多这个品牌的产品。正如广告所宣传的那样，它非常舒适，让我在早春保持温暖。\n", "content_orig": "I was surprised at how good this sheet is to use.  I’d like to try more products from this brand.  As advertised, it’s incredibly comfortable and keeps me warm during early spring.\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 5, "reviewer": "lillian", "date": "2026-04-04", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RB402EV2A7671/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "触碰", "title_orig": "肌触り", "content": "皮肤感觉很好。\n我还没用过所以不知道感觉如何。\n", "content_orig": "肌触りが良かった。\nまだ使用前なので使い心地は不明。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 4, "reviewer": "n", "date": "2026-04-02", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2SDO93WYO4R1G/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "满身毛球。", "title_orig": "毛玉だらけ。", "content": "布料很硬，碰到皮肤会很痛，而且会缠上很多起球，下次不会了！\n", "content_orig": "生地が硬く地肌だと痛いし、毛玉がいっぱい絡みます、次回はないですよ！\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 1, "reviewer": "パープルレインボー", "date": "2026-03-25", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1XYPYSUMOQJ6/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["起球"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "正如西川所料", "title_orig": "さすが西川です", "content": "我在打折时买的。触感良好且光滑，让您可以安然入睡。正如西川所料。这只是它有多耐用的问题。因为是西川所以我很期待。\n", "content_orig": "セールで購入しました。肌触りもよくスベスベした感触でよく眠れます。さすが西川ですね。あとは耐久性がどれくらいなのかですね。西川なので期待してます。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "dai", "date": "2026-03-22", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3GSJBANFGMD3W/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["耐用", "触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP17FF4", "title": "它很坚固", "title_orig": "しっかりしてます", "content": "我对优质的产品感到满意。\n", "content_orig": "きちんとしたいい商品で満足です\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 4, "reviewer": "rimiru", "date": "2026-03-10", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1LSP6HPRBUGFX/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPH69YZ", "title": "失望的品质", "title_orig": "がっかりの質", "content": "我以为是全棉的，其实不是，而且虽然买的是双人尺寸，但实际上只是半双人尺寸，所以很失望。\n", "content_orig": "全部が綿かと思ったら違っていたし、ダブルサイズで買ったのにセミダブルくらいの大きさしかなく、がっかりでした\n", "model": "サイズ: 03.ダブル | スタイル: パイル/2024年モデル | 色: ブルー", "star": 1, "reviewer": "きりんさん", "date": "2026-02-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2GXWNON8JA1CS/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP9C1YN", "title": "除了起球以外都很好", "title_orig": "毛玉ができる以外はとても良い", "content": "皮肤感觉很好，感觉很好。\n即使在冬天我也不觉得冷。\n负 1 星是因为我洗了大约 2 次后它开始起球，而且它变得越来越起球。\n虽然外观档次较低，但是在家中使用是没有问题的。\n", "content_orig": "肌触りが良く、気持ちいい。\n冬でも寒い感じはしない。\n2回ほど洗ってから毛玉が出来てきて、どんどん毛玉が増えてくるのが少し残念で星マイナス1。\n見た目のグレード感が下がるが、家で使うぶんには問題ない。\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: アイボリー", "star": 4, "reviewer": "おにゃんこぽん", "date": "2026-02-10", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R15XSRV0EEMXSP/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形", "起球"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPH69YZ", "title": "夏天冬天都好看", "title_orig": "夏も冬もいけそう", "content": "正如西川所预料的那样，建筑非常坚固。\n触感很好，洗后很快就干了。\n", "content_orig": "流石西川で作りはしっかりしています。\n肌触りも良く、洗濯してもすぐ乾きます。\n", "model": "サイズ: 03.ダブル | スタイル: パイル/2024年モデル | 色: ブルー", "star": 5, "reviewer": "Amazon カスタマー", "date": "2026-01-31", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R28TD9CIUD03JZ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "使用时需要小心一点", "title_orig": "使い方には少し注意が必要", "content": "■手感和手感：摸起来和毛巾一模一样，非常舒服。 100% 纯棉，因此不会闷热，让您无论季节如何，一年 365 天都能舒适睡眠，安心无忧。\n ■耐用性 刚开始使用的第一天，我的脚趾甲就被夹在了一堆里，线头也有点磨损。\n ■注意：由于布料的特性，如果指甲长了或者被什么东西勾住，线头就很容易脱落。手感非常好，但耐用性可能有点值得怀疑。\n ■概要 推荐给看重毛圈布的舒适感的人，但我认为，为了长期美丽地使用它，需要小心处理，例如护理指甲和洗涤时使用网。\n", "content_orig": "■使用感・肌触り\nまさに「タオル」そのものの触り心地で、とても気持ちいいです。綿100%なので蒸れにくく、365日どの季節でも快適に眠れる安心感があります。\n■耐久性について\n使い始めて初日に、足の爪がパイル部分に引っかかってしまい、糸が少しほつれてしまいました。\n■注意点\n生地の特性上、爪が伸びていたり、何かに引っかかったりするとすぐに糸が出てしまうようです。肌触りは抜群ですが、耐久性については少し「難あり」かもしれません。\n■まとめ\nパイル地の心地よさを重視する方にはおすすめですが、長く綺麗に使うためには、爪のケアや洗濯時のネット使用など、少し丁寧な扱いが必要だと感じました。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 3, "reviewer": "高橋", "date": "2026-01-18", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3EL9X1H8ETWVN/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["耐用", "触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["开线"], "感官感受": ["透气性差"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP9N6PB", "title": "质量不错，就是担心起球", "title_orig": "質は良いが若干毛玉が気になる", "content": "摸起来不硬，一年四季都可以用，但我觉得睡觉的地方容易起球。质量比便宜的好，所以我认为它适合容易出汗的人。虽然比较厚，但是洗完之后也感觉干得比较快。 3星，但有重复。\n", "content_orig": "触り心地はごわごわしていなく、通年通して使用できるが、寝ている場所が毛玉になりやすいと感じた。安いものより質は良いので汗をかきやすい人には良いかと思います。割と厚みもありますが、洗濯しても比較的早く乾く印象です。星3ですがリピートありです。\n", "model": "サイズ: 03.ダブル | スタイル: パイル/2024年モデル | 色: アイボリー", "star": 3, "reviewer": "Amazon カスタマー", "date": "2026-01-16", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R343F1WO1MDLKO/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["起球"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "下次我会买不同类型的", "title_orig": "次は違う種類買ってみます", "content": "如果放下后拉一下，就会感觉像是要撕裂一样。之后，它会开始到处磨损。\n", "content_orig": "敷いた後に引っ張ると破ける感じの感触があります\n後は、全体的にほつれてきます\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 2, "reviewer": "どんくさい", "date": "2026-01-12", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2OYUF8VP6Y6HZ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "我喜欢它的感觉", "title_orig": "肌触りが好き", "content": "虽然是绒头织物，但质感却比瓷砖更细腻。\n因为它们并不拥挤在一起，而是像田地或稻田一样间隔开，\n使用这个表达方式可能有点用词不当，但感觉很粗糙。\n它的表面很粗糙，看起来可能会在你的脸上留下痕迹，但我喜欢它的感觉。\n我的印象是夏天用它会很好，因为它不粘在皮肤上，\n我不喜欢超细纤维之类的材料，因为它们太热了。\n本产品温暖适中，即使冬天也可以使用。\n", "content_orig": "パイル地との事ですがタイルなんかと比べると目が細かく、\n密集させずに畑や田んぼのように間隔を開けているので、\nこういう表現だと語弊があるかもしれませんが、ザラザラとしています。\n顔に跡が付きそうな荒い印象の表面ですが、こういう肌触りは好きです。\n肌に密着しないので夏に良さげな印象を受けましたが、\n自分はマイクロファイバーのような素材は暑すぎて苦手なので、\nほどほどに暖かいこの商品は冬でもいい感じに使えています。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "伽藍洞", "date": "2026-01-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1OBGC6MIHRINY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感粗糙"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP9C1YN", "title": "西川先生情况稳定。", "title_orig": "安定の西川さん", "content": "我利用深度清洁的机会更换了破旧的床垫。\n西川是100％纯棉制成的，非常稳定，所以我能够安心地睡觉，没有任何问题。\n运输又快又好。\n", "content_orig": "大掃除を機にくたびれた敷きパットを買い替えました。\n綿100%で流石安定の西川、何の問題もなく快適に眠れました。\n発送も早くて良かったです。\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: アイボリー", "star": 5, "reviewer": "のぞみん", "date": "2025-12-29", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RV6SU20CQH4JI/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPJFRQL", "title": "使用方便且不会滑落", "title_orig": "使いやすくズレない", "content": "之前买的已经过时了，所以买来替换的。没有什么特别的问题。可用性和舒适度都是一样的，很舒服。\n", "content_orig": "以前購入したものがもう型落ちなので買い替えの為購入　特に問題無し使い勝手も寝心地も同じで快適です\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ブルー", "star": 5, "reviewer": "Amazon カスタマー", "date": "2025-12-29", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R391FGTJ8KI3N1/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "光滑的绒毛使其适合全年使用。", "title_orig": "さらっとしたパイル感で一年中いけそう", "content": "我想一年四季都使用类似毛圈布的床垫，之所以选择它，是因为它的绒头部分是 100% 纯棉，吸水性很好的描述所吸引。单人尺寸为 100 x 200 厘米，可清洗的床垫方便日常使用。\n\n接触皮肤的一面是绒毛的，正如评论者所说，摸起来感觉“比蓬松更丝滑”，很多人说即使在夏天也可以使用它而不粘腻，这一点我很满意。有评论称，即使使用了一整个夏天，它也不容易起球或起毛，因此每天用作睡觉的地方感觉很安全。另一方面，一些评论说毛巾比想象中的硬，摸起来有点粗糙，所以如果你是对毛巾的蓬松感抱有强烈期望的人，你一开始可能会想，“嗯，也许比我想象的要光滑一些。”由于它的吸汗性很好，有人说如果不洗的话它会变得潮湿，所以假设你经常洗的话，使用它似乎是个好主意。有很多评论说它洗后干得很快，这是一件好事，因为它可以减轻日常使用的压力。\n\n我原本打算将它用作四季皆宜的床垫，但由于它是双面的并且可以全年使用，所以我发现即使季节变化也很容易使用。\n\n价格约为2,200日元，考虑到100%棉绒表面、易洗性和耐用性，我认为在这个价格上这是一个容易选择的系列。\n\n它似乎适合那些喜欢毛巾的光滑感觉并希望在整个季节使用同一个床垫的人。那些想要厚实、蓬松的质地或湿润、拉丝的感觉的人可能有点偏离目标，所以如果你考虑到这一点，你可能会感到满意。\n", "content_orig": "タオル地っぽい敷きパッドを一年通して使いたくて、パイル部分が綿100％で吸水性が良いという説明にひかれて選びました。サイズがシングル100×200cmで、洗える敷きパッドというのも日常使いしやすそうだと思ったポイントです。\n\n肌に当たる面はパイルで、触った感じはレビュー通り「ふわふわ系というよりさらっと寄り」な印象で、夏でもベタつきにくく使えましたという声が多いのが納得でした。実際にひと夏使っても毛玉や毛羽立ちが出にくかったという口コミもあり、毎日寝る場所としては安心感があります。反面、想像より硬め・少しザラっと感じるというレビューもあって、タオルのふんわり感を強く期待している人だと最初は「あれ、思ったよりサラサラ寄りかも」と感じるかもしれません。汗をよく吸う分、洗濯をサボるとジメっとしやすいという声もあったので、こまめに洗う前提で使うのが良さそうです。洗濯後の乾きが早いというレビューが複数あって、そこは日常運用のストレスが少ないところで嬉しいポイントでした。\n\n自分はベッドに敷いてオールシーズンの敷きパッドとして使う想定で見ていましたが、リバーシブル仕様で一年中対応という説明どおり、季節の変わり目でも扱いやすいタイプだと感じました。\n\n価格は2,200円くらいで、綿100％のパイル面・洗える手軽さ・耐久面の評価を踏まえると、この値段なら十分選びやすいラインだと思います。\n\nタオル地のさらっとした触感が好きで、季節をまたいで同じ敷きパッドを使いたい人には合いやすそうです。ふかふかの厚手や、しっとりした起毛感を求める人は少し方向性が違うかもしれないので、その辺をイメージできているなら満足度は高くなりそう、という総評になります。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 3, "reviewer": "Amazon user", "date": "2025-11-22", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RAW6C9HOODI3L/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["耐用", "双面可用", "触感舒适", "吸湿"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形", "起球"], "感官感受": ["触感舒适", "触感粗糙"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "使用半年不起球", "title_orig": "半年使用して毛玉なし", "content": "很便宜而且感觉很好！\n我已经使用了半年了，到目前为止没有起球，质感也没有改变。\n", "content_orig": "安いし気持ちいい！\n半年使用してますが今のところ毛玉もなく、肌触りも変わりません。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 5, "reviewer": "Amazon カスタマー", "date": "2025-11-18", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RH8H7VGNP6NDZ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["起球"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "粗糙的感觉", "title_orig": "ザラザラ感", "content": "质地出乎意料的坚硬，感觉就像是shijiraori。\n", "content_orig": "撫で心地は意外と硬くてしじら織のような感じ。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 4, "reviewer": "ジョージドゥー", "date": "2025-11-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RLEAW63LQY30P/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感粗糙"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "西川的被褥便宜了不好吗？", "title_orig": "西川の布団でも安いと駄目ですか？", "content": "使用起来很舒服，但是一周之内就出现了两个洞，这让我怀疑它是不是日本顶级公司西川制造的。\n", "content_orig": "使い心地は良いけど一週間経たないうちに穴が2つ開いてしまいました、日本でトップの西川の物か疑いたくなりました。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 3, "reviewer": "吉川茂", "date": "2025-11-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R10FWXO9Y519H/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "轻而温暖", "title_orig": "軽くて暖かい", "content": "我通常使用羽毛，但我选择这个产品是因为我担心气味和过敏。\n\n十一月的东京，我可以穿着这件衣服睡得暖暖的。\n它比羽毛重一点，但又轻又温暖，所以我认为这是一个很好的购买。\n", "content_orig": "普段羽毛を使用していたが、匂いやアレルギーを気にしてこの商品にした。\n\n11月東京、この一枚で暖かく寝れる。\n羽毛より多少重さはあるが軽く暖かく、良い買い物をしたと思う。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 5, "reviewer": "NOV", "date": "2025-11-04", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2N0Q05HPOMIVN/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "商品", "title_orig": "商品", "content": "我认为这是一个很好的产品，因为它很光滑，皮肤感觉很好。\n", "content_orig": "さらさらして肌触りが良く良い物だと思います。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 4, "reviewer": "アシダ晴之", "date": "2025-10-24", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R173K8O7K5YOEB/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "易于干燥", "title_orig": "乾きやすい", "content": "皮肤没有什么难受的感觉，而且很容易干，所以不用担心洗不干净！\n", "content_orig": "肌触りは悪くなく、乾きやすいので洗濯にかけるのも億劫にならないです！\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 5, "reviewer": "カスタマー", "date": "2025-10-19", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R28H164X2QT6WS/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["速干"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPMZFLN", "title": "非常适合夏天", "title_orig": "夏場に最適", "content": "一开始我以为会有点硬，但是用了之后就习惯了，觉得很舒服。\n", "content_orig": "最初は少しゴワゴワするかなと思いましたが使っていくうちに馴染んでとても快適です。\n", "model": "サイズ: 03.ダブル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 4, "reviewer": "Amazon カスタマー", "date": "2025-10-10", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R288L5RGD0NES/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP167D4", "title": "皮肤感觉很好，而且干得很快！", "title_orig": "肌触り良く、乾きが速いよ！", "content": "质地宜人且轻盈。而且我最喜欢的是洗后干得很快。\n", "content_orig": "肌触りは気持良く軽いです。そして一番気に入ったのは、洗濯後に速く乾くことです。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 5, "reviewer": "アイリス", "date": "2025-10-10", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1AX2N77PI4UX1/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "光滑细腻，非常适合夏天", "title_orig": "サラサラで夏にピッタリ", "content": "我已经用了一个夏天了，它没有起球或起毛，也不会变脏。\n从好的方面来说，织物不蓬松或柔软。它很轻，非常适合夏天。\n", "content_orig": "ひと夏使いましたが、毛玉や毛羽立ちもなく汚くなっていません。\n良い意味で、フワフワ〜やわらか〜って生地ではありません。さらっとして夏にピッタリです。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 5, "reviewer": "Perry", "date": "2025-10-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RLQC3UFJ2NW1X/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["起球"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP17FF4", "title": "有点不同", "title_orig": "一寸違う", "content": "它很光滑，很容易入睡。\n", "content_orig": "サラッとしていてとても寝やすいです\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 5, "reviewer": "佐藤", "date": "2025-10-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1P6S6N5H43OC8/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "颜色很好。", "title_orig": "色が良いです。", "content": "它的质地比较粗糙，睡起来很舒服。一年四季都可以使用。\n", "content_orig": "手触りがザラザラして寝こごち良いです。通年つかえます。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 4, "reviewer": "Kindleのお客様", "date": "2025-10-07", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RXM2DSH7TUNYZ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["颜色"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感粗糙"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP9C1YN", "title": "清洁感！", "title_orig": "清潔感！", "content": "现在全白了，气氛好多了！\n", "content_orig": "白で統一されて雰囲気が良くなった！\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: アイボリー", "star": 5, "reviewer": "nao", "date": "2025-09-28", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1UDL4DLDCGFYG/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "干净舒适", "title_orig": "清潔で気持ちいい", "content": "触感极佳，洗后速干，让您睡得干净舒适。价格很合理所以我很高兴我买了它。我全家都用它。\n", "content_orig": "肌触りもよく、洗濯してもすぐ乾き清潔に気持ちよく寝られます。価格も手頃なので買って良かったです。家族全員使ってます。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 1, "reviewer": "kami", "date": "2025-09-22", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R38SWXBMOZ0P93/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["速干", "触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPMGCXQ", "title": "可以睡在洗地机上吗？", "title_orig": "タワシの上で寝れる？", "content": "我不能用洗地机擦洗，因为太疼了！\n立即用砂纸打磨垃圾\n", "content_orig": "タワシやんこんなん\n痛すぎてムリ！\n即ゴミ\nマジで紙ヤスリ\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 1, "reviewer": "爆睡さん", "date": "2025-09-17", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R17ZY0GBNIE8I6/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "扔掉钱", "title_orig": "お金を捨てた", "content": "感觉像砂纸一样刮不掉\n一堆还不到100日元的毛巾。我立即把它扔掉了。这样的产品只会损害品牌。\n", "content_orig": "削れない紙ヤスリの様な肌触り\n100均のタオル以下のパイルです\n即捨てました\nこんな商品ではブランドに傷がつくだけです\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 1, "reviewer": "カース・タ・マー", "date": "2025-09-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1U6CJJR4IJ87G/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "不建议皮肤敏感的人使用", "title_orig": "肌が弱い人にはおすすめしないです", "content": "最好小心，因为它可能会被指甲粘住并很快磨损。\n\n虽然我的皮肤不那么敏感，但用得越多，就越痒，所以我决定把它去掉。\n\n换了其他床单后感觉好多了，看来不太适合我。\n我认为如果你的皮肤敏感，最好不要使用它。\n", "content_orig": "爪に引っかかり、すぐにほつれてくるので注意したほうがいいです。\n\n肌はそこまで弱くないのに、使っていくうちに痒くなってきて処分することにしました。\n\n他のシーツに変えてから落ち着いたので、私には合わなかったみたいです。\n肌が弱い人は使わないほうが賢明かなと思います。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 1, "reviewer": "MA", "date": "2025-09-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R27CJO418JP2FR/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "感觉很酷。", "title_orig": "ひんやり感が良い。", "content": "睡觉的感觉又好又凉。\n", "content_orig": "寝心地感がヒンヤリとして良い。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 4, "reviewer": "岸 誠", "date": "2025-08-20", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1I66E3VNRRUOH/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "它很光滑，皮肤感觉良好。", "title_orig": "さらりとして肌ざわりは良い。", "content": "缝纫没有问题。\n", "content_orig": "縫製も問題なし。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "コーヒーもう一杯", "date": "2025-08-17", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2RVO4OILO7C8B/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "这不是一个品牌", "title_orig": "ブランドではないんだなぁ", "content": "五一后开始用还不到3个月，布料就已经磨损了，很失望。感觉大卖场的M、N产品可以用一季。感觉西川品牌输了，可惜了。\n", "content_orig": "５月連休明けから使用を始めて3ヶ月も経たないが、もう生地がヘタリ期待外れ　量販店のMやNの品物の方がワンクール品物持ちがいい気がします　西川のブランド負けの気がして残念　\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 1, "reviewer": "南青山の天然水", "date": "2025-08-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1UAT0J2OUGYJ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPMGCXQ", "title": "不知名品牌比较好", "title_orig": "無名ブランドの方がマシ", "content": "比我预想的要顺利。我以为它会很便宜，因为它变形了，但它是值得的。\n绒毛很粗糙，摸起来感觉不太好。当你想象像毛巾一样舒适的一堆时，那就完全不同了。如果我在商店里看到并触摸过它，我绝对不会购买它。\n我以为这是西川产品就买了它，但这是一个错误。\n", "content_orig": "想像よりペラペラでした。型落ちだから安いのかと思ったのですが、お値段なりでした。\nパイルもガサガサで肌触りも悪いです。タオルのような気持ちのいいパイルを想像していると全く違います。店頭で見て触っていたら絶対購入していません。\n西川だから間違いないと思って買いましたが、失敗でした。\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 2, "reviewer": "アマビト", "date": "2025-08-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2R9AJB7LNIU81/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感粗糙"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPMGCXQ", "title": "它很坚固", "title_orig": "しっかりしている", "content": "它很坚固，即使放入洗衣机/烘干机中也不会起毛或拉伸橡胶。\n我能够购买一些睡起来舒服的东西。\n", "content_orig": "しっかりしており、洗濯乾燥機にかけても毛羽立ち、ゴムの伸びは見られない。\n寝心地も良く良いものが購入できました。\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 5, "reviewer": "Amazonカスタマー", "date": "2025-08-03", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RKRO76R963I46/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["起球"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "西川价格便宜，睡起来很舒服◎", "title_orig": "西川が低価格で寝心地も◎", "content": "我喜欢光滑的面料。我会多买一些给客人。\n", "content_orig": "サラッとした生地で気に入りました。来客用に追加購入します。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 5, "reviewer": "くりーむぱん", "date": "2025-08-01", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2PZKHCPC7EIAJ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["送礼", "自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "无缺陷", "title_orig": "不具合なし", "content": "我给这个评级是因为我没有发现任何问题。\n我认为它与蒲团很相配，而且我认为它很容易使用，因为它不容易移动。\n", "content_orig": "不具合が見当たらないのでこの評価にしました。\n敷布団との相性もあると思うが、ズレにくいので使いやすいと思います。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "k_kuma", "date": "2025-07-28", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2RGDVAF9M27Z3/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "凉爽的感觉", "title_orig": "涼しさ感触", "content": "非常适合夏天。\n", "content_orig": "夏用に最適です。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "奥村素男", "date": "2025-07-27", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2K85SDFAYRDEF/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["冷感体验好"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP167D4", "title": "毛巾擦拭", "title_orig": "タオル地", "content": "毛巾的面料很光滑，睡起来很舒服。\n", "content_orig": "タオル地がサラリとして\n大変寝心地が良いです\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 4, "reviewer": "高木 三枝子", "date": "2025-07-27", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RKGLGE6ZGL9P6/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP167D4", "title": "皮肤感觉良好", "title_orig": "肌触りがいい", "content": "很酷，感觉很好。\n我很高兴购买了这套。\n我希望我能熬过这个炎热的夏天。\n", "content_orig": "ヒンヤリして気持ちいいです。\nセットこう購入してよかったです。\nこの暑い夏を乗り切れそうです。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 5, "reviewer": "メロン", "date": "2025-07-25", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RX3FCFXCFKY5X/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "我对坚固的材料和缝线感到满意。", "title_orig": "確りした素材と縫製で満足してます", "content": "当我第一次洗的时候，所有的垫子都没有缝合，但是\n我对此很满意，即使洗了十多次也没有消失。\n我轮流使用5个由冷却材料制成的床垫。\n我喜欢它的感觉，所以我喜欢它，因为它睡起来最舒服。\n我想小心使用它，以免抓住绒面。\n", "content_orig": "初めての洗濯で、縫製が解れる敷きパッドばっかりでしたが、\nこちらは10数回洗っても解れる事も無く満足です。\n冷感素材の敷きパッド等5枚をローテーションで使ってますが、\n肌触りが好みなので一番寝心地が良く気に入っております。\nパイル面を引っかけたりしないように大事に使っていきたいと思います。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 5, "reviewer": "[customer]", "date": "2025-07-19", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R7J1LTMMFMFNC/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPJFRQL", "title": "毛球好可怕", "title_orig": "毛玉がひどい", "content": "正如其他人评论的那样，起球非常糟糕。我以为这只是开始，但每次我睡觉时，我的衣服都会起球。\n", "content_orig": "他の方がレビューされていますが、毛玉がひどいです。最初だけだろうと思っていましたが、毎回寝るたびに衣類に毛玉がつきます。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ブルー", "star": 1, "reviewer": "みき", "date": "2025-07-19", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R18MHWUI2HWF4U/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["起球"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP9N6PB", "title": "不幸的是西川", "title_orig": "残念な西川", "content": "因为是西川所以就买了，但是还没洗脚就已经毛茸茸的，很失望。\n", "content_orig": "西川だから買ったのに、洗濯する前から足元毛羽立ち毛玉ゴワゴワで残念です。\n", "model": "サイズ: 03.ダブル | スタイル: パイル/2024年モデル | 色: アイボリー", "star": 2, "reviewer": "Amazon カスタマー", "date": "2025-07-01", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2KXPCCAGDXR00/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "失败", "title_orig": "失敗", "content": "当我打开包装时，我只是拿着它，很多白色的东西粘在我穿的棕色 Polo 衫上。即使经过反复清洗和滚动，它仍然粘在上面。线都飞了，所以我不应该买它。\n", "content_orig": "開封時に抱えて持っただけで着ていた茶色のポロシャツに白いのがいっぱい付きました。洗濯してから何度もコロコロかけても付いてきます。糸も飛んでるし、買わなければ良かったです。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 1, "reviewer": "Amazon カスタマー", "date": "2025-06-29", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1E4ANWPN6E0RI/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPMR8N8", "title": "触碰", "title_orig": "肌触り", "content": "触感柔软，让您舒适入睡。\n", "content_orig": "肌触り良くて、気持ちよく寝れます。\n", "model": "サイズ: 03.ダブル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 5, "reviewer": "井上泰宏", "date": "2025-06-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1W4G8FHU45YBZ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPLQR5G", "title": "盛夏时不能使用", "title_orig": "真夏は使えない", "content": "感觉温暖的地毯。夏天用的话太热了。也许其他季节更好？\n我还没有任何经验...\n", "content_orig": "暖かく感じる敷物です。夏場は暑くて使えない。他のシーズンは良いかも？\nまだ経験がありませんが...\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 2, "reviewer": "yamachan250", "date": "2025-06-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1DROZD5DMSTKK/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPLKVCB", "title": "好的", "title_orig": "良いです", "content": "一开始是不是有点难？粗糙的？我也是这么想的，但是洗了2-3次就感觉刚刚好。\n", "content_orig": "最初は少しかため？ザラザラ？と思いましたが２-3回洗うとちょうどいい肌触りになりました。\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: グレー", "star": 5, "reviewer": "おいめい", "date": "2025-06-15", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3ENYNUWPF1ZTX/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形"], "感官感受": ["触感粗糙"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "气味！ ！ ！", "title_orig": "臭い！！！", "content": "气味：不知道是布料特有的味道，还是制作过程中特有的味道，但绝对是味道！当我打开它时，我想，“哇”，所以我立即将其清洗并放入烘干机中。但即使从烘干机中取出后，它仍然很臭！我希望多洗几次后它就会消失。\n\n质地：粗糙、粗糙。它对皮肤的刺激作用很大，所以皮肤敏感的人要小心。\n\n优点：容易烘干，蓬松厚实\n", "content_orig": "匂い：生地特有のにおいなのか、製造過程で発生するにおいかは分かりませんが、とにかく臭い！開封時に「うわっ」と思うほどだったので、すぐに洗濯して乾燥機に入れました。でも乾燥機から取り出しても、なお臭い！あと何回か洗濯するうちに、消えてくれることを願います。\n\n肌触り：ゴワゴワ＆ザラザラ。肌に対して当たりが強いので、敏感肌の方は注意が必要です。\n\n利点：乾燥機で乾かしやすく、ふわっとした厚みがある\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 1, "reviewer": "rk", "date": "2025-06-13", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2JU3X138H94TE/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适", "触感粗糙"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "布料材质【表面】我喜欢", "title_orig": "生地素材【表面】気に入っています", "content": "我很早就用过。\n我认为这种材料非常适合天气变热时使用。皮肤感觉也很好。\n受到推崇的。\n", "content_orig": "早々に使用しました。\n素材がこれから暑くなる時期にはとても良いと思います。肌触りもいいですよ。\nお薦めします。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "二階堂", "date": "2025-06-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3SQ5OT5VEGGBH/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "舒适不闷热", "title_orig": "蒸れる感じもなく心地よい", "content": "由于床单是放在床垫上面的，所以说不上来使用时的感觉如何，但不会感觉闷热，睡起来很舒服。\n", "content_orig": "敷きパッドの上にシーツを敷いているので使用中の肌ざわりはわかりませんが蒸れている感じもなく良い寝心地です\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "echo", "date": "2025-06-02", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R18MWP6RTISM9C/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["透气性差"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "精致的眼睛和漂亮的质感", "title_orig": "目が細かく肌触りがいい", "content": "我很高兴我对西川品牌抱有很高的期望而买了这个。\n堆肥细密、坚固。\n洗涤后，它会很快干燥并变得柔软。\n我为我年迈的母亲买了这个，她的皮肤感觉很好。我很高兴。我计划在春季和秋季使用它。\n", "content_orig": "西川ブランド期待して購入してよかったです。\nパイルの目が細かく、しっかりしています。\n洗濯後、早く乾きふんわりなりました。\n高齢の母に買いましたが肌触りが良い。と喜んでました。春と秋　中間季節用にしようと思います。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 5, "reviewer": "ドルフィン", "date": "2025-06-01", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2ZI0ASBFNP6ZJ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["速干", "高级感"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "安心西川", "title_orig": "安心の西川", "content": "厚度合适，手感舒适。\n", "content_orig": "適度な厚みと肌触りが心地よいです。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 4, "reviewer": "仇吉", "date": "2025-06-01", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3OXKUGVV64CO0/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["厚度", "触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP167D4", "title": "亚马逊便宜", "title_orig": "アマゾンなら安い", "content": "我用西川命名重复一遍。\n这个夏天，让你睡得舒服又香，不会被毛巾布料粘住♬\n", "content_orig": "西川ネーミングでリピしてます。\n今年の夏はタオル生地でベト付きなく気持ちよく安眠出来そうです♬\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 5, "reviewer": "くぅー", "date": "2025-05-30", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2YN2F8UNS874J/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPLKVCB", "title": "毛巾逐渐磨损。", "title_orig": "だんだんタオル地がほつれてくる", "content": "这不是一个大问题，但它是白色的，所以如果它被弄脏或者如果你把果汁洒在上面，那就是一个大问题了。我试着漂白它几次并在洗衣机里运行它，但它没有完全脱落。而且，它从我的脚开始磨损，如果我用指甲刮它，它磨损得更厉害。\n", "content_orig": "そんなに問題ないが白いので染みつけたときとかジュースこぼしたら大変だ、何回か漂白で洗濯機回してみたが完全には取れなかった、あと足元の方からだんだんほつれてくる、爪などをひっかければもっとほつれた\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: グレー", "star": 3, "reviewer": "そうそうたそたそ", "date": "2025-05-28", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R963XEUYJJ8JD/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPM1RX2", "title": "绵１００", "title_orig": "綿１００", "content": "感觉光滑舒适，\n外层面料为 100% 棉，具有良好的绒毛质感。\n", "content_orig": "サラッとして気持ちが良い、\n表生地は綿１００でパイルなのがとても良い\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ブルー", "star": 5, "reviewer": "まめちむ", "date": "2025-05-25", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1ZGQJTJFU81AL/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP167D4", "title": "买来作为礼物送给我妈妈", "title_orig": "母へのプレゼントに購入", "content": "对于即将搬进老年人辅助生活设施的母亲。\n我收到了哥哥送给我的床垫作为礼物，我买了它来替换它。\n买了之后就洗了一次，然后就发货了。\n我喜欢它在皮肤上的感觉很好并且干燥得很快。\n", "content_orig": "サービス付高齢者住宅に入居する母に。\nベッド用マットレスは兄からプレゼントしてもらいましたが、それに合わせて洗い替えに購入。\n購入後に一度洗濯をして届けました。\n肌触りが良く乾きも早く気に入っています。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ピンク", "star": 5, "reviewer": "aya203", "date": "2025-05-25", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R26KP8KN068TS4/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["送礼", "自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["耐洗不变形"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFP9C1YN", "title": "评估", "title_orig": "評価", "content": "普通\n", "content_orig": "普通\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: アイボリー", "star": 4, "reviewer": "丸山", "date": "2025-05-17", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2BXS500Y3692K/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPPJKB4", "title": "清爽的毛巾。", "title_orig": "シャリッとしたタオル地。", "content": "适合我喜欢毛圈布的丈夫。表面质地是否坚硬？它还具有不显污垢的良好颜色。我洗过一次，但感觉不太干。四个角上的橡胶也很坚固。我才刚刚开始使用它，但由于它是西川的产品，所以我给它4星的期望很高。\n", "content_orig": "タオル地が好きな夫用。表面の生地感は硬めかも？汚れが目立たない色味も良い。１回洗ったが、乾きも悪くないと思う。四隅のゴムもしっかりしている。まだ使い始めたばかりだが、西川の商品なので期待を込めて★４つ。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: グレー", "star": 4, "reviewer": "購入者", "date": "2025-05-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3IF3BFX8JH68P/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["颜色"], "冷感体验": ["冷感体验好"], "产品质量": ["耐洗不变形"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNQHLX", "title": "厚度", "title_orig": "厚みが", "content": "它坚固且制作精良。我很高兴我买了它的颜色很干净。\n", "content_orig": "あってしっかりした作りです\n清潔感のある色で購入して良かった\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ベージュ", "star": 5, "reviewer": "きょん", "date": "2025-05-03", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R10B5SU2CIFSD3/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["厚度", "颜色"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPNNNZ2", "title": "毛巾布的质感很好", "title_orig": "タオル生地 気持ち良いです", "content": "毛巾布的手感很好。\n如果我用的时间长了，它会因为摩擦而变黄，但我希望这种情况不要发生。\n", "content_orig": "タオル生地が気持ち良いです。\n長く使用すると擦れなのか黄色くなってしまうのですが、コレはそうならなければ良いと期待します。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ネイビー", "star": 5, "reviewer": "ジャムを持参", "date": "2025-04-25", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1MQOV1SRFLPLX/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPM1RX2", "title": "床上舒适度", "title_orig": "寝心地", "content": "这是一个很好的决定，因为睡起来很舒服👍我会重复的👌\n", "content_orig": "非常に寝心地が良く買って正解でしたね👍リピートします👌\n", "model": "サイズ: 02.セミダブル | スタイル: パイル/2024年モデル | 色: ブルー", "star": 5, "reviewer": "チャーベック", "date": "2025-03-15", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1G525RHTFD569/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0DFPJFRQL", "title": "取决于使用情况", "title_orig": "使い道次第", "content": "既然是西川，我觉得一切都很好。\n然而，我一直在寻找一些薄的、便于放在包里随身携带的东西，所以我觉得它没什么用。\n我认为它足够坚固，可以在家里使用。\n", "content_orig": "西川なのでモノはいいと思います。\nが、当直先で使う用に薄くてペンペラで鞄に入れて持ち運びしやすいものを探していたので用途としてはイマイチでした。\n自宅で使うにはしっかしていていいと思います。\n", "model": "サイズ: 01.シングル | スタイル: パイル/2024年モデル | 色: ブルー", "star": 2, "reviewer": "さくら", "date": "2025-01-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1GZ31C9P3UX8Y/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}]
+;
+
+const PALETTE = ["#0e7c86","#2ca6a4","#8fd0cd","#e7a13b","#c1502e","#6b8f3f",
+                 "#3c6e8f","#a6667a","#8a7dc9","#5aa0c9","#d68c3a","#7a9e6b",
+                 "#b06a9e","#4f8a8b"];
+const GREY = "#c7d3d1";
+
+function colorFor(label, idx){
+  if(label === '无匹配标签') return GREY;
+  return PALETTE[idx % PALETTE.length];
+}
+
+// ---------- stats ----------
+function renderStats(){
+  const total = REVIEWS.length;
+  const avg = (REVIEWS.reduce((s,r)=>s+(r.star||0),0)/REVIEWS.filter(r=>r.star).length).toFixed(2);
+  const asins = [...new Set(REVIEWS.map(r=>r.asin).filter(Boolean))];
+  const withImg = REVIEWS.filter(r=>r['产品质量'].some(t=>t!=='无匹配标签')).length;
+  const coolGood = REVIEWS.filter(r=>r['冷感体验'].includes('冷感体验好')).length;
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat"><div class="num">${total}</div><div class="label">评论总数</div></div>
+    <div class="stat"><div class="num">${avg} ★</div><div class="label">平均星级</div></div>
+    <div class="stat"><div class="num">${asins.length}</div><div class="label">关联 ASIN / 型号数</div></div>
+    <div class="stat"><div class="num">${coolGood}</div><div class="label">明确反馈冷感体验好</div></div>
+    <div class="stat"><div class="num">${withImg}</div><div class="label">提及具体品质问题</div></div>
+  `;
+  document.getElementById('asinlist').innerHTML =
+    '涉及 ASIN：<b>' + asins.join('</b> · <b>') + '</b>';
+}
+
+// ---------- generic pie builder ----------
+// dim: field name in REVIEWS, or 'star' special
+function buildCounts(dim){
+  const counts = {};
+  if(dim === 'star'){
+    for(let s=1;s<=5;s++) counts[s+' 星'] = 0;
+    REVIEWS.forEach(r=>{ if(r.star) counts[r.star+' 星']++; });
+  } else {
+    REVIEWS.forEach(r=>{
+      (r[dim]||[]).forEach(tag=>{
+        counts[tag] = (counts[tag]||0)+1;
+      });
+    });
+  }
+  return counts;
+}
+
+function filterReviews(dim, label){
+  if(dim === 'star'){
+    const s = parseInt(label);
+    return REVIEWS.filter(r=>r.star===s);
+  }
+  return REVIEWS.filter(r=>(r[dim]||[]).includes(label));
+}
+
+function makeCard(container, opts){
+  const {id, title, hint, dim} = opts;
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <h3>${title}</h3>
+    <p class="hint">${hint}</p>
+    <div class="chart-holder"><canvas id="${id}"></canvas></div>
+    <div class="legend-list" id="${id}_legend"></div>
+  `;
+  container.appendChild(card);
+
+  const counts = buildCounts(dim);
+  let labels = Object.keys(counts);
+  // sort: for star keep natural order 5..1 desc by convention (5,4,3,2,1), else by count desc but 无匹配标签 last
+  if(dim === 'star'){
+    labels = ['5 星','4 星','3 星','2 星','1 星'];
+  } else {
+    labels.sort((a,b)=>{
+      if(a==='无匹配标签') return 1;
+      if(b==='无匹配标签') return -1;
+      return counts[b]-counts[a];
+    });
+  }
+  const data = labels.map(l=>counts[l]);
+  const colors = labels.map((l,i)=>colorFor(l,i));
+
+  const ctx = document.getElementById(id).getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data, backgroundColor: colors, borderColor:'#ffffff', borderWidth:2 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      cutout:'52%',
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          callbacks:{
+            label: (c)=>{
+              const total = c.dataset.data.reduce((a,b)=>a+b,0);
+              const pct = total? (c.parsed/total*100).toFixed(1):0;
+              return `${c.label}: ${c.parsed} 条 (${pct}%)`;
+            }
+          }
+        }
+      },
+      onClick: (evt, elements)=>{
+        if(!elements.length) return;
+        const idx = elements[0].index;
+        openModal(dim, title, labels[idx], colors[idx]);
+      }
+    }
+  });
+
+  // legend
+  const legendEl = document.getElementById(id+'_legend');
+  const total = data.reduce((a,b)=>a+b,0);
+  labels.forEach((l,i)=>{
+    const pct = total? (data[i]/total*100).toFixed(1):0;
+    const item = document.createElement('div');
+    item.className='legend-item';
+    item.innerHTML = `<span class="legend-dot" style="background:${colors[i]}"></span>${l} <span class="cnt">${data[i]}</span> (${pct}%)`;
+    item.onclick = ()=> openModal(dim, title, l, colors[i]);
+    legendEl.appendChild(item);
+  });
+}
+
+// ---------- modal ----------
+let currentResults = [];
+function openModal(dim, title, label, color){
+  currentResults = filterReviews(dim, label);
+  document.getElementById('modalTitle').innerText = `${title} — ${label}`;
+  document.getElementById('modalSub').innerText = `共 ${currentResults.length} 条相关评论 · 点击行可查看日文原文`;
+  document.getElementById('modalSearch').value = '';
+  document.getElementById('modalMask').classList.add('open');
+  renderTable();
+}
+function closeModal(){
+  document.getElementById('modalMask').classList.remove('open');
+}
+document.getElementById('modalMask').addEventListener('click', (e)=>{
+  if(e.target.id==='modalMask') closeModal();
+});
+
+function starBadge(s){
+  return `<span class="star-badge s${s}">${'★'.repeat(s)}${'☆'.repeat(5-s)}</span>`;
+}
+
+function renderTable(){
+  const q = document.getElementById('modalSearch').value.trim().toLowerCase();
+  let rows = currentResults;
+  if(q){
+    rows = rows.filter(r =>
+      (r.content||'').toLowerCase().includes(q) ||
+      (r.title||'').toLowerCase().includes(q) ||
+      (r.asin||'').toLowerCase().includes(q) ||
+      (r.model||'').toLowerCase().includes(q)
+    );
+  }
+  const tbody = document.getElementById('modalTbody');
+  const emptyHint = document.getElementById('emptyHint');
+  if(rows.length===0){
+    tbody.innerHTML='';
+    emptyHint.style.display='block';
+    return;
+  }
+  emptyHint.style.display='none';
+  tbody.innerHTML = rows.map(r=>`
+    <tr onclick="this.querySelector('.orig').classList.toggle('shown')">
+      <td>${r.asin||''}</td>
+      <td>${r.star? starBadge(r.star):''}</td>
+      <td>${escapeHtml(r.title||'')}</td>
+      <td class="content-cell">${escapeHtml(r.content||'').replace(/\n/g,'<br>')}
+        <div class="orig">${escapeHtml(r.content_orig||'').replace(/\n/g,'<br>')}</div>
+      </td>
+      <td>${escapeHtml(r.model||'')}</td>
+      <td>${escapeHtml(r.reviewer||'')}</td>
+      <td>${r.date||''}</td>
+    </tr>
+  `).join('');
+}
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ---------- build all cards ----------
+renderStats();
+
+makeCard(document.getElementById('gridTop'), {
+  id:'chartStar', title:'星级分布', dim:'star',
+  hint:'评论星级 1～5 星占比'
+});
+makeCard(document.getElementById('gridTop'), {
+  id:'chartUser', title:'使用人群', dim:'使用人群',
+  hint:'自用 或 送礼 购买动机判定'
+});
+
+makeCard(document.getElementById('gridExpect'), {
+  id:'chartExpect', title:'使用期望', dim:'使用期望',
+  hint:'购买动机、期待达成的核心目的与改进建议'
+});
+
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartCool', title:'冷感功能体验', dim:'冷感体验',
+  hint:'对冷却/接触凉感效果的实际体验反馈'
+});
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartQuality', title:'产品质量', dim:'产品质量',
+  hint:'耐用性、工艺与质量问题的具体反馈'
+});
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartSensory', title:'感官感受', dim:'感官感受',
+  hint:'触感、颜色、透气性等主观感受'
+});
+
+makeCard(document.getElementById('gridValue'), {
+  id:'chartValue', title:'价值体验', dim:'价值体验',
+  hint:'价格与体验是否匹配的评价'
+});
+</script>
+</body>
+</html>
