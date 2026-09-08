@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B0DHNF3QGX 评论洞察分析 — 接触冷感床品套件</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg: #eef3f2;
+    --panel: #ffffff;
+    --ink: #12262a;
+    --ink-soft: #4c6167;
+    --teal-900: #0c4a52;
+    --teal-700: #0e7c86;
+    --teal-500: #2ca6a4;
+    --teal-300: #8fd0cd;
+    --teal-100: #dcf0ee;
+    --sun: #e7a13b;
+    --clay: #c1502e;
+    --line: #d3e2e0;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 8% 0%, rgba(44,166,164,0.10), transparent 42%),
+      radial-gradient(circle at 96% 10%, rgba(12,74,82,0.08), transparent 40%);
+    color: var(--ink);
+    font-family: "Hiragino Sans GB","PingFang SC","Noto Sans SC","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:1360px;margin:0 auto;padding:40px 28px 80px;}
+
+  header.top{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+    border-bottom:2px solid var(--teal-900);
+    padding-bottom:22px;margin-bottom:28px;flex-wrap:wrap;
+  }
+  header.top .titleblock h1{
+    font-size:30px;margin:0 0 6px;letter-spacing:.2px;color:var(--teal-900);
+    font-weight:700;
+  }
+  header.top .titleblock p{margin:0;color:var(--ink-soft);font-size:14px;}
+  header.top .asinlist{font-size:12px;color:var(--ink-soft);max-width:520px;line-height:1.7;}
+  header.top .asinlist b{color:var(--teal-700);}
+
+  .stats{
+    display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px;
+  }
+  .stat{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 22px;min-width:150px;flex:1;
+  }
+  .stat .num{font-size:26px;font-weight:700;color:var(--teal-900);}
+  .stat .label{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+
+  .section-title{
+    font-size:15px;font-weight:700;color:var(--teal-900);
+    margin:38px 0 16px;padding-left:10px;border-left:4px solid var(--teal-500);
+  }
+
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:20px;
+  }
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 20px 12px;position:relative;
+  }
+  .card h3{margin:0 0 2px;font-size:16px;color:var(--ink);}
+  .card .hint{font-size:11.5px;color:var(--ink-soft);margin:0 0 10px;}
+  .chart-holder{position:relative;height:280px;}
+  .legend-list{
+    display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .legend-item{
+    display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);
+    cursor:pointer;padding:3px 6px;border-radius:6px;transition:background .15s;
+  }
+  .legend-item:hover{background:var(--teal-100);color:var(--teal-900);}
+  .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .legend-item .cnt{font-weight:700;color:var(--ink);}
+
+  /* Modal */
+  .modal-mask{
+    display:none;position:fixed;inset:0;background:rgba(12,30,32,.45);
+    z-index:999;align-items:flex-start;justify-content:center;padding:5vh 20px;
+    backdrop-filter: blur(1px);
+  }
+  .modal-mask.open{display:flex;}
+  .modal{
+    background:#fff;border-radius:16px;max-width:1040px;width:100%;max-height:88vh;
+    display:flex;flex-direction:column;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .modal-head{
+    padding:18px 24px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .modal-head .htxt h2{margin:0;font-size:18px;color:var(--teal-900);}
+  .modal-head .htxt p{margin:3px 0 0;font-size:12.5px;color:var(--ink-soft);}
+  .modal-head .close-btn{
+    border:none;background:var(--teal-100);color:var(--teal-900);width:32px;height:32px;
+    border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0;
+  }
+  .modal-search{padding:12px 24px;border-bottom:1px solid var(--line);}
+  .modal-search input{
+    width:100%;padding:9px 14px;border-radius:8px;border:1px solid var(--line);
+    font-size:13px;background:var(--bg);outline:none;
+  }
+  .modal-search input:focus{border-color:var(--teal-500);}
+  .modal-body{overflow:auto;padding:0 24px 20px;flex:1;}
+  table.reviews{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.reviews thead th{
+    text-align:left;position:sticky;top:0;background:#fff;
+    padding:10px 8px;border-bottom:2px solid var(--teal-900);color:var(--teal-900);
+    white-space:nowrap;
+  }
+  table.reviews tbody td{
+    padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink);
+  }
+  table.reviews tbody tr:hover{background:var(--teal-100);}
+  .star-badge{
+    display:inline-block;padding:1px 8px;border-radius:20px;font-weight:700;font-size:11.5px;
+  }
+  .s5{background:#dcf0ee;color:var(--teal-700);}
+  .s4{background:#e6f2ce;color:#5a7a1a;}
+  .s3{background:#fdefd0;color:#a06b0d;}
+  .s2{background:#fbe0d0;color:#a44a1f;}
+  .s1{background:#f7d6d6;color:#a3312f;}
+  td.content-cell{max-width:340px;}
+  td.content-cell .orig{color:var(--ink-soft);font-size:11px;margin-top:3px;}
+  .empty-hint{padding:40px;text-align:center;color:var(--ink-soft);font-size:13px;}
+
+  footer{margin-top:50px;color:var(--ink-soft);font-size:11.5px;text-align:center;}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:22px;}
+    .chart-holder{height:230px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="titleblock">
+      <h1>评论洞察分析 · 接触冷感床品套件</h1>
+      <p>ASIN B0DHNF3QGX 及关联型号 · 日本站评论数据 · 导出日期 2026-09-08</p>
+    </div>
+    <div class="asinlist" id="asinlist"></div>
+  </header>
+
+  <div class="stats" id="statsRow"></div>
+
+  <div class="section-title">星级与人群分布</div>
+  <div class="grid" id="gridTop"></div>
+
+  <div class="section-title">使用期望 · 客户购买时希望达成的目的与改进诉求</div>
+  <div class="grid" id="gridExpect"></div>
+
+  <div class="section-title">实际体验感受</div>
+  <div class="grid" id="gridExperience"></div>
+
+  <div class="section-title">价值体验</div>
+  <div class="grid" id="gridValue"></div>
+
+  <footer>点击任意扇区或图例，可查看对应标签下的具体评论内容原文与译文。</footer>
+</div>
+
+<div class="modal-mask" id="modalMask">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="htxt">
+        <h2 id="modalTitle">数据详情</h2>
+        <p id="modalSub"></p>
+      </div>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-search">
+      <input type="text" id="modalSearch" placeholder="在结果中搜索关键词…" oninput="renderTable()">
+    </div>
+    <div class="modal-body">
+      <table class="reviews">
+        <thead>
+          <tr>
+            <th>ASIN</th><th>星级</th><th>标题</th><th>评论内容</th><th>型号</th><th>评论人</th><th>日期</th>
+          </tr>
+        </thead>
+        <tbody id="modalTbody"></tbody>
+      </table>
+      <div class="empty-hint" id="emptyHint" style="display:none;">未找到匹配的评论</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const REVIEWS = [{"asin":"B0DHNDLR5P","title":"期待大","title_orig":"期待大","content":"它被压缩成一个用黑色塑料包裹的硬块，所以\n我买了日本帝人产品，却收到了有问题的外国产品！我差点就误会了。\n当我打开它时，我很欣慰地发现这是一个合适的产品。\n我很早以前就购买并使用过类似的防螨材料，但它已经散架了，所以我买了一个新的。\n我很感激，因为我以前在过敏用品商店买过它，而且非常贵。\n表面很光滑，厚度还不到我现在用的一半，但可能更容易清洗。\n\n多买点是个好主意。可以水洗，即使使用床垫质量也很好，不会过敏。\n","content_orig":"圧縮されてカチカチの塊で黒いビニールに包まれていたので、\n日本のテイジンの製品買ったのに、怪しげな海外製品がきたのか！の勘違いしそうになった。\n開けたらちゃんとした製品ですごくホッとした。\nすごく昔に同じようなダニ対策素材のものを買って使ってまして、それがもうボロボロになってしまって買い替え。\n前はアレルギー用品の店ですごい高価だったのでありがたいです。\n表面はツルツルしていて、厚みは今使用の半分もないけど、洗濯しやすいかも。\n\n追加\n買って正解です。洗濯もできますアレルギーとか抜きでベッドパットもしても品質が良い\n","model":"サイズ: ダブル","star":5,"reviewer":"mayu","date":"2026-07-28","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1OFRKGU9LCJV2/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["厚度","颜色","防螨抗菌"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"是复合材料吗？","title_orig":"マルチな素材かと","content":"买来已经三个月了。我想我买的时候就想到了第四季。我的身体不喜欢夏天的凉垫。所以我决定使用这个垫子，因为它不会太冷。我知道这只是我个人的意见，但这绝对是舒服的。\n","content_orig":"購入に至って三ヶ月になります買うに至るは四季の思いですかね、夏に冷感マットには体が付いて行きませんねそこで冷え過ぎずへのこのマットへポチッとでした個人の感想なのでご了承す心地良さは確かかな、、、\n","model":"サイズ: シングル","star":5,"reviewer":"カカシ","date":"2026-07-27","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1E696OE85O8T7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNDQ58G","title":"好的","title_orig":"良い","content":"它有一根橡皮筋，这样床就能保持干净，不会移动，所以我想要另一根来清洗。\n","content_orig":"ゴムバンドがついていて敷きズレなし\n清潔感があり洗い替えにもう一つ欲しくなりました\n","model":"サイズ: ワイドキング","star":5,"reviewer":"るなまま","date":"2026-07-06","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2BSSMY5C6XD3Y/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNDXN9Y","title":"便宜但质量好。","title_orig":"安いが質は良い。","content":"价格低，但结构坚固。\n对皮肤也没有什么不好的感觉。\n","content_orig":"価格は安いが作りはしっかりしている。\n肌触りも悪くない。\n","model":"サイズ: キング","star":5,"reviewer":"Amazon カスタマー","date":"2026-06-12","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1NB6Y18RD74KD/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"这个夏天用这些床单很舒服❣️","title_orig":"この夏はこのシーツで快適❣️","content":"手感比产品描述的好，不易滑，不脏，质感好❣️\n\n如此使用感，价格竟然如此合理，让我惊讶❣️\n","content_orig":"商品説明以上の気持ち良さずれにくい、汚れにくくサダ触りもgood❣️\n\nこの使用感でプライスのリーズナブルさに驚き❣️\n","model":"サイズ: シングル","star":5,"reviewer":"Amazon カスタマー","date":"2026-06-09","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/RJ9XP91L3CYPQ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNDXN9Y","title":"无蜱虫","title_orig":"ダニから解放","content":"非常好♪\n我不再被蜱虫叮咬\n","content_orig":"とても良いです♪\nダニに刺されなくなりました〜\n","model":"サイズ: キング","star":5,"reviewer":"猫好きさん","date":"2026-05-22","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2EMJGOJ8J4OTR/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"我的全身都有红点！ ！ ！","title_orig":"身体中に赤いポツポツが！！！","content":"我的全身出现了无数的红点。我们强烈建议您在使用前清洗一次。\n","content_orig":"身体中に赤いポツポツが無数に出来ました。一度洗濯してから使用する事を強くお勧め致します。\n","model":"サイズ: シングル","star":1,"reviewer":"虹歩","date":"2026-05-11","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3KX2II32ROX5L/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"好的","title_orig":"良い","content":"它又厚又凉。\n","content_orig":"厚みがあってひんやりして良い。\n","model":"サイズ: シングル","star":4,"reviewer":"Amazon カスタマー","date":"2026-05-08","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R6B097MUAZBHM/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHN9B9ZW","title":"这是正常的","title_orig":"普通です","content":"这是正常的\n","content_orig":"普通です\n","model":"サイズ: クイーン","star":3,"reviewer":"Poka","date":"2026-03-20","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2YAQOUQ6Y3XI/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"这是我第二次购买。很坚固！","title_orig":"2回目の購入です。しっかりしている！","content":"这是我第二次购买。\n上次还很结实，洗了也没有磨损，这很好，但是用了两三年，橡胶就开始伸长了，所以我不得不买一个新的。\n","content_orig":"2回目の購入です。\n前回もしっかりしていて、洗濯してもへたらず、良かったのですが、流石に2、3年使ってゴムが伸びてきて、買い替えをしました。\n","model":"サイズ: シングル","star":5,"reviewer":"Amazon カスタマー","date":"2026-01-02","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1GVJ6BUNJA6AB/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["耐用"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"效果很好。","title_orig":"効果大。","content":"以前卧室里经常打喷嚏的情况已经不再发生了。我真的不能说，因为我看不到螨虫，但我认为这绝对有效。\n","content_orig":"今まで寝室で頻発していたくしゃみが全く出なくなった。ダニは見えないのでよく分からないが、効果は確実にあったと思う。\n","model":"サイズ: シングル","star":5,"reviewer":"Amazon カスタマー","date":"2025-12-25","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3E6KN5SMC9P3L/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNDLR5P","title":"未对准","title_orig":"ズレる","content":"它可能有助于驱除蜱虫，但效果却相差甚远。我正在把床垫换成床垫，换成床单，但床单没有移动，只有里面的床垫移动。\n","content_orig":"ダニよけにはいいかもしれないが、かなりズレる。マットレス→ベッドパッド→シーツにしてるが、シーツはズレないのに中のベッドパッドだけズレる\n","model":"サイズ: ダブル","star":3,"reviewer":"非公開","date":"2025-12-17","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R10IY5V44IW5EY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHN9NB5L","title":"不知道是缝线不好还是有瑕疵。","title_orig":"縫製が弱いのか単品不良なのかわかりませんが","content":"缝纫线从第一天起就磨损了。这是一款不具有 Danist 功能的产品，因此我们无法继续使用该产品。\n","content_orig":"DAY1から縫製糸がほつれまくってます\nダニスト機能以前の商品です\nお進めしません。\n","model":"サイズ: セミダブル","star":1,"reviewer":"Obo","date":"2025-11-26","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3GGIXKNXS30M6/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"令我惊讶的是昆虫混杂其中。","title_orig":"虫が混入にびっくり","content":"我对昆虫敏感，过敏，所以寻找并订购了一款防螨产品，但在我去除害虫的那天，它到了，压缩塑料里有一只1厘米的昆虫！目前还没有关于它是什么昆虫的答案！立即归还。我信任帝人并选择了它，但我不知道我选择的时间或退货政策，所以我花了相当多的时间在这上面，特别是因为我在辩护。\n","content_orig":"虫に敏感でアレルギーがあり、防ダニを探して注文したが、まさかの害虫駆除した日に、圧縮ビニルの中に1cmの虫が入っていて届いた！まだなんの虫か返答なし！すぐ返品。テイジンを信頼して選んだが，選んだ時間や返品がわからず、相当な時間を使い、こういう事は徹底してください、まして防だに歌っいるのに。\n","model":"サイズ: シングル","star":1,"reviewer":"環境活動中","date":"2025-11-23","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2XX47NKMVTQ28/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["防螨抗菌"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"也许它正在发挥作用","title_orig":"たぶん効いている","content":"我为我的家人买了它。我不知道其背后的原理，但我认为它是有效的，因为不同的昆虫都死了。\n","content_orig":"家族用に買いました。原理はわかりませんが、違う虫が死んでいることがあったので\n効果はあるのだろうと思います。\n","model":"サイズ: シングル","star":5,"reviewer":"あじさい","date":"2025-11-08","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R133DD7J8XXRZG/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHN9NB5L","title":"有望抑制螨虫增殖","title_orig":"ダニ増殖抑制に期待","content":"我买这个是因为今年夏天我被蜱虫困扰。\n我还给床上用品买了防螨套，所以不知道它抑制螨虫生长的效果如何，但是\n到目前为止，还没有受到螨虫的损害。\n\n如果可以的话，我希望它能更蓬松一点。\n","content_orig":"この夏　ダニに悩まされたので、購入しました。\n寝具の防ダニカバーも一緒に購入したので、こちらがどれくらい\nダニ増殖抑制をしているかは、わかりませんが、\n今のところ、ダニの被害はありません。\n\n出来れば、もう少しフカフカしていると良かったです。\n","model":"サイズ: セミダブル","star":4,"reviewer":"ぴんくねこ","date":"2025-10-20","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1PW90ZEIA6OEW/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["防螨抗菌"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"安心和对名称价值的期望","title_orig":"ネームバリューに安心と期待","content":"打开包装就闻到了一股味道，所以我立即将它放入洗衣袋中，清洗后立即尝试使用。\n它的体积比我以前的床垫要大一点，但一点也不让我感到不舒服，而且对我来说感觉很好。\n这只是第一天使用，现在晚上已经凉了。\n我按顺序使用了床垫、床垫（这次购买的商品）、床笠、床垫，所以我还不知道材料的性能如何，但我对TEIJIN寄予厚望。\n","content_orig":"開封時にはニオイがあったので、すぐに洗濯ネットに入れて洗濯し、早速使ってみました。\n以前のベッドパットよりボリュームが少しありましたが違和感が出るような事は全くなく、私的にはいい感じでした。\nまだ使用1日目で今は夜も涼しく、\n私は、マットレス→ベッドパット(今回購入品)→ボックスシーツ→敷きパットの順で使用してるので、高機能素材の実感はまだわかりませんがTEIJINに安心と期待をしてます。\n","model":"サイズ: シングル","star":5,"reviewer":"チーくんママ","date":"2025-10-10","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/RGIQ1KR7TC5TK/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"使用舒适","title_orig":"使いここち良い","content":"你可以舒舒服服地睡一觉。\n","content_orig":"快適に眠れます。\n","model":"サイズ: シングル","star":5,"reviewer":"渡朗","date":"2025-10-04","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2T7USN4SGPS5U/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"这是一款出色的防尘螨床垫。","title_orig":"ダニ対策に優れたベッドパットですね","content":"这是一个放在床垫上的薄蒲团。\n该产品本身并不旨在舒适或柔软。\n买来是为了预防蜱虫。我以前用的厚床垫已经变成了螨虫的巢穴。\n目前还不清楚为什么会发生这种情况。我扔掉了旧蒲团并购买了这个产品。据说这是一种防尘螨的床垫。\n使用了一个月，立即清洗。易于清洗。容易干燥。\n再配上French Bed的酒店床垫，让您睡得舒适。\n","content_orig":"マットレスの上に敷く薄い蒲団ということですね。\nこの商品自体に寝心地とか柔らかさなどを求めるものではありません。\nダニ対策で購入。愛用していた厚めの蒲団がダニの巣になってしまった。\n何故こうなったかは不明だが。古い蒲団を捨て、この商品を購入。対ダニ対策のベッドパットとのこと。\n一月使って、早速洗濯。簡単に洗える。簡単に乾く。\nフランスベッドのホテルマットレスとのカップリングで快適に寝られます。\n","model":"サイズ: シングル","star":4,"reviewer":"R.HASUDA","date":"2025-09-03","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R18CNVM2SDGRMX/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"如果您的床上用品中存在尘螨问题","title_orig":"寝具でダニに困っているなら","content":"【评估】\n ◆蜱虫对策 我想在一段时间后更新评论。\n・第1周（2025/7/18）：我没有被蜱虫叮咬。 。\n・第2周（2025年7月25日）：左大腿一处、右大腿两处被蜇，但不一定是本产品造成的（有可能是其他地方被蜇的）。\n・第3周（2025年8月1日）：右侧臀部一处被刺伤。由于他是在使用毛巾毯时被咬伤的，因此确定毛巾毯很可能是被咬伤的原因。\n\n ◆手感及舒适度：填充棉，厚度一般为1.5cm左右，压碎后厚度不足5mm，有一定的蓬松感。\n该织物具有高密度且坚固。\n产品本身似乎制作精良，但螨虫在温暖的温度下很活跃。\n由于它不具备触感凉爽等功能，蓬松或坚固的面料可能会导致夏季睡眠不舒服。\n另外，由于背面没有防滑涂层，使用几天后就会从床垫上滑落。\n\n ◆易于清洗 我在没有烘干机的立式滚筒洗衣机中以毯子模式清洗它，没有出现任何问题。\n而且，这种面料洗后不起球，所以我觉得它是一种耐用的面料。\n我没有烘干机，所以我不知道它是否会影响这个产品。\n\n ◆尺寸：我在单尺寸床垫（100厘米 x 200厘米）上使用此单尺寸产品（100厘米 x 200厘米），非常完美。\n\n [结论]\n我对这个产品非常满意，因为我正遭受尘螨造成的损害。\n虽然夏天会有点闷，但足以弥补“不被蜇的舒适感”。我可以自信地向任何想要预防蜱虫的人推荐该产品。\n","content_orig":"【評価】\n◆ダニ対策\nある程度期間を設けレビューを更新したいと思います。\n・1週目（2025/7/18）： ダニに刺されることはありませんでした。。\n・2週目（2025/7/25）： 左の太ももに1ヶ所、右の太ももに2ヶ所刺されましたが、必ずしも本品が原因とは言い切れません（別の場所で刺された可能性あり）。\n・3週目（2025/8/1）：右のおしりに1ヶ所刺されました。タオルケット使用中に刺されたことから、原因はタオルケットの可能性が高いと判断しました。\n\n◆使用感・寝心地\n綿がしっかり入って通常時で1.5cmほどの厚み、潰すと5mm以下になりある程度フカフカ感があります。\n生地は糸の密度が高くしっかりしています。\n物自体は良いつくりをしている印象ですが、ダニの活動期は気温が温かい時期です。\n接触冷感などの機能が無いため、フカフカやしっかりした生地は夏では寝苦しさつながる可能性があります。\nまた、裏面に滑り止め加工が無いため何日か使用しているとマットレスからズレてしまいます。\n\n◆洗濯のしやすさ\n縦ドラム式で乾燥機のない洗濯機で毛布モードで普通に洗いましたが問題ありませんでした。\nまた、洗濯後に毛玉が発生しなかったので耐久性のある生地だと実感しました。\n乾燥機に関しては所有していないので本品への影響は分かりません。\n\n◆サイズ感\nシングルサイズのマットレス（100cm×200cm）にシングルサイズの本品（100cm×200cm）を使っていますがピッタリです。\n\n【結論】\nダニの被害に悩んでいた自分にとっては、非常に満足度の高い製品でした。\n夏はやや蒸れやすいものの、それを補って余りある『刺されない快適さ』が得られています。ダニ対策を重視したい方には、自信を持っておすすめできます。\n","model":"サイズ: シングル","star":5,"reviewer":"由美かおるん","date":"2025-07-19","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2F2PJIJ5NEU4U/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["冷感","耐用","厚度","触感舒适","不易移位"],"冷感体验":["冷感体验好"],"产品质量":["容易移位","起球"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"附着污垢","title_orig":"汚れ付着","content":"它看起来像是一支黑色毡尖笔，上面有黄色污渍。\n","content_orig":"黒いサインペンらしき跡と黄色汚れがついていました。\n","model":"サイズ: シングル","star":1,"reviewer":"Amazon カスタマー","date":"2025-07-17","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2INFNNRICC2BV/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"也很厚","title_orig":"厚みもある","content":"它接近我想要的那种床垫。它很厚，看起来很坚固。表面也很软。\n不过我感觉夏天有点热，不知道夏天会怎么样。\n","content_orig":"自分がほしいと思うようなベッドパッドに近かった。厚みがあってじょうぶそう。表面もやわらかい。\nただし夏にちょっと熱がこもるような気もするので夏はどうなのかはよくわからない。\n","model":"サイズ: シングル","star":4,"reviewer":"jenniferLA","date":"2025-07-09","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R11B22SNUDAH3Q/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"为了防止脏污","title_orig":"汚れ防止のために","content":"我买这个是为了防止盗汗和污垢。\n我把它夹在床垫和床笠之间来使用。\n我已经使用了一段时间，但它似乎对我的睡眠舒适度没有任何特别的影响。\n","content_orig":"寝汗や汚れを防止するために購入しました。\nマットレスとボックスシーツの間に挟むようにして使っています。\nしばらく使っていますが寝心地には特に影響ない気がします。\n","model":"サイズ: シングル","star":4,"reviewer":"fujisan","date":"2025-04-27","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R13CLTV5G09F4R/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"皮肤感觉非常好。","title_orig":"肌触りがとても良いです。","content":"我的体质使我对尘螨和室内灰尘过敏，而且我还患有哮喘，所以在尘螨最容易繁殖的时期，当我上床睡觉时，我的身体会变得发痒和喘息。我已经逐渐将被子和床垫更换为防尘螨的，但这是我第一次使用防尘螨垫。\n触感柔软，使用起来感觉非常舒服、舒服。\n到目前为止我还没有看到螨虫的反应，所以我认为它有驱螨作用。\n","content_orig":"ダニ、ハウスダストに過敏に反応してしまう体質➕喘息もあるので、ダニの繁殖が盛んであろう時期には布団に入ると体が痒くなったり、ゼーゼーしてきてしまいます。掛け布団、敷き布団、順次防ダニに入れ替えているのですが、パッドの防ダニ加工のものは初めての使用です。\n肌触りも柔らかく、とても快適で心地いい使用感です。\nダニの反応も今のところ出ていないので、防ダニ効果があるんだと思います。\n","model":"サイズ: シングル","star":5,"reviewer":"優","date":"2025-03-15","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2CZHFHYS4LSP/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"那个蜱虫似乎不存在。","title_orig":"いなさそうでいるのがダニですよね","content":"目前，我不确定尘螨是否会造成任何损害，但我决定戴上它作为预防措施。\n直接躺在上面很舒服，但是不防水，所以我在上面用了防水片。\n","content_orig":"今の所はっきりダニによる被害があるのかどうか実感は\nないのですが、予防を兼ねて敷くようにしました。\n直接敷いても心地よいですが、防水ではないので上に一枚\n防水シーツを敷いて使っています。\n","model":"サイズ: シングル","star":4,"reviewer":"怜々雄","date":"2025-02-25","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3DN37URPX9Q5L/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"提高睡眠舒适度","title_orig":"寝心地を改善します","content":"我把它作为生日礼物送给了我。 “厚度恰到好处，睡起来更舒服，”他说。\n","content_orig":"誕生日のプレゼントに贈りました。『適当な厚みもあり、寝心地がよくなった』ととても喜ばれました。\n","model":"サイズ: シングル","star":5,"reviewer":"ピンクチューリップ","date":"2025-02-16","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3S1M1J9Y0YM97/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["送礼"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"湿润蓬松","title_orig":"しっとりフワフワ","content":"我洗了。我认为它干得很快。\n我不知道它的效果如何，但它给了我一种安全感。\n我认为其他措施当然是必要的。我现在很满意。\n","content_orig":"洗いました。速乾性はあると思います。\n効果は分からないけど安心感はあります。\n他のダニ対策も勿論必要だと思います。今のところ満足してまーす。\n","model":"サイズ: シングル","star":5,"reviewer":"カモメのおばちゃん","date":"2025-02-13","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/RVAUY2Y8ASWR2/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"使用 Teijin Danist 对儿童来说是安全的","title_orig":"テイジンのダニスト使用で子供にも安心","content":"Teijin 的 Danist 床垫。\n对于对尘螨以及相关粪便和细菌等过敏原敏感的儿童来说，这是一个很棒的功能。\n到目前为止，我一直在使用一种放置在垫子下面的驱蜱剂，但它只是部分有效。\n这个产品似乎铺满了整个垫子甚至整张床，让人感觉非常安全。\n我认为这是一款触感舒适、睡眠舒适的优秀产品。\n","content_orig":"テイジンのダニスト使用ベッドパッドです。\nダニやそれに付随する糞、菌などのアレルゲンに敏感な子供にとっては嬉しい機能です。\n今まではパッドの下に設置するタイプのダニ除けをつけていますが、効果が部分的でした。\n本品はパッド全体、さらにはベッド全体にひろがっているようで、とても安心感があります。\n触り心地、寝心地もよく優れた逸品だと思います。\n","model":"サイズ: シングル","star":5,"reviewer":"あねあす","date":"2024-11-12","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R36LHQS24N5F98/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"保持简单","title_orig":"シンプルに","content":"好的。我用了很久从Nitori买的，但一点也不逊色。令我惊讶的是，我觉得我的睡眠变得更舒服了。\n","content_orig":"良いです。ニトリで買ったやつをずっと使用してましたが…全く劣りません。そして心做しか寝心地が少しよくなったような気がします。\n","model":"サイズ: シングル","star":5,"reviewer":"みーこ","date":"2024-10-31","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/RAMR8W7PKCMPV/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"安心感","title_orig":"安心感","content":"当我的孩子回家时我会使用它。\n\n由于是农村的老房子，害虫很多，包括蚊子。\n我很担心，因为我有小孩。\n如果我得湿疹，是昆虫叮咬吗？特应性皮炎？过敏？我很担心。\n\n当我回到家时，我使用这个产品，因为我希望能够安逸舒适地休息。\n长期驱除害虫的产品需要时间和精力来开发。 （对于小公司来说比较困难）\n\n即使是新的，它也具有高吸湿性，睡起来很舒服。该产品不仅对尘螨有效，而且作为床单也有很好的效果。\n","content_orig":"子供たちの帰省に合わせて使用しています。\n\n田舎の古い家なので、蚊はもちろん、いろんな害虫が発生します。\n幼い子供もいるので心配です。\n湿疹がでたら、虫刺されなのか？アトピー？アレルギー？と心配してしまいます。\n\n帰省したときには、安心してゆっくり休んで欲しいという気持ちで、この商品を使っています。\n長期的に害虫を寄せ付けない商品は、開発に時間と労力が必要です。（小さな企業では難しい）\n\n新品の状態から、吸湿性も高く快適な寝心地です。防ダニ効果だけでなくシーツとしても良い商品です。\n","model":"サイズ: シングル","star":4,"reviewer":"エコファーマー","date":"2024-10-29","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R18E9DECQGFJJ5/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["吸湿"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"这是最好的解决方案吗？","title_orig":"もしや最強対策か？","content":"我开始感觉到床垫上有尘螨，虽然我采取了放置引诱剂等各种措施，但效果很弱，我被卡住了。\n\n ◎ 我喜欢它的地方 - 使用了大约一周，但到目前为止没有螨虫损坏 - 它的外观和感觉就像普通聚酯纤维。无特殊气味，抗菌设计消除室内干燥异味。\n\n我期待8周时与0蜱抑制螨生长的比较。\n","content_orig":"マットレスにダニの存在を感じ始め、誘引剤を置いたりと\nいろいろ対策は講じましたが効果は薄く、手詰まりだった昨今\n\n◎気に入ったところ\n・1週間程ですが今のところダニ被害はなし\n・見た目も肌触りも普通のポリエステル製。特殊なニオイもしない\n・抗菌仕様で部屋干し臭もケアされてる\n\nダニ増殖抑制比較の8週目0匹に期待したい\n","model":"サイズ: シングル","star":5,"reviewer":"Amazon Customer","date":"2024-10-27","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3MPUOST3CHG92/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["防螨抗菌"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"物有所值的产品","title_orig":"お値段どおりの価値がある製品","content":"我用它来做床垫。\n它比以前的垫厚一点。\n我在家居装修店买的单人床垫尺寸刚刚好，贴在蒲团上感觉不舒服，但这个足够大，能给你一种额外空间的感觉。\n摸起来比较湿润，而不是光滑，所以即使直接睡也没有任何问题，我想我只需要多洗几次就可以了。\n开始使用还不到一个月，还没有发现任何尘螨^^\n缝制得很好，看起来可以用很长时间，我认为值得这个价格。\n","content_orig":"敷布団に使用しています。\nそれまでの敷きパッドに比べると、やや厚みがあります。\n以前ホームセンターで買ったシングルサイズの敷きパッドは、ギリギリの大きさで布団に付けると窮屈そうでしたが、こちらは余裕を感じさせる大きさです。\n肌さわりはサラッとと言うよりも、しっとり感があり、直に寝ても特に支障は無く、洗濯回数が増えるかな･･･くらいだと思います。\n使用し始めてまだ１ヶ月経っていないですが、ダニに関しては皆無です＾＾\n縫製もしっかりしていましたし、長く使えそうで、お値段どおりの価値がある製品と思います。\n","model":"サイズ: シングル","star":5,"reviewer":"ピクルス","date":"2024-10-25","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1GXTD9V7YOUEY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["厚度","触感舒适","具有性价比"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["物有所值"]},{"asin":"B0DHNF3QGX","title":"这是一个制作精良的产品。","title_orig":"しっかりした作りの製品です。","content":"缝合良好，结构非常坚固。面料也密实美观。打开包装后的气味在2-3天内几乎消失。很简单，只需将其放在床上并挂上橡皮带即可。虽然防螨效果不明显，但我还是抱有希望的。我认为这是一个非常好的产品。\n","content_orig":"縫製はよくとてもしっかりしたつくりです。生地も緻密でキレイです。開封直後の匂いは2，3日で殆んどなくなりました。ベットの上に敷きゴムベルトを掛けるだけですから簡単です。抗ダニ効果は目に見えませんが期待しています。とても良い製品だと思います。\n","model":"サイズ: シングル","star":5,"reviewer":"1315","date":"2024-10-25","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/RRPN1IO6CS8WM/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["防螨抗菌"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"用于预防蜱虫。","title_orig":"ダニ予防に。","content":"它一到，我就把它放在床单下面，每天晚上睡觉。\n我家是老房子，铺的是榻榻米地板，所以有时会被蜱虫咬，但自从用了这个地板之后，就没有被蜱虫咬过。\n\n垫子的缝制中有一点棉絮，所以睡起来感觉蓬松舒适。\n我认为这是一个非常好的产品，您可以放心使用。\n\n后记。\n从我开始使用这张床到现在已经有大约4个月了（连洗衣服的时间都不包括在内），我一次也没有被蜱虫咬过！谢谢帝人！ ！\n这是我可以推荐的垫子！ ！ ！\n","content_orig":"届いてから早速シーツの下に敷いて毎晩寝ています。\n自宅は古めの家で畳敷きの部屋なのでたまにダニに刺される事がありましたが、これを敷いてからは全く刺されてません。\n\nパッドの縫製の中に、少しだけ中綿のようなものも入っているので寝心地自体もふかふかになり気持ちが良いです。\n安心して使える、とても良い製品だと思います。\n\n追記。\nこちらを敷き始めてから（洗濯時を差し引いても）約4ヶ月経ちましたが、マジで一度もダニに刺されておりません！ありがとうテイジン！！\nお勧め出来るマットです！！！\n","model":"サイズ: シングル","star":5,"reviewer":"Amazonカスタマー","date":"2024-10-22","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3PBX1OZ20ZSHL/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["棉絮跑出"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"帝人开发的安全感","title_orig":"帝人開発の安心感","content":"这款床垫由 Teijin Frontier 开发的具有驱蜱效果的织物制成。秘密就在于它是由帝人公司开发的，这给了我们绝对的安全感。说是可以水洗，我其实就放在洗衣机里洗了，洗起来没有任何问题。使用起来很方便，只需将垫子四个角上的松紧绳连接到床垫上即可。大约1分钟即可安装完毕。睡起来很舒服，我真的很喜欢它。\n","content_orig":"帝人フロンティアが開発したダニ忌避効果がある生地を使ったベッドパットです。テイジンが開発したというところがミソで、絶対的な安心感があります。洗濯できると書いてあったので実際に洗濯機で洗ってみましたが、まったく問題なく洗えました。使い方は簡単で、パッドの四隅に付いているゴム紐をベッドのマットレスに付けるだけです。ものの1分程度で取り付けられます。寝心地も良くかなり気に入りました。\n","model":"サイズ: シングル","star":5,"reviewer":"ねこさん","date":"2024-10-18","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R30K55BYAC2QRW/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"良好的性价比","title_orig":"コスパ良し","content":"看起来很豪华，摸起来也很舒服，感觉可以睡个好觉了。不过缝制有点困难，所以我担心反复洗涤后会怎么样。以这个价格来说，尝试一下也不错。\n","content_orig":"見た感じは、豪華で肌触りも良い、ぐっすりと眠れそうだ。ただ、縫製にやや難があるので、洗濯を繰り返した時にどうなるかが心配だ。この値段なので、取り敢えずトライしてみるもの悪くないだろう。\n","model":"サイズ: シングル","star":3,"reviewer":"コバルトブルー","date":"2024-10-16","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/RYSXR8AIEURD/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"我一直在等待这样的产品！","title_orig":"こういう商品を待っていた！","content":"我一直在使用Sayo La Da○这样的产品来防止床上用品的尘螨，但我并没有真正感受到它的感觉，而且我认为这种产品最大的问题是它的有效期很短，所以我想知道是否可以更长时间地防止尘螨，然后我发现了这个产品。\n\n床垫本身能抑制尘螨，真是太神奇了……我不知道它是如何工作的，但感觉像是帝人的产品。它很光滑，皮肤感觉非常好，并且不会以任何方式干扰您的睡眠。最重要的是，我不能说它甚至可以抑制尘螨......我希望我早点遇到这个产品。包装也非常紧凑，这在当今很常见。\n","content_orig":"寝具のダニ対策としてはこれまで「さよ○らダ○ー」などを使用してきたのだけど、いまひとつ実感がわかないし、あれ系の最大の難点は「使用期限が短いこと」だと思っていて、もう少し長い期間でダニ対策ができないものかと思っていたところに、この商品を発見。\n\nベッドパッド（敷布）自体でダニを抑制ってすごすぎる…どんな仕組みかは謎だけど、さすが「帝人」の商品という感じ。サラッとして肌触りもとても良く、睡眠の妨げには一切なりません。その上ダニまで抑制してくるなら言うことなし…もっと早くこの商品に出会いたかったほど。梱包も、これは最近では普通のことだけど、とてもコンパクトでした。\n","model":"サイズ: シングル","star":5,"reviewer":"uboshito","date":"2024-10-14","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1SKX0F983E5Y9/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"可用的床垫","title_orig":"使えるベッドマット","content":"这是放置在床笠和床之间的垫子。会比直接睡在床上舒服一些。我目前没有任何尘螨问题，所以我看不到任何明显的效果。\n","content_orig":"ボックスシーツなどとベッドの間に挟むマットです。ベッド直に寝るよりも寝心地がよくなります。ダニの悩みは今の所ないので目に見えての効果はわかりません。\n","model":"サイズ: シングル","star":5,"reviewer":"ひろ","date":"2024-10-14","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3E4GVPDRS0J6E/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"缝线和面料耐用且功能强大。","title_orig":"縫製や生地も丈夫で機能性も充実","content":"我在床垫和 100% 纯棉床单之间使用它。\n床罩的厚度恰到好处，不会感觉与床垫摩擦，睡起来更舒服。\n这是我很高兴订购的产品之一，因为它制作精良，不会磨损或变得不均匀，功能强大，并且可以放心使用。\n","content_orig":"マットレスとコットン100%のシーツカバーの間に敷いて使用してます。\nカバーとスレる感じもなく程よい厚みでマットレスと相まって寝心地が更に良くなりました。\n作りも丈夫でほつれや偏りもなく機能性も充実しており安心して使えるので注文して良かった商品の1つです。\n","model":"サイズ: シングル","star":5,"reviewer":"Ama並","date":"2024-10-13","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R22MRDE21KKRZV/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"蓬松的","title_orig":"ふかふか","content":"到目前为止，我一直使用脆弱的床垫。\n这是蓬松、柔软、舒适的。\n四个角有橡胶将它们固定到弹簧上。\n无论如何我都会洗。\n我把它洗了，然后放在滚筒里烘干。\n我认为结果很漂亮，没有任何问题。\n我认为它很坚固。\n","content_orig":"今までのベッドパッドはペラペラの物を使っていました。\nこれはふかふかで柔らかく寝心地がいいです。\n四隅にはスプリングに固定するためのゴムが付いています。\nとりあえず洗濯します。\nドラム式で洗濯乾燥させました。\n特に問題無く綺麗に出来たと思います。\n丈夫だと思います。\n","model":"サイズ: シングル","star":5,"reviewer":"KIHARU","date":"2024-10-13","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R8KRQB30KXPIU/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["触感舒适"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"现在还只有几天时间","title_orig":"まだ数日ですが","content":"到目前为止，我一直在使用床垫而不是床垫。它很薄，因此很容易清洗。\n\n馅料有400g，但是摸起来软软的。我在这个垫子上放了一张纸，然后铺开垫子。虽然有一点，但是我感觉睡觉时下沉的程度不一样。我希望这种感觉能够持续很长时间。\n\n该商品经过处理，不易吸引尘螨，因此侧面面料和填充物均为 100% 聚酯纤维。\n是。我很高兴，因为我对室内灰尘过敏。\n","content_orig":"今まではベッドパッドの代わりに敷きパッドを使用していました。洗濯しやすいよう薄めのものです。\n\n中綿は400gですが、ふんわりした感じがします。このパッドの上にシーツを掛け敷きパッドを敷いています。わずかですが寝た時の沈みが違う気がします。この感じが長く続いてくれるといいのですが。\n\nこちらはダニを寄せつにくい加工がしてあるので、側生地も詰め物もポリエステル100％\nです。ハウスダストアレルギーがあるので嬉しいです。\n","model":"サイズ: シングル","star":4,"reviewer":"たんぽぽ","date":"2024-10-13","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R387G5VAMI59WO/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["触感舒适"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"我认为它非常适合日常使用。","title_orig":"日常使いにぴったりだと思います。","content":"我喜欢简单的设计和平静的色彩。\n尺寸也刚刚好。\n面料质量好，结构坚固稳定。\n它对皮肤温和舒适。\n价格合理，我认为它非常适合日常使用。\n这是一个给您安全感和高度满足感的知名品牌。\n","content_orig":"シンプルなデザインもいいですし、落ち着いた色合いも気に入っています。\nサイズもちょうど良かったです。\n生地質も良く、しっかりとしたつくりで安定感もあります。\n肌あたりも優しく心地よいですね。\nお値段も納得ですし、日常使いにぴったりだと思います。\n有名ブランドで安心感もあって満足度も高いです。\n","model":"サイズ: シングル","star":5,"reviewer":"dooinney oie","date":"2024-10-12","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1IRMNTUV9P7SY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"橡皮筋","title_orig":"ゴムバンド","content":"很容易划伤四个角上的橡皮筋。\n由于它由坚硬、高弹性的聚氨酯制成，因此这种类型是将其悬挂在垫子上的唯一选择。\n与毛巾组合相比，织物对皮肤的柔软度。填充舒适。\n正如帝人所期望的那样。是一个非常好的单品♪\n","content_orig":"四隅のゴムバンド引っ掻けるだけって、ほんと楽チン。\n硬質高反発ウレタンで寝ているので、マットに掛けるのはこのタイプ一択。\nタオル地の合わせと比較して、肌に当たる生地の柔らかさ。中綿心地よき。\nさすが帝人と言ったところ。とても良いお品ものです\n♪\n","model":"サイズ: シングル","star":5,"reviewer":"Margit","date":"2024-10-12","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/ROXBYP3AKC8YR/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"胶水的味道？","title_orig":"のりのにおい？","content":"当我刚收到它就想把它放在床上时，我无法立即使用它，因为它有一股浓烈的胶水味，这是新产品的典型气味，可能是因为含有驱蜱剂。\n\n外观、尺寸、质地和其他床垫没有什么不同，而且老实说我没有任何东西可以测量尘螨情况，所以我不知道，但由于我有很多宠物，所以我很感激有一个可以防止尘螨的产品。\n\n除非你继续使用，否则你不会知道它有多有效，所以几天后我会添加我的印象。\n","content_orig":"届いてすぐにベッドに装着しようとしたところ、ダニ忌避の薬剤なのか新品特有の、のりのにおいがきつくて、すぐに使用できませんでした。\n\n見た目やサイズ感、肌触りなどは至っては他のベッドパットと変わりなく、ダニの状況は正直測定できるものが無いのでわかりませんが、ウチはペットが多いのでダニ対策されている商品はありがたいです。\n\n使い続けてみないと効果の程はわかりませんので、また日を置いて感想を追加したいと思います。\n","model":"サイズ: シングル","star":4,"reviewer":"まーりゃん","date":"2024-10-12","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2N3ERY1M8WTKY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["无匹配标签"]},{"asin":"B0DHNF3QGX","title":"只需一张垫子就可以改变您的睡眠舒适度。","title_orig":"パッド1枚で寝心地変わる。","content":"我一直使用的护垫很脆弱而且很薄。一种感觉就像刚刚被布置出来的产品。\n我改变了主意并得到了这个。\n好像有点高了。\n不过，我觉得这个产品还是值这个价的。它很厚实，面料摸起来很坚固，而且可以水洗。\n我的印象是我不会因为购买便宜的商品而浪费钱。\n我觉得有必要对我每天使用的床上用品进行一些投资。\n","content_orig":"今まで使っていたパッドは\nペラペラしていて結構薄手の商品でした。ただ敷いているという感じの商品。\n気を取り直して、こちらを入手しました。\n若干高い気がします。\nしかし金額に見合う商品である感じがしました。厚みもあり、生地のしっかり感もあり、洗濯もできます。\n安物買いの銭失いでない印象。\n毎日お世話になる寝具には多少の投資は必要だと感じた商品でした。\n","model":"サイズ: シングル","star":5,"reviewer":"Mac ユーザー","date":"2024-10-10","link":"https://www.amazon.co.jp/portal/customer-reviews/srp/-/R13EB1MP0WM31P/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8","使用人群":["自用"],"使用期望":["无匹配标签"],"冷感体验":["无匹配标签"],"产品质量":["无匹配标签"],"感官感受":["无匹配标签"],"价值体验":["物有所值"]}]
+
+const PALETTE = ["#0e7c86","#2ca6a4","#8fd0cd","#e7a13b","#c1502e","#6b8f3f",
+                 "#3c6e8f","#a6667a","#8a7dc9","#5aa0c9","#d68c3a","#7a9e6b",
+                 "#b06a9e","#4f8a8b"];
+const GREY = "#c7d3d1";
+
+function colorFor(label, idx){
+  if(label === '无匹配标签') return GREY;
+  return PALETTE[idx % PALETTE.length];
+}
+
+// ---------- stats ----------
+function renderStats(){
+  const total = REVIEWS.length;
+  const avg = (REVIEWS.reduce((s,r)=>s+(r.star||0),0)/REVIEWS.filter(r=>r.star).length).toFixed(2);
+  const asins = [...new Set(REVIEWS.map(r=>r.asin).filter(Boolean))];
+  const withImg = REVIEWS.filter(r=>r['产品质量'].some(t=>t!=='无匹配标签')).length;
+  const coolGood = REVIEWS.filter(r=>r['冷感体验'].includes('冷感体验好')).length;
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat"><div class="num">${total}</div><div class="label">评论总数</div></div>
+    <div class="stat"><div class="num">${avg} ★</div><div class="label">平均星级</div></div>
+    <div class="stat"><div class="num">${asins.length}</div><div class="label">关联 ASIN / 型号数</div></div>
+    <div class="stat"><div class="num">${coolGood}</div><div class="label">明确反馈冷感体验好</div></div>
+    <div class="stat"><div class="num">${withImg}</div><div class="label">提及具体品质问题</div></div>
+  `;
+  document.getElementById('asinlist').innerHTML =
+    '涉及 ASIN：<b>' + asins.join('</b> · <b>') + '</b>';
+}
+
+// ---------- generic pie builder ----------
+// dim: field name in REVIEWS, or 'star' special
+function buildCounts(dim){
+  const counts = {};
+  if(dim === 'star'){
+    for(let s=1;s<=5;s++) counts[s+' 星'] = 0;
+    REVIEWS.forEach(r=>{ if(r.star) counts[r.star+' 星']++; });
+  } else {
+    REVIEWS.forEach(r=>{
+      (r[dim]||[]).forEach(tag=>{
+        counts[tag] = (counts[tag]||0)+1;
+      });
+    });
+  }
+  return counts;
+}
+
+function filterReviews(dim, label){
+  if(dim === 'star'){
+    const s = parseInt(label);
+    return REVIEWS.filter(r=>r.star===s);
+  }
+  return REVIEWS.filter(r=>(r[dim]||[]).includes(label));
+}
+
+function makeCard(container, opts){
+  const {id, title, hint, dim} = opts;
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <h3>${title}</h3>
+    <p class="hint">${hint}</p>
+    <div class="chart-holder"><canvas id="${id}"></canvas></div>
+    <div class="legend-list" id="${id}_legend"></div>
+  `;
+  container.appendChild(card);
+
+  const counts = buildCounts(dim);
+  let labels = Object.keys(counts);
+  // sort: for star keep natural order 5..1 desc by convention (5,4,3,2,1), else by count desc but 无匹配标签 last
+  if(dim === 'star'){
+    labels = ['5 星','4 星','3 星','2 星','1 星'];
+  } else {
+    labels.sort((a,b)=>{
+      if(a==='无匹配标签') return 1;
+      if(b==='无匹配标签') return -1;
+      return counts[b]-counts[a];
+    });
+  }
+  const data = labels.map(l=>counts[l]);
+  const colors = labels.map((l,i)=>colorFor(l,i));
+
+  const ctx = document.getElementById(id).getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data, backgroundColor: colors, borderColor:'#ffffff', borderWidth:2 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      cutout:'52%',
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          callbacks:{
+            label: (c)=>{
+              const total = c.dataset.data.reduce((a,b)=>a+b,0);
+              const pct = total? (c.parsed/total*100).toFixed(1):0;
+              return `${c.label}: ${c.parsed} 条 (${pct}%)`;
+            }
+          }
+        }
+      },
+      onClick: (evt, elements)=>{
+        if(!elements.length) return;
+        const idx = elements[0].index;
+        openModal(dim, title, labels[idx], colors[idx]);
+      }
+    }
+  });
+
+  // legend
+  const legendEl = document.getElementById(id+'_legend');
+  const total = data.reduce((a,b)=>a+b,0);
+  labels.forEach((l,i)=>{
+    const pct = total? (data[i]/total*100).toFixed(1):0;
+    const item = document.createElement('div');
+    item.className='legend-item';
+    item.innerHTML = `<span class="legend-dot" style="background:${colors[i]}"></span>${l} <span class="cnt">${data[i]}</span> (${pct}%)`;
+    item.onclick = ()=> openModal(dim, title, l, colors[i]);
+    legendEl.appendChild(item);
+  });
+}
+
+// ---------- modal ----------
+let currentResults = [];
+function openModal(dim, title, label, color){
+  currentResults = filterReviews(dim, label);
+  document.getElementById('modalTitle').innerText = `${title} — ${label}`;
+  document.getElementById('modalSub').innerText = `共 ${currentResults.length} 条相关评论 · 点击行可查看日文原文`;
+  document.getElementById('modalSearch').value = '';
+  document.getElementById('modalMask').classList.add('open');
+  renderTable();
+}
+function closeModal(){
+  document.getElementById('modalMask').classList.remove('open');
+}
+document.getElementById('modalMask').addEventListener('click', (e)=>{
+  if(e.target.id==='modalMask') closeModal();
+});
+
+function starBadge(s){
+  return `<span class="star-badge s${s}">${'★'.repeat(s)}${'☆'.repeat(5-s)}</span>`;
+}
+
+function renderTable(){
+  const q = document.getElementById('modalSearch').value.trim().toLowerCase();
+  let rows = currentResults;
+  if(q){
+    rows = rows.filter(r =>
+      (r.content||'').toLowerCase().includes(q) ||
+      (r.title||'').toLowerCase().includes(q) ||
+      (r.asin||'').toLowerCase().includes(q) ||
+      (r.model||'').toLowerCase().includes(q)
+    );
+  }
+  const tbody = document.getElementById('modalTbody');
+  const emptyHint = document.getElementById('emptyHint');
+  if(rows.length===0){
+    tbody.innerHTML='';
+    emptyHint.style.display='block';
+    return;
+  }
+  emptyHint.style.display='none';
+  tbody.innerHTML = rows.map(r=>`
+    <tr onclick="this.querySelector('.orig').classList.toggle('shown')">
+      <td>${r.asin||''}</td>
+      <td>${r.star? starBadge(r.star):''}</td>
+      <td>${escapeHtml(r.title||'')}</td>
+      <td class="content-cell">${escapeHtml(r.content||'').replace(/\n/g,'<br>')}
+        <div class="orig">${escapeHtml(r.content_orig||'').replace(/\n/g,'<br>')}</div>
+      </td>
+      <td>${escapeHtml(r.model||'')}</td>
+      <td>${escapeHtml(r.reviewer||'')}</td>
+      <td>${r.date||''}</td>
+    </tr>
+  `).join('');
+}
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ---------- build all cards ----------
+renderStats();
+
+makeCard(document.getElementById('gridTop'), {
+  id:'chartStar', title:'星级分布', dim:'star',
+  hint:'评论星级 1～5 星占比'
+});
+makeCard(document.getElementById('gridTop'), {
+  id:'chartUser', title:'使用人群', dim:'使用人群',
+  hint:'自用 或 送礼 购买动机判定'
+});
+
+makeCard(document.getElementById('gridExpect'), {
+  id:'chartExpect', title:'使用期望', dim:'使用期望',
+  hint:'购买动机、期待达成的核心目的与改进建议'
+});
+
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartCool', title:'冷感功能体验', dim:'冷感体验',
+  hint:'对冷却/接触凉感效果的实际体验反馈'
+});
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartQuality', title:'产品质量', dim:'产品质量',
+  hint:'耐用性、工艺与质量问题的具体反馈'
+});
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartSensory', title:'感官感受', dim:'感官感受',
+  hint:'触感、颜色、透气性等主观感受'
+});
+
+makeCard(document.getElementById('gridValue'), {
+  id:'chartValue', title:'价值体验', dim:'价值体验',
+  hint:'价格与体验是否匹配的评价'
+});
+</script>
+</body>
+</html>
