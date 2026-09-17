@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B0FJ217Q4S 评论洞察分析 — 一体式床笠（床垫+床笠一体设计，纯涤材质）</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg: #eef3f2;
+    --panel: #ffffff;
+    --ink: #12262a;
+    --ink-soft: #4c6167;
+    --teal-900: #0c4a52;
+    --teal-700: #0e7c86;
+    --teal-500: #2ca6a4;
+    --teal-300: #8fd0cd;
+    --teal-100: #dcf0ee;
+    --sun: #e7a13b;
+    --clay: #c1502e;
+    --line: #d3e2e0;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 8% 0%, rgba(44,166,164,0.10), transparent 42%),
+      radial-gradient(circle at 96% 10%, rgba(12,74,82,0.08), transparent 40%);
+    color: var(--ink);
+    font-family: "Hiragino Sans GB","PingFang SC","Noto Sans SC","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:1360px;margin:0 auto;padding:40px 28px 80px;}
+
+  header.top{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+    border-bottom:2px solid var(--teal-900);
+    padding-bottom:22px;margin-bottom:28px;flex-wrap:wrap;
+  }
+  header.top .titleblock h1{
+    font-size:30px;margin:0 0 6px;letter-spacing:.2px;color:var(--teal-900);
+    font-weight:700;
+  }
+  header.top .titleblock p{margin:0;color:var(--ink-soft);font-size:14px;}
+  header.top .asinlist{font-size:12px;color:var(--ink-soft);max-width:520px;line-height:1.7;}
+  header.top .asinlist b{color:var(--teal-700);}
+
+  .stats{
+    display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px;
+  }
+  .stat{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 22px;min-width:150px;flex:1;
+  }
+  .stat .num{font-size:26px;font-weight:700;color:var(--teal-900);}
+  .stat .label{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+
+  .section-title{
+    font-size:15px;font-weight:700;color:var(--teal-900);
+    margin:38px 0 16px;padding-left:10px;border-left:4px solid var(--teal-500);
+  }
+
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:20px;
+  }
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 20px 12px;position:relative;
+  }
+  .card h3{margin:0 0 2px;font-size:16px;color:var(--ink);}
+  .card .hint{font-size:11.5px;color:var(--ink-soft);margin:0 0 10px;}
+  .chart-holder{position:relative;height:280px;}
+  .legend-list{
+    display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .legend-item{
+    display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);
+    cursor:pointer;padding:3px 6px;border-radius:6px;transition:background .15s;
+  }
+  .legend-item:hover{background:var(--teal-100);color:var(--teal-900);}
+  .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .legend-item .cnt{font-weight:700;color:var(--ink);}
+
+  footer{
+    margin-top:44px;text-align:center;font-size:12px;color:var(--ink-soft);
+  }
+
+  .modal-mask{
+    position:fixed;inset:0;background:rgba(12,30,33,0.55);
+    display:none;align-items:center;justify-content:center;padding:24px;z-index:50;
+  }
+  .modal-mask.open{display:flex;}
+  .modal{
+    background:var(--panel);border-radius:16px;max-width:1000px;width:100%;
+    max-height:85vh;display:flex;flex-direction:column;overflow:hidden;
+    box-shadow:0 24px 60px rgba(0,0,0,0.25);
+  }
+  .modal-head{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
+    padding:20px 24px;border-bottom:1px solid var(--line);
+  }
+  .modal-head h2{margin:0 0 4px;font-size:18px;color:var(--teal-900);}
+  .modal-head p{margin:0;font-size:12.5px;color:var(--ink-soft);}
+  .close-btn{
+    background:none;border:none;font-size:24px;line-height:1;cursor:pointer;color:var(--ink-soft);
+  }
+  .modal-search{padding:12px 24px;border-bottom:1px solid var(--line);}
+  .modal-search input{
+    width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;
+    font-size:13px;outline:none;
+  }
+  .modal-search input:focus{border-color:var(--teal-500);}
+  .modal-body{overflow:auto;padding:0 24px 20px;}
+  table.reviews{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.reviews th{
+    position:sticky;top:0;background:var(--teal-100);color:var(--teal-900);
+    text-align:left;padding:8px 10px;font-weight:700;white-space:nowrap;
+  }
+  table.reviews td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.reviews tr:hover{background:#f6fbfa;}
+  .content-cell{max-width:420px;cursor:pointer;}
+  .content-cell .orig{display:none;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);color:var(--ink-soft);font-size:11.5px;}
+  .content-cell .orig.shown{display:block;}
+  .star-badge{color:var(--sun);white-space:nowrap;letter-spacing:1px;}
+  .star-badge.s1,.star-badge.s2{color:var(--clay);}
+  .empty-hint{padding:40px 0;text-align:center;color:var(--ink-soft);font-size:13px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="titleblock">
+      <h1>评论洞察分析 · 一体式床笠（床垫+床笠一体设计，纯涤材质）</h1>
+      <p>ASIN B0FJ217Q4S 及关联型号 · 日本站评论数据 · 导出日期 2026-09-16</p>
+    </div>
+    <div class="asinlist" id="asinlist"></div>
+  </header>
+
+  <div class="stats" id="statsRow"></div>
+
+  <div class="section-title">星级与人群分布</div>
+  <div class="grid" id="gridTop"></div>
+
+  <div class="section-title">使用期望 · 客户购买时希望达成的目的与改进诉求</div>
+  <div class="grid" id="gridExpect"></div>
+
+  <div class="section-title">实际体验感受</div>
+  <div class="grid" id="gridExperience"></div>
+
+  <div class="section-title">价值体验</div>
+  <div class="grid" id="gridValue"></div>
+
+  <footer>点击任意扇区或图例，可查看对应标签下的具体评论内容原文与译文。</footer>
+</div>
+
+<div class="modal-mask" id="modalMask">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="htxt">
+        <h2 id="modalTitle">数据详情</h2>
+        <p id="modalSub"></p>
+      </div>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-search">
+      <input type="text" id="modalSearch" placeholder="在结果中搜索关键词…" oninput="renderTable()">
+    </div>
+    <div class="modal-body">
+      <table class="reviews">
+        <thead>
+          <tr>
+            <th>ASIN</th><th>星级</th><th>标题</th><th>评论内容</th><th>型号</th><th>评论人</th><th>日期</th>
+          </tr>
+        </thead>
+        <tbody id="modalTbody"></tbody>
+      </table>
+      <div class="empty-hint" id="emptyHint" style="display:none;">未找到匹配的评论</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const REVIEWS = [{"asin": "B0FJ21DJG8", "title": "触感柔软，睡眠舒适", "title_orig": "肌触りが良く快適な寝心地", "content": "我喜欢它！面料坚固，放在床上时非常平整、整齐。它易于使用，因为它不易起皱且不会变形。皮肤感觉很好，我对我的购买感到非常满意！\n", "content_orig": "とても気に入りました！生地がしっかりしていて、ベッドに敷くととても平らでキレイに整います。シワになりにくく、形も崩れにくいので使いやすいです。肌触りも良く、購入して大満足です！\n", "model": "色: ベージュ | サイズ: クイーン・160X200cm", "star": 5, "reviewer": "ヨウヨウ", "date": "2026-09-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["不易起皱", "不易变形", "耐用耐洗"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2496JL", "title": "高级感", "title_orig": "高級感", "content": "尺寸非常适合半双人宠物。\n纯白色，有一种华贵的感觉，而且质感也很扎实，不错。\n", "content_orig": "セミダブルペットにピッタリサイズで、\n真っ白で高級感もあり、質感もしっかりしていて、良かったです。\n", "model": "色: ホワイト | サイズ: ダブル・140X200cm", "star": 5, "reviewer": "アッキーな", "date": "2026-08-31", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R402X7LW9M4BU/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["宠物防护需求"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["尺寸/床垫适配问题"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ235G7Z", "title": "好的", "title_orig": "good", "content": "我喜欢它。\n", "content_orig": "I like it.\n", "model": "色: ブルー | サイズ: ダブル・140X200cm", "star": 4, "reviewer": "yadanar phyo", "date": "2026-08-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1VTJMPPQQDWX7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1ZF713", "title": "没有压力", "title_orig": "ストレスなし", "content": "到目前为止，我一直使用的是四处橡胶扣件，但松紧带已经拉伸，每次翻身时松紧带就会松开，压力很大，但该产品面料坚固，光滑舒适，不扭曲。以后长成垃圾的我都会扔掉，换成这个。我订购了不同的颜色\n", "content_orig": "今まで4か所ゴムでとめるものを使用してたがゴムが伸びてきて寝返りするたびによれてしまってストレスだったがこの商品は生地もしっかりしてるしサラサラでよれることなく気持ちいいです。今後ごむが伸びた物は捨ててこちらにかえていこうと思います。色違い注文済です\n", "model": "色: ブルー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Tちゃん", "date": "2026-08-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R9REK4EO9VAB9/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["耐用耐洗"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21LZMJ", "title": "触感良好", "title_orig": "触り心地が良い", "content": "触感非常柔软。\n", "content_orig": "とても肌触りが良い。\n", "model": "色: ライトグレー | サイズ: セミダブル・120X200cm", "star": 5, "reviewer": "田上", "date": "2026-08-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2469CC0ZI0F7S/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21LZMJ", "title": "一体化设计，方便清洗", "title_orig": "一体型なのが洗濯しやすい", "content": "由于睡垫是一体式的，选一款就可以了，非常方便。皮肤不会有不适感，夏天也能睡得很舒服。\n", "content_orig": "パット一体型のため、選択がこれ一つでいいのがすごく便利　肌触りも悪くなく、夏でも快適に眠れている。\n", "model": "色: ライトグレー | サイズ: セミダブル・120X200cm", "star": 4, "reviewer": "ナナナ", "date": "2026-08-16", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ216G1C", "title": "好产品！", "title_orig": "良い商品！", "content": "我喜欢它！面料坚固，放在床上时非常平整、整齐。它易于使用，因为它不易起皱且不会变形。皮肤感觉很好，我对我的购买感到非常满意！\n", "content_orig": "とても気に入りました！生地がしっかりしていて、ベッドに敷くととても平らでキレイに整います。シワになりにくく、形も崩れにくいので使いやすいです。肌触りも良く、購入して大満足です！\n", "model": "色: ライトグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "\"deliberry\"", "date": "2026-08-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["不易起皱", "不易变形", "耐用耐洗"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21WQ9V", "title": "可爱♡", "title_orig": "可愛い♡", "content": "给我上高中的女儿。可爱的粉色♡颜色和图片一样，很容易穿。\n", "content_orig": "高校生の娘用に。可愛いピンク♡画像通りのカラーで装着も簡単でして。\n", "model": "色: ピンク | サイズ: シングル・100X200cm", "star": 5, "reviewer": "りんご", "date": "2026-08-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3MFES6J9DM99F/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["送礼/给家人"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2496JL", "title": "清洁。", "title_orig": "清潔。", "content": "感觉清爽又干净。我还买了不同的颜色。我认为这很好。\n", "content_orig": "サッパリして、清潔感あります。色違いも購入しました。良いと思います。\n", "model": "色: ホワイト | サイズ: ダブル・140X200cm", "star": 5, "reviewer": "和歌長月", "date": "2026-08-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RO0PD7ASC8UYY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["透气性好"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1XYFD4", "title": "面料很坚固，并且能很好地支撑！", "title_orig": "しっかりした生地で、きれいに整います！", "content": "我喜欢它！面料坚固，放在床上时非常平整、整齐。它易于使用，因为它不易起皱且不会变形。皮肤感觉很好，我对我的购买感到非常满意！\n", "content_orig": "とても気に入りました！生地がしっかりしていて、ベッドに敷くととても平らでキレイに整います。シワになりにくく、形も崩れにくいので使いやすいです。肌触りも良く、購入して大満足です！\n", "model": "色: ピンク | サイズ: キング・180X200cm", "star": 5, "reviewer": "京介", "date": "2026-08-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["不易起皱", "不易变形", "耐用耐洗"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ216G1C", "title": "伟大的", "title_orig": "Great", "content": "永远不会让人失望\n", "content_orig": "Never disappoints\n", "model": "色: ライトグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Ray", "date": "2026-08-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RUNFCPUPCXCKV/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ216G1C", "title": "简单的", "title_orig": "簡単", "content": "换床单比较方便，所以想再洗一次。\n", "content_orig": "シーツ交換も簡単になり洗い替えが欲しい\n", "model": "色: ライトグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "どんちゃん", "date": "2026-08-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3MQL0AE1OO15N/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "盒盖", "title_orig": "ボックスカバー", "content": "皮肤感觉很好！\n颜色沉稳又好看！\n洗了很多次了，橡胶没有松动，手感很棒！\n", "content_orig": "肌触りがいい！\n色も落ち着いていい感じ！\n何回も洗ったけど、ゴムがゆるゆるにならないでいい感じ！\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "MAX", "date": "2026-08-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1H1323UD3QOBI/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "我很高兴它没有改变", "title_orig": "ズレないのが嬉しい", "content": "对于普通床单，每次翻身时床单都会移动并在中间扭曲，但这些床单不会移动，因此您可以舒适地睡到早上。\n不过，尽管它声称有集成垫，但垫太薄了，你看不到它，所以我把它减了一星。\n而且，虽然过了一会儿就消失了，但是摊开的时候还是有股酸味。\n", "content_orig": "普通のシーツでは寝返りの度にズレて、真ん中でヨレてしまいますが、これはズレないので朝まで快適に眠れます。\n但しバッド一体型を謳う割にはバッドが分からないほど薄いので★１つ減らしました。\nまた、しばらくすると消えましたが、広げた時に酸っぱいような匂いがしました。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 4, "reviewer": "kusakian", "date": "2026-08-03", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1NU1ZHI1ERFGQ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["厚度不足/缓冲差"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21RWZ2", "title": "很容易使用！", "title_orig": "使いやすいです！", "content": "它柔软蓬松，就像刚洗过一样，皮肤感觉很好。吸汗速干，抗菌防臭，安心无忧\n", "content_orig": "洗いざらしみたいにふわっと柔らかくて、肌触りが良いです。汗もすぐ吸って乾くし、抗菌防臭で安心\n", "model": "色: ベージュ | サイズ: キング・180X200cm", "star": 5, "reviewer": "鈴木", "date": "2026-07-28", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1ZW6B06GG0KR7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["防螨抗菌"], "触感体验": ["触感舒适"], "产品质量": ["异味明显"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1ZF713", "title": "它不易打滑，全年都能舒适使用。", "title_orig": "ズレにくく一年中快適に使えます", "content": "触感柔软，床垫和床单连为一体，省时又方便。我真的很喜欢它，它可洗、卫生且不易滑落。\n", "content_orig": "肌触り柔らかく、敷きパッドとシーツ一体なので時短で便利。洗えて衛生的、ズレにくい点が大変気に入っています。\n", "model": "色: ブルー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "桃井", "date": "2026-07-27", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2WQ82C8A4XF3M/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["省心替代分体床品"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21WQ9V", "title": "很光滑", "title_orig": "さらっとしている", "content": "比在大商店买还便宜！推荐夏季使用\n", "content_orig": "大型ショップのお店で買うよりも安かった！夏にはお勧め\n", "model": "色: ピンク | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Bonheur", "date": "2026-07-27", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R21HRZUQHEQ66L/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ216G1C", "title": "超过价格", "title_orig": "お値段以上", "content": "就价格而言，它很坚固。\n似乎不太可能形成毛球。它不会让头发进入，因此只需轻轻一扫即可轻松清洁。\n洗后也很快干。\n我将其用于 Airweave Z01。\n", "content_orig": "お値段の割にしっかりしている。\n毛玉は出来にくそう。髪の毛も入り込まないのでコロコロですぐ綺麗になります。\n洗濯後の乾きも速い。\nエアウィーブZ01に使用しています。\n", "model": "色: ライトグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "yummy", "date": "2026-07-26", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3DUMLVZZ1P5Z4/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["起球", "耐用耐洗"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21H9BL", "title": "设备简单", "title_orig": "装置簡単", "content": "我很高兴买了它，因为面料摸起来很光滑，绗缝非常适合夏天，而且很容易穿上。\n", "content_orig": "生地感はさらっとしていてキルティングも夏に合うタイプなのと装着しやすかったので購入して良かったです\n", "model": "色: ピンク | サイズ: ダブル・140X200cm", "star": 5, "reviewer": "E", "date": "2026-07-26", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1P9CDVDUJENR2/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ228QDX", "title": "吸汗", "title_orig": "汗を吸い取る", "content": "这是一款很好的产品，因为面料柔软，即使在炎热的天气也不会积热，并且您可以毫无压力地将床单贴在垫子上。\n", "content_orig": "生地が柔らかく暑い時期でも熱がこもらない、マットにシーツを装着できストレスがない、良い商品です\n", "model": "色: ピンク | サイズ: セミダブル・120X200cm", "star": 5, "reviewer": "mayu", "date": "2026-07-26", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21WQ9V", "title": "无错位", "title_orig": "ズレない", "content": "垫子是一体式的，很好。\n没有什么区别，我很高兴我买了它！\n颜色是粉红色的，但我也想要深粉红色。\n", "content_orig": "パット一体型、良いです。\nズレないし買って良かった！\n色はピンクでしたがもっと濃いピンクも欲しいです。\n", "model": "色: ピンク | サイズ: シングル・100X200cm", "star": 5, "reviewer": "もんもん", "date": "2026-07-20", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2Z253LCFM1WZJ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ256BTS", "title": "普通。", "title_orig": "普通。", "content": "布料有点薄，感觉对得起这个价格。\n\n它并不是特别糟糕，但它是一个非常普通的产品，我不会推荐。\n", "content_orig": "生地がやや薄くて値段なりかな、という印象。\n\n特別悪いということもないが、お勧めしたいほどでもない、極めて普通な商品。\n", "model": "色: ホワイト | サイズ: セミダブル・120X200cm", "star": 3, "reviewer": "Amazon カスタマー", "date": "2026-07-19", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3RXZCNMJRC9N0/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["厚度不足/缓冲差"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "我喜欢这个颜色", "title_orig": "色が気に入ってます", "content": "便于使用\n", "content_orig": "使いやすいです\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 4, "reviewer": "Amazon カスタマー", "date": "2026-07-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R14QP3C6XT4P1H/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "好的", "title_orig": "良い", "content": "我认为这是一个非常好的产品。\n", "content_orig": "とても良い商品と思います。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "みち", "date": "2026-07-13", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1Q36CVCKCGVAH/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1Y7BJD", "title": "便于使用", "title_orig": "つかいやすい", "content": "我很快就收到了\n", "content_orig": "早く受け取れた\n", "model": "色: ブルー | サイズ: クイーン・160X200cm", "star": 5, "reviewer": "物江 笑.", "date": "2026-07-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2KIY1I88LZUAF/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21DJG8", "title": "根据图像", "title_orig": "イメージ通り", "content": "根据图像\n", "content_orig": "イメージ通り\n", "model": "色: ベージュ | サイズ: クイーン・160X200cm", "star": 4, "reviewer": "中園里美", "date": "2026-07-10", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R30GC6POBFGXOP/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1YGVBV", "title": "很好，但我想要一些适合夏天的滑材料。", "title_orig": "良いが夏向けに滑る素材のも欲しい。", "content": "我认为如果表面是光滑的材料的话，它会适合夏天。\n", "content_orig": "表面が滑る素材だと夏向けだったのにとおもう。\n", "model": "色: ライトグレー | サイズ: ダブル・140X200cm", "star": 4, "reviewer": "澤田明夫", "date": "2026-07-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3BQE5VHI7H9BQ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2496JL", "title": "皮肤感觉非常好，光滑舒适。", "title_orig": "肌触りがとても良く、さらさらで気持ちいいです", "content": "面料非常柔软，触感很好。桃皮绒表面使其全年使用舒适。我喜欢这个垫子是一体式的，所以很容易安装，而且不容易打滑。清洗后很容易干燥，并且非常易于使用。颜色是平静的深灰色，与房间融为一体。性价比也不错，我很满意我的购买。\n", "content_orig": "生地がとても柔らかく、肌触りが気持ちいいです。ピーチスキン加工なので一年中快適に使えそうです。パッド一体型なので取り付けも簡単で、ズレにくいところも気に入っています。洗濯後も乾きやすく、使い勝手がとても良いです。色味も落ち着いたダークグレーで部屋に馴染みました。コスパも良く、購入して満足しています。\n", "model": "色: ホワイト | サイズ: ダブル・140X200cm", "star": 5, "reviewer": "モリ", "date": "2026-07-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ2156P7", "title": "很好", "title_orig": "良かった", "content": "面料非常柔软，触感很好。桃皮绒表面使其全年使用都很舒适。我喜欢这个垫子是一体式的，所以很容易安装，而且不容易打滑。清洗后很容易干燥，并且非常易于使用。颜色是平静的深灰色，与房间融为一体。性价比也不错，我很满意我的购买。\n", "content_orig": "生地がとても柔らかく、肌触りが気持ちいいです。ピーチスキン加工なので一年中快適に使えそうです。パッド一体型なので取り付けも簡単で、ズレにくいところも気に入っています。洗濯後も乾きやすく、使い勝手がとても良いです。色味も落ち着いたダークグレーで部屋に馴染みました。コスパも良く、購入して満足しています。\n", "model": "色: ブルー | サイズ: セミダブル・120X200cm", "star": 5, "reviewer": "ケン", "date": "2026-07-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ21WQ9V", "title": "好产品", "title_orig": "Good product", "content": "面料非常柔软，触感很好。桃皮绒表面使其全年使用都很舒适。我喜欢这个垫子是一体式的，所以很容易安装，而且不容易打滑。清洗后很容易干燥，并且非常易于使用。颜色是平静的深灰色，与房间融为一体。性价比也不错，我很满意我的购买。\n", "content_orig": "生地がとても柔らかく、肌触りが気持ちいいです。ピーチスキン加工なので一年中快適に使えそうです。パッド一体型なので取り付けも簡単で、ズレにくいところも気に入っています。洗濯後も乾きやすく、使い勝手がとても良いです。色味も落ち着いたダークグレーで部屋に馴染みました。コスパも良く、購入して満足しています。\n", "model": "色: ピンク | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Misi sihite", "date": "2026-06-30", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ1Y39B9", "title": "这是一个很棒的产品", "title_orig": "お得な商品だった", "content": "面料非常柔软，触感很好。桃皮绒表面使其全年使用都很舒适。我喜欢这个垫子是一体式的，所以很容易安装，而且不容易打滑。清洗后很容易干燥，并且非常易于使用。颜色是平静的深灰色，与房间融为一体。性价比也不错，我很满意我的购买。\n", "content_orig": "生地がとても柔らかく、肌触りが気持ちいいです。ピーチスキン加工なので一年中快適に使えそうです。パッド一体型なので取り付けも簡単で、ズレにくいところも気に入っています。洗濯後も乾きやすく、使い勝手がとても良いです。色味も落ち着いたダークグレーで部屋に馴染みました。コスパも良く、購入して満足しています。\n", "model": "色: ベージュ | サイズ: セミダブル・120X200cm", "star": 5, "reviewer": "内藤 勝行", "date": "2026-06-29", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ2156P7", "title": "谢谢", "title_orig": "ありがとう", "content": "我现在正在使用它\n", "content_orig": "すぐ使ています\n", "model": "色: ブルー | サイズ: セミダブル・120X200cm", "star": 4, "reviewer": "村井賢二", "date": "2026-06-27", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1LD0WYPTEOSX5/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1Y39B9", "title": "廉价优质产品", "title_orig": "格安良品", "content": "面料非常柔软，触感很好。桃皮绒表面使其全年使用舒适。我喜欢这个垫子是一体式的，所以很容易安装，而且不容易打滑。清洗后很容易干燥，并且非常易于使用。颜色是平静的深灰色，与房间融为一体。性价比也不错，我很满意我的购买。\n", "content_orig": "生地がとても柔らかく、肌触りが気持ちいいです。ピーチスキン加工なので一年中快適に使えそうです。パッド一体型なので取り付けも簡単で、ズレにくいところも気に入っています。洗濯後も乾きやすく、使い勝手がとても良いです。色味も落ち着いたダークグレーで部屋に馴染みました。コスパも良く、購入して満足しています。\n", "model": "色: ベージュ | サイズ: セミダブル・120X200cm", "star": 5, "reviewer": "あっくん", "date": "2026-06-27", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ22FLZV", "title": "体积小且难以佩戴", "title_orig": "小さくて装着するの大変", "content": "确实，它不是产品，但它很热。\n我觉得我触摸的部分会变热，而不是房间。\n也许冬天是好的。\n", "content_orig": "そーゆー商品じゃないのはそうだが、あっつい。\n部屋とかではなく、触れた部分が熱を持ちやすい気がする。\n冬はいいのかも。\n", "model": "色: ピンク | サイズ: クイーン・160X200cm", "star": 2, "reviewer": "まっつん", "date": "2026-06-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21WQ9V", "title": "我可以睡得很舒服", "title_orig": "気持ち良く眠れます", "content": "面料非常柔软，触感很好。桃皮绒表面使其全年使用舒适。我喜欢这个垫子是一体式的，所以很容易安装，而且不容易打滑。清洗后很容易干燥，并且非常易于使用。颜色是平静的深灰色，与房间融为一体。性价比也不错，我很满意我的购买。\n", "content_orig": "生地がとても柔らかく、肌触りが気持ちいいです。ピーチスキン加工なので一年中快適に使えそうです。パッド一体型なので取り付けも簡単で、ズレにくいところも気に入っています。洗濯後も乾きやすく、使い勝手がとても良いです。色味も落ち着いたダークグレーで部屋に馴染みました。コスパも良く、購入して満足しています。\n", "model": "色: ピンク | サイズ: シングル・100X200cm", "star": 5, "reviewer": "ジュディ", "date": "2026-06-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ21NTY3", "title": "垫子保持在原位！", "title_orig": "マットがずれない！", "content": "面料非常柔软，触感很好。桃皮绒表面使其全年使用舒适。我喜欢这个垫子是一体式的，所以很容易安装，而且不容易打滑。清洗后很容易干燥，并且非常易于使用。颜色是平静的深灰色，与房间融为一体。性价比也不错，我很满意我的购买。\n", "content_orig": "生地がとても柔らかく、肌触りが気持ちいいです。ピーチスキン加工なので一年中快適に使えそうです。パッド一体型なので取り付けも簡単で、ズレにくいところも気に入っています。洗濯後も乾きやすく、使い勝手がとても良いです。色味も落ち着いたダークグレーで部屋に馴染みました。コスパも良く、購入して満足しています。\n", "model": "色: ダークグレー | サイズ: クイーン・160X200cm", "star": 5, "reviewer": "葵", "date": "2026-06-04", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ21NTY3", "title": "是季节性的吗？", "title_orig": "季節限定か？", "content": "确实，它不是产品，但它很热。\n我觉得我触摸的部分会变热，而不是房间。\n也许冬天是好的。\n", "content_orig": "そーゆー商品じゃないのはそうだが、あっつい。\n部屋とかではなく、触れた部分が熱を持ちやすい気がする。\n冬はいいのかも。\n", "model": "色: ダークグレー | サイズ: クイーン・160X200cm", "star": 2, "reviewer": "Lu5.qs", "date": "2026-06-01", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1Y39B9", "title": "摸起来感觉很好。", "title_orig": "肌触り気持ち良い。", "content": "面料非常柔软，触感很好。桃皮绒表面使其全年使用都很舒适。我喜欢这个垫子是一体式的，所以很容易安装，而且不容易打滑。清洗后很容易干燥，并且非常易于使用。颜色是平静的深灰色，与房间融为一体。性价比也不错，我很满意我的购买。\n", "content_orig": "生地がとても柔らかく、肌触りが気持ちいいです。ピーチスキン加工なので一年中快適に使えそうです。パッド一体型なので取り付けも簡単で、ズレにくいところも気に入っています。洗濯後も乾きやすく、使い勝手がとても良いです。色味も落ち着いたダークグレーで部屋に馴染みました。コスパも良く、購入して満足しています。\n", "model": "色: ベージュ | サイズ: セミダブル・120X200cm", "star": 5, "reviewer": "michiko", "date": "2026-06-01", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ1ZF713", "title": "使用舒适", "title_orig": "使い心地良き", "content": "面料非常柔软，触感很好。桃皮绒表面使其全年使用都很舒适。我喜欢这个垫子是一体式的，所以很容易安装，而且不容易打滑。清洗后很容易干燥，并且非常易于使用。颜色是平静的深灰色，与房间融为一体。性价比也不错，我很满意我的购买。\n", "content_orig": "生地がとても柔らかく、肌触りが気持ちいいです。ピーチスキン加工なので一年中快適に使えそうです。パッド一体型なので取り付けも簡単で、ズレにくいところも気に入っています。洗濯後も乾きやすく、使い勝手がとても良いです。色味も落ち着いたダークグレーで部屋に馴染みました。コスパも良く、購入して満足しています。\n", "model": "色: ブルー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "no", "date": "2026-05-17", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ2187Y7", "title": "皮肤感觉很好，而且使用起来很方便！", "title_orig": "肌触りが良くて使いやすいです！", "content": "面料非常柔软，触感很好。桃皮绒表面使其全年使用舒适。我喜欢这个垫子是一体式的，所以很容易安装，而且不容易打滑。清洗后很容易干燥，并且非常易于使用。颜色是平静的深灰色，与房间融为一体。性价比也不错，我很满意我的购买。\n", "content_orig": "生地がとても柔らかく、肌触りが気持ちいいです。ピーチスキン加工なので一年中快適に使えそうです。パッド一体型なので取り付けも簡単で、ズレにくいところも気に入っています。洗濯後も乾きやすく、使い勝手がとても良いです。色味も落ち着いたダークグレーで部屋に馴染みました。コスパも良く、購入して満足しています。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "En", "date": "2026-05-15", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ228QDX", "title": "颜色很明亮，我喜欢它们。", "title_orig": "色が鮮やかで好みの色でした。", "content": "无论您选择多少次，我都希望它是一款经久不衰的产品。\n看完之后你会明白吗？\n", "content_orig": "何回選択しても、耐えうる商品だといいと思います。\nこの後、わかるかな？\n", "model": "色: ピンク | サイズ: セミダブル・120X200cm", "star": 4, "reviewer": "emico", "date": "2026-05-12", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2M25BY1SEABIH/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["耐用耐洗"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "最糟糕的", "title_orig": "最悪", "content": "不幸的是，产品晚到了三天。\n产品也薄而精致。\n", "content_orig": "商品の到着が3日も遅れ最悪でした。\n商品も薄く微妙です。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 1, "reviewer": "石塚 裕斗", "date": "2026-05-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RN0UVLQEW87VH/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["厚度不足/缓冲差"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21RWZ2", "title": "良好的性价比", "title_orig": "コスパが良い", "content": "防水+抗菌+防螨+床垫三合一，这个价位。与同类产品相比，满意度较高。\n", "content_orig": "防水＋抗菌＋防ダニ＋敷きパッド一体でこの価格はお得です。似たような商品と比べて満足度が高いです。\n", "model": "色: ベージュ | サイズ: キング・180X200cm", "star": 5, "reviewer": "白部英梨子", "date": "2026-05-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/ROORFNR7G5JID/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["防螨抗菌"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21LZMJ", "title": "皮肤感觉良好", "title_orig": "肌触りは良い", "content": "皮肤感觉很好。但与其他产品相比，填充部分感觉不是很填充，感觉像绗缝面料。这就是负1的原因。\n", "content_orig": "肌触りが良かった。が別の商品と比べると、パッドの部分はたいしたパッド感がなくてキルティング生地のような感じでした。そこがマイナス１の理由です。\n", "model": "色: ライトグレー | サイズ: セミダブル・120X200cm", "star": 4, "reviewer": "riiiii", "date": "2026-05-03", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R36I6FEYIU8DUB/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ223X9T", "title": "这是一个非常好的产品", "title_orig": "とても良い商品です", "content": "收到后试用了几天，感觉这个床单非常好。睡起来特别舒服，质量也很好。尺寸也合适，铺好后比较平整，铺起来非常轻松方便。通风良好，清洁简单方便。非常满意。\n", "content_orig": "受領後、数日間試用し、このベッドシーツは非常に良いと感じました。眠ると特に快適で、品質もとても良いです。サイズも適切で、敷設後は比較的平らにフィットし、敷設がとても簡単で便利です。通気性が良く、洗浄が簡単で便利です。非常に満足しています。\n", "model": "色: ホワイト | サイズ: クイーン・160X200cm", "star": 5, "reviewer": "小林", "date": "2026-04-27", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RLWP8WDTE3QU7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["尺寸/床垫适配问题"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "经济高效、易于使用的集成板材", "title_orig": "コスパ良好で使いやすい一体型シーツ", "content": "面料柔软，亲肤感觉良好，使用起来很舒适。由于护垫是一体式的，所以很容易穿上，而且清洗时更省力，很实用。它具有足够的吸湿性和快干性，所以我很欣赏它可以不受季节限制地使用。虽然厚度有点薄，但是日常使用还是可以的，而且考虑到价格，感觉性价比很高。总体来说，这款产品适合注重便捷性和实用性的人士。\n", "content_orig": "生地は柔らかく、肌触りが良いため快適に使用できます。パッド一体型なので装着が簡単で、洗濯時の手間も少なく実用的です。吸湿性・速乾性も十分で、季節を問わず使える点は評価できます。厚みはやや薄めですが、普段使いには問題なく、価格を考えるとコストパフォーマンスは高いと感じました。全体として、手軽さと実用性を重視する方に適した商品です。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 5, "reviewer": "ユミ", "date": "2026-04-27", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R29LWJHPPPTZ2L/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["厚度不足/缓冲差", "透气性好"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ21K17K", "title": "购物愉快", "title_orig": "いい買い物", "content": "水洗般的柔软度和桃皮绒的触感非常好。吸湿排汗、快干、抗菌、防臭，舒适。易于穿脱，不会打滑。四季皆可使用，而且非常耐用。\n", "content_orig": "洗いざらしの柔らかさとピーチスキンで肌触り最高。吸湿速乾＆抗菌防臭で快適。ズレにくく着脱簡単。オールシーズン使えて耐久性も高いです。\n", "model": "色: ダークグレー | サイズ: ダブル・140X200cm", "star": 5, "reviewer": "K", "date": "2026-04-22", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1U2T4XL0TP40D/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "防螨抗菌"], "触感体验": ["触感舒适"], "产品质量": ["异味明显", "透气性好", "耐用耐洗"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1Y39B9", "title": "不滑", "title_orig": "滑り止めない", "content": "我买它的目的是为了防滑，但实际上它很容易起皱，而且没有我想象的那么牢固。背面的防滑效果也没有想象中的那么好，有点令人失望。\n", "content_orig": "滑り防止を期待して購入しましたが、実際にはシワができやすく、思ったほど固定されませんでした。裏面の滑り止め効果も期待ほどではなく、少し残念です。\n", "model": "色: ベージュ | サイズ: セミダブル・120X200cm", "star": 4, "reviewer": "pan junrong", "date": "2026-04-18", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2K01J3XJ7TF27/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["易起皱"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1Y39B9", "title": "满意", "title_orig": "満足", "content": "我给我的孩子买了小双人床尺寸。与我以前用过的床笠不同，它的衬垫很薄，所以睡起来很舒服。虽然价格低，但是量很大，用起来感觉不错。它具有良好的通风性，因此可以使用很长时间。\n", "content_orig": "セミダブルサイズを子供用に購入しました。今まで使っていたボックスシーツと違って薄いパッドが入ってるので寝心地が良かったです。値段が安いのにボリュームあって使用感良かったです。通気性も良いので長く使えそう。\n", "model": "色: ベージュ | サイズ: セミダブル・120X200cm", "star": 5, "reviewer": "福山 一二三", "date": "2026-04-16", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R25GUG20GOO6RQ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["送礼/给家人"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["厚度不足/缓冲差"], "一体式设计体验": ["尺寸/床垫适配问题"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "你不必担心它会移动", "title_orig": "ズレるのを気にしなくてよい", "content": "由于它是一件式设计，因此您不必担心垫子打滑，而且很容易穿上。\n皮肤感觉也很好。\n", "content_orig": "一体型なのでパッドがズレる心配がなく、装着もラク。\n肌触りも良い。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 4, "reviewer": "Morinaga", "date": "2026-04-15", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "我已经使用它很长时间了。无论洗多少次，它仍然会保持您喜欢的质感。采用垫一体式，您不必担心它打滑。", "title_orig": "ずっと使っています。何度洗濯しても好みの質感に仕上がる。パッド一体型はズレが気にならなくて良い。", "content": "我很晚才评论这个，但自从它到达以来我一直在使用这张床笠。洗多次也不会磨损，而且洗后的硬挺感不是太硬，而是软硬适中，是我喜欢的状态。由于垫是一体式的，因此比单独使用垫更不容易打滑，而且也更容易清洗。垫子比我拥有的垫子薄，但由于我的床垫很厚，所以我真的不需要厚垫子，所以这对我来说不是问题。我以前从来没有使用过卫生巾和床单的组合，但是使用这款一体式床单后，我不用担心卫生巾滑落，而且很容易清洗，所以我觉得很棒。\n", "content_orig": "レビュー遅くなってしまいましたが、手元に届いてから、こちらのボックスシーツを愛用しています。何度も洗濯してもヘタレないし、洗った後のガワガワ感も、硬すぎず、どちらかというと柔らかめのガワガワ感で、好みの状態です。パッド一体型なので、パッド単体で使うよりズレにくいし、洗う時も楽です。パッドは、持ってる物の中では薄い方ですが、マットレスが分厚いので、そこまでパッドの厚さを求めていない私には、特に問題はありません。今までパッドとシーツが一体型になったものを使ったことは無かったのですが、この一体型シーツを使ってからは、やはりパッドのズレが気にならないし、洗濯も楽なのが、とても良いと感じています。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Kilala", "date": "2026-04-15", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R18XF1P8K9FH4Z/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["省心替代分体床品"], "触感体验": ["无匹配标签"], "产品质量": ["开线磨损", "厚度不足/缓冲差"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ225LH5", "title": "实用又舒适的床垫！", "title_orig": "実用的で快適な敷きパッド！", "content": "柔软的水洗质感舒适，桃皮绒处理使其光滑。好处是吸湿快干，即使晚上出汗也不会发粘。床笠是一体式的，不会滑落，并且易于穿脱。抗菌、除臭处理，保持清洁，四季皆可使用。我买的是双号米色，和照片一样是沉稳的颜色。我认为这是一款性价比很高的产品，即使洗涤后也不会变形。\n", "content_orig": "洗いざらしの柔らかな肌触りが心地よく、ピーチスキン加工でさらっとしています。吸湿速乾性があり、寝汗をかいてもベタつきにくいのが良い点。ボックスシーツ一体型なのでズレにくく、着脱もラク。抗菌防臭加工で清潔に保て、オールシーズン使えます。ダブルサイズ、ベージュを購入しましたが、写真通りの落ち着いた色味です。洗濯後も型崩れせず、コスパの高い一品だと思います。\n", "model": "色: ベージュ | サイズ: ダブル・140X200cm", "star": 5, "reviewer": "リュウスケ", "date": "2026-04-12", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "防螨抗菌"], "触感体验": ["触感舒适"], "产品质量": ["不易变形", "异味明显", "闷热不透气", "透气性好"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["物有所值"]}, {"asin": "B0FJ1ZF713", "title": "它完美地躺着。", "title_orig": "ピッタリと敷けました。", "content": "我能够将它完美地放在我的床垫上。睡起来很舒服，不会像以前那样移动。\n", "content_orig": "ベッドマットにピッタリ敷く事が出来ました。これまでの様に寝ていてズレることが無くて快適です。\n", "model": "色: ブルー | サイズ: シングル・100X200cm", "star": 4, "reviewer": "米", "date": "2026-04-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RQ9VH7OLXBZ8W/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1Y39B9", "title": "一年四季都可以用，所以这款一定会大受欢迎！", "title_orig": "一年中使えるので、これ一枚あれば大活躍間違いなし！", "content": "洗前手感很好，但洗后变得更柔软，触感非常好。另一个好处是它对皮肤温和。\n松紧带将其牢牢固定在原位，因此即使您早上醒来，它也不会留在原位。它具有良好的吸湿排汗性能，夏天干爽，冬天舒适，不会太凉。\n", "content_orig": "洗濯前でも手触りは良かったですが、洗濯後はさらにふんわり柔らかくなって、肌触りがとても気持ちいいです。肌に優しいのも嬉しいポイント。\nズレ防止のゴムバンドがしっかり固定してくれるので、朝起きても全然ズレていません。吸湿発汗性も良く、夏はサラッと、冬もヒンヤリしすぎず、快適です。\n", "model": "色: ベージュ | サイズ: セミダブル・120X200cm", "star": 5, "reviewer": "高橋 由衣", "date": "2026-04-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2JLPI6N095K7Y/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["透气性好"], "一体式设计体验": ["固定牢固不易滑落"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2496JL", "title": "很好", "title_orig": "良かった", "content": "今天产品到了^_^ 这是我第一次购买床单和垫的组合。皮肤感觉很好，非常舒服。结构坚固，价格合理。太棒了。我真的推荐它。\n", "content_orig": "本日商品届きました^_^シーツとパッド一体型は初めて買った。肌触りが良くてとても快適です。手ごろのお値段でしっかりした作り。素晴らしいです。本当におすすめです。\n", "model": "色: ホワイト | サイズ: ダブル・140X200cm", "star": 5, "reviewer": "佐藤", "date": "2026-04-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R17OQ95XMMLYBW/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["耐用耐洗"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ22LHTK", "title": "即使我是敏感肌肤也没关系", "title_orig": "肌弱い私でも大丈夫", "content": "我的皮肤很敏感，但这些床单不会刺激我的皮肤。柔软舒适，睡眠舒适。\n", "content_orig": "肌が敏感ですが、このシーツはチクチクしません。柔らかくて快適に眠れます。\n", "model": "色: ピンク | サイズ: ワイドキング・200X200cm", "star": 5, "reviewer": "竹田 愛", "date": "2026-03-28", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1AJSZZ5D5QWM2/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["敏感肌适用"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21NTY3", "title": "皮肤感觉良好且易于使用", "title_orig": "肌触りがよく使いやすい", "content": "面料柔软，睡起来很舒服。\n它易于安装，我认为它非常适合日常使用。\n", "content_orig": "生地が柔らかく、寝心地が良いです。\n取り付けも簡単で、日常使いにちょうどいいと思います。\n", "model": "色: ダークグレー | サイズ: クイーン・160X200cm", "star": 5, "reviewer": "Lyu", "date": "2026-03-26", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2AOJ683W82C8Z/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ22GQ3D", "title": "好的", "title_orig": "良い", "content": "第一种综合型。使用方便但难以干燥\n", "content_orig": "初めての一体型。使いやすいが干すのが大変\n", "model": "色: ホワイト | サイズ: シングル・100X200cm", "star": 5, "reviewer": "奥山有美", "date": "2026-03-26", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1PNR70JYPMFM0/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ221K7K", "title": "这一件将节省您的时间", "title_orig": "これ1枚で時短になる", "content": "床垫和床单合二为一，非常方便。\n易于穿脱，减少洗涤麻烦。\n推荐给忙碌的人。\n", "content_orig": "敷きパッドとシーツが一体でとても便利。\n着脱も簡単で、洗濯の手間が減りました。\n忙しい人におすすめです。\n", "model": "色: ベージュ | サイズ: ワイドキング・200X200cm", "star": 5, "reviewer": "BABO", "date": "2026-03-19", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RPIT6V93Y6G52/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["省心替代分体床品"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21MKVM", "title": "长期存在的问题得到解决", "title_orig": "長年の悩みが解決", "content": "我很惊讶有这样一种不起球的材料。\n\n这是最好的\n", "content_orig": "毛玉ができない\nこんな素材があるんだなと、驚きました。\n\n最高です\n", "model": "色: ダークグレー | サイズ: セミダブル・120X200cm", "star": 5, "reviewer": "ゴマゴマ", "date": "2026-03-15", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RLFRH2DY36PI6/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["起球"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ216G1C", "title": "易于安装！推杆保持在原位", "title_orig": "装着簡単！パットがずれない", "content": "它不仅易于佩戴，因为它与护垫集成在一起，而且我真的很喜欢护垫即使在我睡觉时也不会移动。摸起来感觉非常好，睡在上面的感觉也很好。\n", "content_orig": "パットと一体型なので装着が簡単なのはもちろん、寝ていてもパットがずれてこないのがとても気に入りました。肌触りもとても良く、寝ていて気持ちが良いです。\n", "model": "色: ライトグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "toto", "date": "2026-03-12", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1LPDNJ8NMEQPG/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1YGCDT", "title": "一体式脚垫，防水！", "title_orig": "パッド一体型で防水もしっかり！", "content": "这是我第二次购买。我有小孩，所以这真的很有用！它是防水的，所以即使你弄湿了床或呕吐了，也不用担心它会浸入床垫中。\n", "content_orig": "2回目の購入です。小さい子供達がいるので、本当に重宝しています！防水がしっかりしているので、おねしょしても吐いたりしてもマットレスまで染み込まず安心です。\n", "model": "色: ブルー | サイズ: ワイドキング・200X200cm", "star": 5, "reviewer": "sakic", "date": "2026-03-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R301S1W3WK9G2K/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["省心替代分体床品"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ216G1C", "title": "没什么特别的", "title_orig": "特になし", "content": "普通\n", "content_orig": "普通\n", "model": "色: ライトグレー | サイズ: シングル・100X200cm", "star": 3, "reviewer": "かにかにたか", "date": "2026-03-03", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R30QV4V85FOV3Z/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ221K7K", "title": "防静电无压力", "title_orig": "静電気防止でストレスフリー", "content": "即使在干燥的冬季，它也不会开裂，而且狗毛也不容易粘在上面。我真的很高兴它甚至可以在地毯上使用。\n", "content_orig": "冬場の乾燥時期でもパチパチせず、犬の毛も付きにくい。カーペットの上でも使えるのが地味に嬉しいです。\n", "model": "色: ベージュ | サイズ: ワイドキング・200X200cm", "star": 5, "reviewer": "シュウ ウェンジ", "date": "2026-02-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3US2VPU99D66T/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["宠物防护需求"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1ZF713", "title": "一体式，不易滑落", "title_orig": "ズレにくい一体型", "content": "由于是一体式，减少了重新安装的麻烦。\n即使您在睡觉时翻身，它也不会轻易滑落。\n触感柔软，使用时不会有任何不适。\n我觉得洗完后干得很快。\n", "content_orig": "一体型なので、付け直しの手間が減りました。\n寝返りしてもズレにくいです。\n肌ざわりはやわらかめで、違和感なく使えます。\n洗濯後の乾きも早いほうだと思います。\n", "model": "色: ブルー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "z", "date": "2026-02-02", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3P3VGI1JK8OD3/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ22GQ3D", "title": "触感良好", "title_orig": "触り心地がいい", "content": "尺寸很完美，手感也很好，所以四季都可以使用。它可以机洗并且非常易于使用。\n", "content_orig": "サイズがぴったりで触り心地もとても良くて四季適用できます。洗濯機で洗えますしとても使いやすいです。\n", "model": "色: ホワイト | サイズ: シングル・100X200cm", "star": 5, "reviewer": "鈴木", "date": "2026-02-02", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R15BEZ3R4YV8FU/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利", "尺寸/床垫适配问题"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1Y39B9", "title": "坚硬的", "title_orig": "しっかりとしている", "content": "即使没有单独的底片，它的厚度和厚度也足以吸收汗水。\n", "content_orig": "しっかりと分厚くて別途下シーツがなくても十分汗なども吸い取ってくれそう。\n", "model": "色: ベージュ | サイズ: セミダブル・120X200cm", "star": 5, "reviewer": "nk_tkr", "date": "2026-01-28", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RQB7X4KQVL80V/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "对购买感到满意", "title_orig": "買って満足", "content": "使用起来很满意，尺寸也很合适。\n", "content_orig": "使用感満足、サイズもピッタリ。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 4, "reviewer": "ライダー", "date": "2026-01-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R4B1V73Z64ZI7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["尺寸/床垫适配问题"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "皮肤触感良好，穿脱简单方便", "title_orig": "肌触りが良く、着脱も簡単で便利", "content": "由于是水洗的设计，所以摸起来手感非常好，一摸就感觉软软的。采用桃皮绒面料制成，无刺痛感，使用舒适。\n\n虽然声称兼容的床垫厚度为25厘米，但我可以毫无问题地将其安装在我的26厘米床垫上。它不容易滑动，到目前为止我对可用性没有任何抱怨。\n\n我选择了深灰色作为颜色，但平静的颜色与房间融合得很好。看起来并不便宜，而且颜值也不错。\n\n它是床笠类型，因此穿脱非常方便，而且床垫和床单是一体的，可以节省您的时间。不过，我还没有洗过它，所以我想检查一下它的耐用性和洗后的状况。\n\n总的来说，这是一款易于使用的产品，推荐给那些重视便利性的人。\n", "content_orig": "洗いざらし仕様とのことで、肌触りがとても良く、触った瞬間に柔らかさを感じました。ピーチスキン生地でチクチク感もなく、快適に使えています。\n\n対応マットレス厚は25cmまでと記載されていますが、我が家の26cmマットレスでも何とか問題なく装着できました。ズレにくく、使用感にも今のところ不満はありません。\n\nカラーはダークグレーを選びましたが、落ち着いた色合いで部屋にもよく馴染みます。安っぽさもなく、見た目も好印象です。\n\nボックスシーツタイプなので着脱がとても簡単で、敷きパッドとシーツが一体になっているのは時短になって助かります。ただ、まだ洗濯はしていないため、耐久性や洗濯後の状態については今後確認したいと思います。\n\n総合的には使い勝手が良く、手軽さ重視の方におすすめできる商品です。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "PREMINENT", "date": "2025-12-15", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RN4KMJNFILAKL/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["省心替代分体床品", "性价比优先", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["耐用耐洗"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21MKVM", "title": "会有错位", "title_orig": "ズレはする", "content": "我买的是小双人床尺寸，但是有点大。\n它仍然在变化。\n", "content_orig": "セミダブルで買ったが少し大きかった。\nやはりずれてしまう。\n", "model": "色: ダークグレー | サイズ: セミダブル・120X200cm", "star": 3, "reviewer": "加藤 夏美", "date": "2025-12-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R37JOWN4O0I0KB/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["尺寸/床垫适配问题"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1YGVBV", "title": "易于涂抹且完美贴合", "title_orig": "付けやすく、ピッタリハマる", "content": "虽然床比较高，但它的伸展度很大，所以我能够完美地适应它。\n摸起来手感不错，但好像不是100%纯棉的。我想整个季节都用，但不知道夏天会不会吸汗。我已经使用它有一段时间了，但我很满意，因为我认为它具有出色的保温性。\n", "content_orig": "割と高さのあるベッドですが結構伸びるのでピッタリつけることができました。\n肌触りはよいですが綿100%ではないようです。オールシーズン使いたいのですが夏に汗を吸収してくれるのかは不明です。ひとまず使っていますが保温性に優れていると思うので満足です。\n", "model": "色: ライトグレー | サイズ: ダブル・140X200cm", "star": 5, "reviewer": "しょうへい", "date": "2025-12-04", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3BCCBVHMF0AUU/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "素材", "title_orig": "素材", "content": "我第一次买它是看了评论后，但我有点失望，因为材质感觉没有我想象的那么温暖。\n", "content_orig": "レビューを見て始めて購入してみましたが、想像していたより素材に温かさを感じなく、ちょっと残念でした。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 3, "reviewer": "翔ちゃんラブ", "date": "2025-11-29", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2ORZQBGCLUWMZ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21WQ9V", "title": "无需担心床单或垫移动！很舒服", "title_orig": "シーツやパッドのズレ知らず！快適です", "content": "床笠触感舒适且易于更换！\n我有点担心皱纹，但没关系，因为它是由这种材料制成的。\n看起来很棒，看起来可以从春天到秋天使用！\n\n粉红色略带黄色，所以有些人可能会担心。\n", "content_orig": "触り心地の良いボックスシーツで、付け替えも楽にできました！\n少しシワが気になりますが、これはそういう素材なのでOK\n春〜秋まで使えそうな感じでとてもいいです！\n\nピンクはやや黄色味を感じる色味なので、気になる方もいるかも\n", "model": "色: ピンク | サイズ: シングル・100X200cm", "star": 5, "reviewer": "みろ", "date": "2025-11-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R31UYTEVU9NHCX/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["易起皱"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "只是一张缝合的床单", "title_orig": "ただのステッチをしたシーツ", "content": "填充物又薄又薄，缝线也很粗糙，看起来就像是脚趾甲会卡住一样。我把它退回来了，因为它似乎没有任何用处。\n", "content_orig": "パッド部分がペラペラで薄く、ステッチは粗くて足指の爪で引っ掛けそう。使い物になりそうもないので返品しました。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 1, "reviewer": "S Saito", "date": "2025-11-12", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R18CW0BU8IG8RB/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感粗糙"], "产品质量": ["厚度不足/缓冲差"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ221K7K", "title": "这很容易", "title_orig": "楽です", "content": "设置垫子和床单很痛苦，所以我很高兴我可以一次完成这一切。\n填充部分有点硬，所以我希望他们也能商业化一种更软的。另外，由于我找不到完美的尺寸，我希望看到更多可用的尺寸。\n", "content_orig": "パットとシーツ、両方セットするのは面倒くさいので、1度に済んでうれしいです。\nパット部分は少し硬めだったので、柔かめも商品化して欲しいです。あと、ぴったりのサイズが無かったのでサイズ展開も増やして欲しいです。\n", "model": "色: ベージュ | サイズ: ワイドキング・200X200cm", "star": 4, "reviewer": "no", "date": "2025-11-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/ROS7SEXC1LGO3/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["尺寸/床垫适配问题"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "超级好", "title_orig": "超いい", "content": "收到后我就尝试使用，真的“恰到好处”。桃皮绒加工的面料非常柔软，躺下的那一刻感觉很舒服。\n\n床垫和床笠是一体的，只需一件即可打造床铺。四个角的橡胶也很坚固，不会打滑。洗后也很快干，而且不变形，可以马上使用，超级好用。\n看起来也很优雅。舒适度、护理、设计都令人满意。\n", "content_orig": "届いてすぐに使ってみましたが、これは本当に「ちょうどいい」一枚でした。ピーチスキン加工の生地はとてもやわらかく、寝ころんだ瞬間にふわっと肌に馴染む感覚が心地よいです。\n\n敷きパッドとボックスシーツが一体になっているので、これ1枚でベッドメイクが完了。四隅のゴムもしっかりしていてズレ知らず。洗濯しても乾きが早く、型崩れもなくすぐ使えるのが超助かります。\n見た目も上品。寝心地・手入れ・デザイン、どれも満足できる仕上がりです。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 5, "reviewer": "AmazonCustomer", "date": "2025-10-29", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R4SS5KZATHZ0N/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["不易变形", "耐用耐洗"], "一体式设计体验": ["固定牢固不易滑落"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1ZF713", "title": "减轻压力", "title_orig": "ストレス軽減", "content": "它是一体化的，不会移动，因此可以大大减轻压力。\n我通常使用盒状床单的垫子，但一体式床单有点难以干燥，但它们看起来很漂亮而且很舒服。\n不会感觉生硬，感觉很好。\n当天气变冷时，我喜欢在上面放更多的垫子。\n", "content_orig": "一体型でズレないのでかなりストレス軽減されます。\n普段はBOX型のシーツにパットを使用していますが一体型は少し干しにくいけど見た目も良いし楽です。\nゴワゴワした感じもなく気持ち良い。\n寒くなってきたらこの上にさらにパットを重ねても使えるし気に入っています。\n", "model": "色: ブルー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "明姫", "date": "2025-10-29", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2MCZ1ONVOCACY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ22GQ3D", "title": "质地温和，融入肌肤。", "title_orig": "肌に馴染む、優しい肌ざわり。", "content": "它具有温和舒适的质地，光滑而湿润。表面柔软且有衬垫，床笠式使其固定牢固且易于更换。\n\n除了绗缝垫的柔软手感外，由于密实的衬里，它还具有防尘螨功能。\n我想在不使用织物柔软剂的情况下清洗该产品，以享受该产品的感觉。\n", "content_orig": "サラッとしているのにしっとり感もある、やさしく心地よい肌ざわりです。表面はパッドでふんわり、ボックスシーツ型なのでしっかり固定できて交換もしやすいです。\n\nキルティング加工のパッドのふんわり感に加え、しっかり目の積んだ裏地のおかげで防ダニ機能もかなり期待できそうです。\nこの肌触りはあえて柔軟剤を使わずに洗濯して楽しみたいです…。\n", "model": "色: ホワイト | サイズ: シングル・100X200cm", "star": 5, "reviewer": "55cat", "date": "2025-10-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R7OJVRQA657UC/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["固定牢固不易滑落"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "易于更换", "title_orig": "交換がラクチン", "content": "本产品是床笠，也可用作床垫。\n最大的优点是可以节省更换的时间。\n传统内垫的评价可能会根据您使用的产品类型而有所不同，但垫的功能性不错，而且柔软度适中，皮肤感觉良好。\n虽然你会失去叠两层带来的安全感，但我认为节省时间和精力是非常有吸引力的。\n", "content_orig": "ボックスシーツに敷きパッドの機能も持たせたこちらの商品。\n交換の手間を少しだけ省けるというのが一番のメリットです。\n従来の内側敷きパッドにどんな商品を使っていたかによって評価は変わりそうですが、パッドとしての機能はまずまずで、ほどよい柔らかさで肌触りは良いです。\n2枚重ねることによる安心感は失われてしまいますが、手間が省けるというのはとても魅力的だと思います。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 5, "reviewer": "銀色のアバンチュール", "date": "2025-10-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R108LIYEBDCWH7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "皮肤感觉良好。不过，如果您习惯使用功能性床垫，我们建议在不冷不热的春秋两季使用。", "title_orig": "肌触りが良い。ただ機能性敷きパッドに慣れてる人は暖かくも寒くもない春秋に使うのがおすすめ", "content": "【好的】\n・虽然是聚酯纤维，但具有棉质般的粗犷、硬挺的感觉。 ・四周用橡胶包裹，因此不会打滑。\n\n 【坏的】\n・如果使用功能性垫，例如冷却垫或因出汗而变热的垫，温度控制将不够充分。\n\n [概述]\n与四个角有橡胶的垫子相比，它的四周都包裹着橡胶，因此它不会在您的床上或蒲团上移动。说到蒲团，尤其是床垫或硬棉蒲团，你可能有多层，但由于你可以将它们全部包裹起来并穿上，它看起来就像一个单一的床垫，给人一种统一的感觉。个人觉得这种带一体式衬垫的床笠无论是床还是被子，都比四个角有松紧带的床笠使用起来更方便。关于温度控制，与床垫垫相同。作为一个习惯了功能垫的人，我觉得温度控制有所欠缺。皮肤感觉非常好，所以我想在春天和秋天使用它。\n", "content_orig": "【良い】\n・ポリエステルだが綿のようなザラザラゴワゴワ感の感触が本当に良い\n・全周ゴムでくるむタイプなのでズレが起きない\n\n【悪い】\n・冷感パッドだったり汗で暖かくなるパッドだったり機能性パッドを使っていると温度調節が物足りない。\n\n【総評】\n四隅がゴムの敷きパッドと比べ、全周ゴムでくるまれるのでベッドはもちろん布団でもズレが起きない。布団なんかだと特にマットレスだったり固綿布団だったりと何枚もひいてるがすべてくるんで装着出来るので１枚もののマットレスのような見た目にもなり一体感が出る。ベッドでも布団でも個人的には四隅にゴムがあるタイプよりもこちらのパッド一体型ボックスシーツの方が使い勝手が良いと感じた。温度調節に関しては敷きパッドと同じ。機能性パッドに慣れている身としては温度調節に物足りなさを感じる。肌触りは本当に良いので春秋に使いたい。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 4, "reviewer": "yamato", "date": "2025-10-21", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RI8QDNKU5XB9B/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["省心替代分体床品"], "触感体验": ["无匹配标签"], "产品质量": ["闷热不透气"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "拉伸良好的床单", "title_orig": "しっかり伸びてくれるシーツ", "content": "带集成衬垫的床笠非常方便。\n这很好，因为它不会改变。\n它具有良好的拉伸性，并且可以轻松粘贴床单。我的皮肤感觉很好，我每天都能睡得很舒服。\n", "content_orig": "パッド一体型のボックスシーツが便利。\nずれる事がないので良かったです。\nしっかり伸びてくれてシーツの付けやすいです。肌触りもよく、気持ちよく毎日寝れています。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Amazon カスタマー", "date": "2025-10-21", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2QRC3MLILMJ0F/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "床笠，方便使用的床上用品！", "title_orig": "使いやすい寝具のボックスシーツ！", "content": "易于使用的床笠。\n刚到货就发现了一些好东西...我以为上面有一些新胶水，但是当我打开袋子时...\n\n看起来已经洗过一次了，可以使用了。\n当然是新的，但是摸起来很柔软，绗缝的床单里还有一层薄薄的棉。\n超级舒服！\n", "content_orig": "使いやすい寝具のボックスシーツです。\n届いてすぐ良かった点を少し、、、ノリとか新しいと付いてるなーと思っていたけれど、袋を開けると…\n\nまるで一回洗った感じのある、すぐ使える状態でした。\nもちろん新品なのですが、柔らかな肌触りがすごく良くて、キルティングのシーツのところに薄くわたが入っています。\n寝心地が最高でした！\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "★", "date": "2025-10-18", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3B4W6G1T48ROW/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["厚度不足/缓冲差"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "触感柔软温和，Teijin Mighty Top 2 AD 生态填充，防螨、抗菌、除臭", "title_orig": "柔らかでやさしい肌触り、帝人マイティトップ2 ad eco中綿、防ダニ抗菌防臭", "content": "除了桃皮绒处理之外，还采用了水洗处理，从第一次使用就能够享受到产品熟悉的柔软温和的触感。\n\n我喜欢它集床垫和床笠于一体，这样您就不必担心它滑倒。\n\n灰色的颜色刚刚好，不太浅也不太深。说到贪婪，我希望在即将到来的寒冷季节有更温暖的颜色（例如深酒红色）。\n\n我很庆幸自己可以在家洗衣服，保持卫生。\n\n产品内的纸张上写着“TEIJIN MIGHTYTOPII ad eco”。\n据TEIJIN官网介绍，Mighty Top具有中空纤维填充。 Mighty Top 2 具有防尘螨、抗菌、防臭功能。我不知道 Mighty Top 2 和 ad eco 有什么区别。\n采用高密度面料，没有尘螨通过的缝隙，防止尘螨进入内部。它说。\n\n这款产品的描述中还提到，它是采用高密度涤纶面料制成的，看来这种面料不仅能驱避尘螨，而且还能防尘螨。\n\n中空纤维填充物的特点是重量轻，但它也具有良好的保温性，这是一个需要牢记的重要特性。\n面料、缝线都没有任何瑕疵，感觉做工很用心。\n这是一款带有一体式衬垫的床笠，质感很好。\n", "content_orig": "ピーチスキン加工に加えて洗いざらし加工がなされており、初回から使い慣れた柔らかでやさしい肌触りの感覚を味わうことができました。\n\n敷きパッドとボックスシーツが一体になったタイプなのでズレの心配がないところが気に入っています。\n\nグレーの色合いは薄すぎず濃すぎずちょうど良い色合いでした。欲を言えば、これから寒くなるシーズンには暖色系の色合い（濃いワインレッドなど）があったらなと思いました。\n\n自宅で洗濯でき衛生面を保てるのでとてもありがたいです。\n\n商品に入っている紙にはTEIJIN MIGHTYTOPII ad ecoと記載されています。\nTEIJIN公式サイトによると\nマイティトップは中空繊維の中綿\nマイティトップ2は防ダニ抗菌防臭\nマイティトップ2 ad ecoは何が違うのか分かりませんでした。\n高密度生地を用いることでダニの通る隙間を与えず、中にダニが侵入することを防いでくれる。とあります。\n\n本商品の説明にも高密度ポリエステル生地とありますので、ダニを寄せ付けないだけではなくダニを通さない生地を用いているということではないかと思われます。\n\n中空繊維の中綿は軽いのが特徴ですが、保温性が良いことも忘れてはならない大事な特徴です。\n生地や縫製に不備は見当たらず丁寧さを感じます。\n質感の良いパッド一体型ボックスシーツでした。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Amazonカスタマー", "date": "2025-10-16", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3AZ4QO5PI9LZY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["防螨抗菌", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["异味明显"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "桃皮绒床笠，触感柔软蓬松", "title_orig": "ふわっと柔らか肌触りのピーチスキンボックスシーツ", "content": "这些床笠采用桃皮绒床单，经过精细拉丝处理，触感极佳。床笠的顶面集成有床垫。只需将边缘绕到床垫边缘，就会用松紧带紧紧闭合，方便穿脱。这是一款温暖的床笠，您可以在寒冷的季节无需盖毯子就睡。\n", "content_orig": "細かな起毛で手触りのいいピーチスキンのシーツ上面に敷パッドが一体となったボックスシーツです\nマットレス縁に縁を這わせていくだけでゴムでぴっちり閉じてくれるので脱着も楽々\n寒い季節に敷毛布無しでそのまま眠れる温かボックスシーツでした\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 4, "reviewer": "Amazonカスタマー", "date": "2025-10-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RUBRTK1NGZ43H/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["省心替代分体床品"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "方便的箱式座椅，带有可固定到位的集成床垫", "title_orig": "ズレない、敷パッド一体式の便利なボックスシート", "content": "Kumori 床笠配有一体式床垫。它看起来不错，因为床垫是一体式的，乍一看它就像一张普通的床笠。如果您只使用床垫垫，您可以看到四个角上的橡胶，但我喜欢它配有一体式床笠时没有橡胶。\n", "content_orig": "Kumoriの敷きパッド一体型のボックスシーツです。敷きパッドが一体になっているため見た目が良く、ぱっと見普通のボックスシーツに見えます。敷きパッドのみだと四隅にゴムが見えてしまうのですが、ボックスシーツ一体型だとそれがないため気に入っています。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 5, "reviewer": "ナミ・アオイ", "date": "2025-10-13", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1ZF713", "title": "皮肤感觉良好且不易滑落", "title_orig": "肌触りが良くズレにくい", "content": "Kumori 床笠配有一体式床垫。它看起来不错，因为床垫是一体式的，乍一看它就像普通的床笠。如果您只使用床垫垫，您可以看到四个角上的橡胶，但我喜欢它配有一体式床笠时没有橡胶。\n", "content_orig": "Kumoriの敷きパッド一体型のボックスシーツです。敷きパッドが一体になっているため見た目が良く、ぱっと見普通のボックスシーツに見えます。敷きパッドのみだと四隅にゴムが見えてしまうのですが、ボックスシーツ一体型だとそれがないため気に入っています。\n", "model": "色: ブルー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "りゅうのすけ", "date": "2025-10-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ216G1C", "title": "有助于防止顶盖打滑", "title_orig": "トッパーのズレ防止にもいい", "content": "Kumori 床笠配有一体式床垫。它看起来不错，因为床垫是一体式的，乍一看它就像一张普通的床笠。如果您只使用床垫垫，您可以看到四个角上的橡胶，但我喜欢它配有一体式床笠时没有橡胶。\n", "content_orig": "Kumoriの敷きパッド一体型のボックスシーツです。敷きパッドが一体になっているため見た目が良く、ぱっと見普通のボックスシーツに見えます。敷きパッドのみだと四隅にゴムが見えてしまうのですが、ボックスシーツ一体型だとそれがないため気に入っています。\n", "model": "色: ライトグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "温泉たまご", "date": "2025-10-10", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ22GQ3D", "title": "触感柔软光滑（睡觉也舒适）", "title_orig": "柔らかくてなめらかな肌触り（寝心地も良いです）", "content": "Kumori 床笠配有一体式床垫。它看起来不错，因为床垫是一体式的，乍一看它就像一张普通的床笠。如果您只使用床垫垫，您可以看到四个角上的橡胶，但我喜欢它配有一体式床笠时没有橡胶。\n", "content_orig": "Kumoriの敷きパッド一体型のボックスシーツです。敷きパッドが一体になっているため見た目が良く、ぱっと見普通のボックスシーツに見えます。敷きパッドのみだと四隅にゴムが見えてしまうのですが、ボックスシーツ一体型だとそれがないため気に入っています。\n", "model": "色: ホワイト | サイズ: シングル・100X200cm", "star": 5, "reviewer": "aloha134", "date": "2025-10-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21WQ9V", "title": "推荐床笠", "title_orig": "ボックスシーツはオススメ", "content": "久森的产品，比如毛巾毯，都是自己花钱购买的，所以值得信赖。\n由于是桃皮材质，所以摸起来非常舒服。\n最近，我一直喜欢不脱落的床笠，但一直找不到带衬垫表面的东西，所以这次我能够两者兼得。\n我在冬天使用拉丝型，所以我认为它可以在冬季以外使用，而不是全年使用。\n粉红色是温暖的颜色。\n", "content_orig": "クモリの商品はタオルケットなど、自費購入もしているので信頼があります。\nピーチスキンなので、なんとも気持ちよい肌触りです。\n最近はずれないボックスシーツ型がお気に入りで、表面は敷きパットのような肌触りのものはなかなかなかったので、今回は両方叶えてくれました。\n冬は起毛タイプを使っているので通年というより、冬以外なら使えそうです。\n色もピンクは温かみがあります。\n", "model": "色: ピンク | サイズ: シングル・100X200cm", "star": 4, "reviewer": "りこ", "date": "2025-10-07", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3TQDXYBQSBIRI/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["仍会滑落/移位"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "四季皆可使用", "title_orig": "オールシーズン使えます", "content": "Kumori 床笠配有一体式床垫。它看起来不错，因为床垫是一体式的，乍一看它就像一张普通的床笠。如果您只使用床垫垫，您可以看到四个角上的橡胶，但我喜欢它配有一体式床笠时没有橡胶。\n", "content_orig": "Kumoriの敷きパッド一体型のボックスシーツです。敷きパッドが一体になっているため見た目が良く、ぱっと見普通のボックスシーツに見えます。敷きパッドのみだと四隅にゴムが見えてしまうのですが、ボックスシーツ一体型だとそれがないため気に入っています。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 5, "reviewer": "もみじ", "date": "2025-10-07", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "不愧是久森先生所期待的", "title_orig": "さすがクモリさん", "content": "Kumori 床笠配有一体式床垫。它看起来不错，因为床垫是一体式的，乍一看它就像一张普通的床笠。如果您只使用床垫垫，您可以看到四个角上的橡胶，但我喜欢它配有一体式床笠时没有橡胶。\n", "content_orig": "Kumoriの敷きパッド一体型のボックスシーツです。敷きパッドが一体になっているため見た目が良く、ぱっと見普通のボックスシーツに見えます。敷きパッドのみだと四隅にゴムが見えてしまうのですが、ボックスシーツ一体型だとそれがないため気に入っています。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Amazonカスタマー", "date": "2025-10-07", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21WQ9V", "title": "【这是一个比较普通的床垫套】", "title_orig": "【割と普通のマットレスカバーです】", "content": "【感想】\n无论如何，这不是一个糟糕的产品，但是\n我找不到任何特别的魅力。\n它具有典型的光滑触感，\n如果再盖上一层纸的话，效果就不会太明显了\n图案很简单，所以没有任何怪癖，这很好。\n它是安全的产品吗？\n\n 【可以使用的场合】\n・对寝具不讲究的人\n\n[优点]\n・是坚固的产品。\n\n 【关注点】\n -没有奢华感或独特魅力\n\n【星星数量说明】\n 5：有吸引力且优秀的产品，我可以推荐它！\n 4：不错，但和其他产品差别不大，中等水平。\n 3：独特的产品，允许用户选择，只提供给特定的人。\n二：如果你不介意这些问题，这个产品是可以使用的，但是有一些抱怨。\n一：因质量低劣而存在危险或无法使用的产品，必须进行投诉处理。\n", "content_orig": "【感想】\n決して悪い商品ではありませんが、\nこれといって特徴的な魅力は見つかりませんでした。\n肌触りも一般的なサラッとした感覚で、\nこの上にシーツをかけて使うのであればあまり影響もないし、\n柄もシンプルなのでクセがないのはイイですが、\n無難な商品という所でしょうか。\n\n【使える場面】\n・寝具にあまりこだわりがない方\n\n【良いところ】\n・しっかりとした商品ではある\n\n【気になるところ】\n・高級感や独特の魅力は感じられない\n\n【星数の説明】\n５つ：魅力ある優秀な商品、オススメできる！\n４つ：良いけど他とあまり差がない商品、普通レベル。\n３つ：使う人を選ぶ個性的な商品、特定の人のみ可。\n２つ：課題が気にならなければなんとか使える商品、若干不満あり。\n１つ：粗悪品のため危険・使用不可の商品、クレーム対応必須。\n", "model": "色: ピンク | サイズ: シングル・100X200cm", "star": 4, "reviewer": "みきタンク", "date": "2025-10-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2W5GDDU6YAE79/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["耐用耐洗"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "四季皆可使用", "title_orig": "オールシーズン使える", "content": "结合了床垫和床笠的产品。\n在制造过程中，面料经过水洗和桃皮绒处理，使其柔软、触感舒适。即使出汗时，触感也很光滑，感觉良好。\n床笠部分的松紧带拉伸得恰到好处，它可以毫无问题地固定在床垫上，而且看起来不会轻易滑落。\n这些床单不适合特定季节，因此可以全年使用。我觉得这是一款可以广泛推荐的产品，因为它可以用洗衣机清洗，并且有多种颜色。\n", "content_orig": "敷パッドとボックスシーツが一体になった商品。\n製造工程の中で一度水に濡らす洗いざらし加工とピーチスキン加工がなされていて、柔らかくて手触りのよい生地です。汗ばんでいてもサラッとした触り心地で気持ちがいい。\nボックスシーツ部分のゴムは程よく伸び、ベッドのマットレスに特に問題無く取り付けられ、簡単にずれてしまうことはなさそうです。\n特定の季節に特化したシーツではないので一年中使えます。洗濯機で丸洗いでき、またカラバリも豊富なことから広くお勧めできる商品だなと感じました。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 4, "reviewer": "Amazonのお客様？", "date": "2025-10-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RVTXLRHQ5JPNZ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["四季可用"], "触感体验": ["触感舒适"], "产品质量": ["闷热不透气"], "一体式设计体验": ["固定牢固不易滑落", "一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "感觉像破旧的棉花", "title_orig": "使い込んだコットンのような雰囲気", "content": "带集成床垫的床笠让您可以轻松整理床铺。\n您还需要减少洗衣服的次数。\n\n TEIJIN的防螨、抗菌、除臭填充物让您放心使用。\n桃皮质地柔软温和，\n尽管是聚酯纤维，但它具有良好的棉质触感。\n\n不过，我认为米色是更适合象牙色的颜色。\n", "content_orig": "パッド一体型のフィットシーツはベッドメイキングが楽ですし、\n洗濯物も少なくて済みます。\n\nTEIJINの防ダニ抗菌防臭加工中綿で安心して使えます。\nピーチスキンのもちっと感のある手触りは優しく、\nポリエステルでも使い込んだコットンのような雰囲気があります。\n\nただ、アイボリーはベージュっていう方がふさわしい色味かと。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 4, "reviewer": "Amazonカスタマー", "date": "2025-10-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R158TRVOVLQU2E/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["防螨抗菌"], "触感体验": ["触感舒适"], "产品质量": ["异味明显"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "我喜欢它的抗尘螨、抗菌和防臭功能。", "title_orig": "防ダニ、抗菌防臭は嬉しい", "content": "我一直在使用 Nitori 床笠，但它们只是布床单。这种床单与其他床单不同，因为它有一个一体式垫，所以顶部是垫的，侧面是布的。据说布料表面是桃皮绒的，但是摸起来感觉一般，手感不是特别好。填充物采用 Teijin Mighty Top II ad ECO（防螨、抗菌、防臭）。周围有橡胶，因此可以轻松穿脱床垫等。可以在洗衣机中清洗，因此可以保持清洁。我选择了深灰色作为颜色，但虽然照片中看起来是深灰色，但实际上是普通的灰色。\n", "content_orig": "今までニトリのボックスシーツを使っていたがそれは単なる布製の物だった。こちらのシーツはそれと違いパッド一体型なので上部はパッド、サイドは布という組み合わせ。生地表面はピーチスキン仕上げとの事だが肌触りは普通で特別良さは感じなかった。中綿は帝人のマイティトップⅡ ad ECOを使用（防ダニ、抗菌防臭）。全周ゴム付きなのでマットレス等の着脱は簡単。洗濯機で丸洗い出来るので清潔さを保てる。色はダークグレーを選んだが、写真では暗いグレーに見えるが実物は普通のグレーだった。\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 4, "reviewer": "安物買いの銭失い", "date": "2025-10-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R26MB1KH9CPMNL/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["防螨抗菌", "颜色/外观"], "触感体验": ["触感舒适"], "产品质量": ["异味明显"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ217Q4S", "title": "只需洗一件衣服，真的很方便", "title_orig": "洗濯が一つで済むのが本当に楽", "content": "Kumori 床笠配有一体式床垫。它看起来不错，因为床垫是一体式的，乍一看它就像一张普通的床笠。如果您只使用床垫垫，您可以看到四个角上的橡胶，但我喜欢它配有一体式床笠时没有橡胶。\n", "content_orig": "Kumoriの敷きパッド一体型のボックスシーツです。敷きパッドが一体になっているため見た目が良く、ぱっと見普通のボックスシーツに見えます。敷きパッドのみだと四隅にゴムが見えてしまうのですが、ボックスシーツ一体型だとそれがないため気に入っています。\n", "model": "色: ベージュ | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Amazon カスタマー", "date": "2025-10-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ21WQ9V", "title": "只需一张床单即可决定的舒适床单", "title_orig": "1枚で決まる快適シーツ", "content": "Kumori 床笠配有一体式床垫。它看起来不错，因为床垫是一体式的，乍一看它就像一张普通的床笠。如果您只使用床垫垫，您可以看到四个角上的橡胶，但我喜欢它配有一体式床笠时没有橡胶。\n", "content_orig": "Kumoriの敷きパッド一体型のボックスシーツです。敷きパッドが一体になっているため見た目が良く、ぱっと見普通のボックスシーツに見えます。敷きパッドのみだと四隅にゴムが見えてしまうのですが、ボックスシーツ一体型だとそれがないため気に入っています。\n", "model": "色: ピンク | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Amazonカスタマー", "date": "2025-10-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1ZF713", "title": "床笠和床垫的结合产品", "title_orig": "ボックスシーツと敷きパッドが一体化した製品", "content": "Kumori 床笠配有一体式床垫。它看起来不错，因为床垫是一体式的，乍一看它就像一张普通的床笠。如果您只使用床垫垫，您可以看到四个角上的橡胶，但我喜欢它配有一体式床笠时没有橡胶。\n", "content_orig": "Kumoriの敷きパッド一体型のボックスシーツです。敷きパッドが一体になっているため見た目が良く、ぱっと見普通のボックスシーツに見えます。敷きパッドのみだと四隅にゴムが見えてしまうのですが、ボックスシーツ一体型だとそれがないため気に入っています。\n", "model": "色: ブルー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "ドン丼", "date": "2025-10-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ216G1C", "title": "带一体式衬垫的时尚床笠", "title_orig": "スタイリッシュなパッド一体型ボックスシーツ", "content": "Kumori 床笠配有一体式床垫。它看起来不错，因为床垫是一体式的，乍一看它就像普通的床笠。如果您只使用床垫垫，您可以看到四个角上的橡胶，但我喜欢它配有一体式床笠时没有橡胶。\n", "content_orig": "Kumoriの敷きパッド一体型のボックスシーツです。敷きパッドが一体になっているため見た目が良く、ぱっと見普通のボックスシーツに見えます。敷きパッドのみだと四隅にゴムが見えてしまうのですが、ボックスシーツ一体型だとそれがないため気に入っています。\n", "model": "色: ライトグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Jerry", "date": "2025-10-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "一体式设计体验": ["一体设计省心便利"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "您可以放心使用的品质", "title_orig": "安心して使えるクオリティ", "content": "这几年我购买了好几款久森品牌的产品，面料和缝制的质量都是一致的，这款产品的质量也不错。\n这是一款将床笠与蒲团结合在一起的产品，使用起来很顺滑，盒型给人一种牢固的感觉，洗后也不会显得脏。它看起来也很干净。\n\n春、夏、秋季使用感觉舒适。我喜欢在冬天使用拉绒毛毯，所以如果我有像这款产品这样的床笠类型，我也会想在冬天使用它。\n", "content_orig": "Kumoriブランドの製品は過去数年に渡って複数自費購入してきているのですが、生地や縫製の質が安定しており本商品もクオリティが良いです。\nボックスシーツに敷布団を合体させたような商品で、サラッとした使い心地と、ボックスタイプのためハリのある装着感と、洗濯シワが汚らしく見えないのが良いですね。見た目も清潔感があります。\n\n春夏秋に活躍しそうな使い心地です。冬は自分は起毛タイプの敷毛布を好んで使うので、本商品のようなボックスシーツ型があったら冬場も使いたいですね\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 4, "reviewer": "ヘッドホンとかイヤホンが好き", "date": "2025-10-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RUSGO24OTJDMF/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1ZF713", "title": "这很容易", "title_orig": "楽です", "content": "缝合质量很好。该面料柔软亲肤，非常适合单一尺寸的床垫。总的来说，我对质量非常满意。深灰色也与照片完全匹配，所以我也很满意。\n", "content_orig": "The stitching quality is good.  The fabric is soft against the skin and it fits well over a single sized mattress. Overall I'm very happy with the quality. The dark gray color also matched the photo exactly, so I was pleased with that too.\n", "model": "色: ブルー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "銀貨鯖", "date": "2025-10-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["尺寸/床垫适配问题"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ1ZF713", "title": "它感觉更像是一个角撑垫而不是床单。", "title_orig": "シーツというよりはマチつき敷きパッドといった感じ", "content": "缝合质量很好。该面料柔软亲肤，非常适合单一尺寸的床垫。总的来说，我对质量非常满意。深灰色也与照片完全匹配，所以我也很满意。\n", "content_orig": "The stitching quality is good.  The fabric is soft against the skin and it fits well over a single sized mattress. Overall I'm very happy with the quality. The dark gray color also matched the photo exactly, so I was pleased with that too.\n", "model": "色: ブルー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Kow", "date": "2025-10-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["尺寸/床垫适配问题"], "价值体验": ["无匹配标签"]}, {"asin": "B0FJ2187Y7", "title": "很适合床", "title_orig": "Fits the bed well", "content": "缝合质量很好。该面料柔软亲肤，非常适合单一尺寸的床垫。总的来说，我对质量非常满意。深灰色也与照片完全匹配，所以我也很满意。\n", "content_orig": "The stitching quality is good.  The fabric is soft against the skin and it fits well over a single sized mattress. Overall I'm very happy with the quality. The dark gray color also matched the photo exactly, so I was pleased with that too.\n", "model": "色: ダークグレー | サイズ: シングル・100X200cm", "star": 5, "reviewer": "Shallowpockets", "date": "2025-10-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/srp/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "触感体验": ["触感舒适"], "产品质量": ["无匹配标签"], "一体式设计体验": ["尺寸/床垫适配问题"], "价值体验": ["无匹配标签"]}];
+
+const PALETTE = ["#0e7c86","#2ca6a4","#8fd0cd","#e7a13b","#c1502e","#6b8f3f",
+                 "#3c6e8f","#a6667a","#8a7dc9","#5aa0c9","#d68c3a","#7a9e6b",
+                 "#b06a9e","#4f8a8b"];
+const GREY = "#c7d3d1";
+
+function colorFor(label, idx){
+  if(label === '无匹配标签') return GREY;
+  return PALETTE[idx % PALETTE.length];
+}
+
+function renderStats(){
+  const total = REVIEWS.length;
+  const avg = (REVIEWS.reduce((s,r)=>s+(r.star||0),0)/REVIEWS.filter(r=>r.star).length).toFixed(2);
+  const asins = [...new Set(REVIEWS.map(r=>r.asin).filter(Boolean))];
+  const withQualityIssue = REVIEWS.filter(r=>r['产品质量'].some(t=>t!=='无匹配标签')).length;
+  const textureGood = REVIEWS.filter(r=>r['触感体验'].includes('触感舒适')).length;
+  const fixGood = REVIEWS.filter(r=>r['一体式设计体验'].includes('固定牢固不易滑落')).length;
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat"><div class="num">${total}</div><div class="label">评论总数</div></div>
+    <div class="stat"><div class="num">${avg} ★</div><div class="label">平均星级</div></div>
+    <div class="stat"><div class="num">${asins.length}</div><div class="label">关联 ASIN / 型号数</div></div>
+    <div class="stat"><div class="num">${textureGood}</div><div class="label">明确反馈触感舒适</div></div>
+    <div class="stat"><div class="num">${fixGood}</div><div class="label">明确反馈一体式不易滑落</div></div>
+    <div class="stat"><div class="num">${withQualityIssue}</div><div class="label">提及具体品质问题</div></div>
+  `;
+  document.getElementById('asinlist').innerHTML =
+    '涉及 ASIN（部分）：<b>' + asins.slice(0,12).join('</b> · <b>') + '</b>' + (asins.length>12? ' 等共'+asins.length+'个':'');
+}
+
+function buildCounts(dim){
+  const counts = {};
+  if(dim === 'star'){
+    for(let s=1;s<=5;s++) counts[s+' 星'] = 0;
+    REVIEWS.forEach(r=>{ if(r.star) counts[r.star+' 星']++; });
+  } else {
+    REVIEWS.forEach(r=>{
+      (r[dim]||[]).forEach(tag=>{
+        counts[tag] = (counts[tag]||0)+1;
+      });
+    });
+  }
+  return counts;
+}
+
+function filterReviews(dim, label){
+  if(dim === 'star'){
+    const s = parseInt(label);
+    return REVIEWS.filter(r=>r.star===s);
+  }
+  return REVIEWS.filter(r=>(r[dim]||[]).includes(label));
+}
+
+function makeCard(container, opts){
+  const {id, title, hint, dim} = opts;
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <h3>${title}</h3>
+    <p class="hint">${hint}</p>
+    <div class="chart-holder"><canvas id="${id}"></canvas></div>
+    <div class="legend-list" id="${id}_legend"></div>
+  `;
+  container.appendChild(card);
+
+  const counts = buildCounts(dim);
+  let labels = Object.keys(counts);
+  if(dim === 'star'){
+    labels = ['5 星','4 星','3 星','2 星','1 星'];
+  } else {
+    labels.sort((a,b)=>{
+      if(a==='无匹配标签') return 1;
+      if(b==='无匹配标签') return -1;
+      return counts[b]-counts[a];
+    });
+  }
+  const data = labels.map(l=>counts[l]);
+  const colors = labels.map((l,i)=>colorFor(l,i));
+
+  const ctx = document.getElementById(id).getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data, backgroundColor: colors, borderColor:'#ffffff', borderWidth:2 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      cutout:'52%',
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          callbacks:{
+            label: (c)=>{
+              const total = c.dataset.data.reduce((a,b)=>a+b,0);
+              const pct = total? (c.parsed/total*100).toFixed(1):0;
+              return `${c.label}: ${c.parsed} 条 (${pct}%)`;
+            }
+          }
+        }
+      },
+      onClick: (evt, elements)=>{
+        if(!elements.length) return;
+        const idx = elements[0].index;
+        openModal(dim, title, labels[idx], colors[idx]);
+      }
+    }
+  });
+
+  const legendEl = document.getElementById(id+'_legend');
+  const total = data.reduce((a,b)=>a+b,0);
+  labels.forEach((l,i)=>{
+    const pct = total? (data[i]/total*100).toFixed(1):0;
+    const item = document.createElement('div');
+    item.className='legend-item';
+    item.innerHTML = `<span class="legend-dot" style="background:${colors[i]}"></span>${l} <span class="cnt">${data[i]}</span> (${pct}%)`;
+    item.onclick = ()=> openModal(dim, title, l, colors[i]);
+    legendEl.appendChild(item);
+  });
+}
+
+let currentResults = [];
+function openModal(dim, title, label, color){
+  currentResults = filterReviews(dim, label);
+  document.getElementById('modalTitle').innerText = `${title} — ${label}`;
+  document.getElementById('modalSub').innerText = `共 ${currentResults.length} 条相关评论 · 点击行可查看日文原文`;
+  document.getElementById('modalSearch').value = '';
+  document.getElementById('modalMask').classList.add('open');
+  renderTable();
+}
+function closeModal(){
+  document.getElementById('modalMask').classList.remove('open');
+}
+document.getElementById('modalMask').addEventListener('click', (e)=>{
+  if(e.target.id==='modalMask') closeModal();
+});
+
+function starBadge(s){
+  return `<span class="star-badge s${s}">${'★'.repeat(s)}${'☆'.repeat(5-s)}</span>`;
+}
+
+function renderTable(){
+  const q = document.getElementById('modalSearch').value.trim().toLowerCase();
+  let rows = currentResults;
+  if(q){
+    rows = rows.filter(r =>
+      (r.content||'').toLowerCase().includes(q) ||
+      (r.title||'').toLowerCase().includes(q) ||
+      (r.asin||'').toLowerCase().includes(q) ||
+      (r.model||'').toLowerCase().includes(q)
+    );
+  }
+  const tbody = document.getElementById('modalTbody');
+  const emptyHint = document.getElementById('emptyHint');
+  if(rows.length===0){
+    tbody.innerHTML='';
+    emptyHint.style.display='block';
+    return;
+  }
+  emptyHint.style.display='none';
+  tbody.innerHTML = rows.map(r=>`
+    <tr onclick="this.querySelector('.orig').classList.toggle('shown')">
+      <td>${r.asin||''}</td>
+      <td>${r.star? starBadge(r.star):''}</td>
+      <td>${escapeHtml(r.title||'')}</td>
+      <td class="content-cell">${escapeHtml(r.content||'').replace(/\n/g,'<br>')}
+        <div class="orig">${escapeHtml(r.content_orig||'').replace(/\n/g,'<br>')}</div>
+      </td>
+      <td>${escapeHtml(r.model||'')}</td>
+      <td>${escapeHtml(r.reviewer||'')}</td>
+      <td>${r.date||''}</td>
+    </tr>
+  `).join('');
+}
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+renderStats();
+
+makeCard(document.getElementById('gridTop'), {
+  id:'chartStar', title:'星级分布', dim:'star',
+  hint:'评论星级 1～5 星占比'
+});
+makeCard(document.getElementById('gridTop'), {
+  id:'chartUser', title:'使用人群', dim:'使用人群',
+  hint:'自用 或 送礼/给家人 购买动机判定'
+});
+
+makeCard(document.getElementById('gridExpect'), {
+  id:'chartExpect', title:'使用期望', dim:'使用期望',
+  hint:'购买动机、期待达成的核心目的'
+});
+
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartTexture', title:'触感体验', dim:'触感体验',
+  hint:'对面料柔软度/粗糙感的实际体验反馈'
+});
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartQuality', title:'产品质量', dim:'产品质量',
+  hint:'起球、起皱、异味、厚度、耐用性等工艺与质量反馈'
+});
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartAllInOne', title:'一体式设计体验', dim:'一体式设计体验',
+  hint:'固定防滑、穿脱便利性、床垫适配等一体化结构相关反馈'
+});
+
+makeCard(document.getElementById('gridValue'), {
+  id:'chartValue', title:'价值体验', dim:'价值体验',
+  hint:'价格与体验是否匹配的评价'
+});
+</script>
+</body>
+</html>
