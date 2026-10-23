@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B0GR7ZV555 评论洞察分析 — 防水床笠 / 床垫保护垫</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg: #eef3f2;
+    --panel: #ffffff;
+    --ink: #12262a;
+    --ink-soft: #4c6167;
+    --teal-900: #0c4a52;
+    --teal-700: #0e7c86;
+    --teal-500: #2ca6a4;
+    --teal-300: #8fd0cd;
+    --teal-100: #dcf0ee;
+    --sun: #e7a13b;
+    --clay: #c1502e;
+    --line: #d3e2e0;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 8% 0%, rgba(44,166,164,0.10), transparent 42%),
+      radial-gradient(circle at 96% 10%, rgba(12,74,82,0.08), transparent 40%);
+    color: var(--ink);
+    font-family: "Hiragino Sans GB","PingFang SC","Noto Sans SC","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:1360px;margin:0 auto;padding:40px 28px 80px;}
+
+  header.top{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+    border-bottom:2px solid var(--teal-900);
+    padding-bottom:22px;margin-bottom:28px;flex-wrap:wrap;
+  }
+  header.top .titleblock h1{
+    font-size:30px;margin:0 0 6px;letter-spacing:.2px;color:var(--teal-900);
+    font-weight:700;
+  }
+  header.top .titleblock p{margin:0;color:var(--ink-soft);font-size:14px;}
+  header.top .asinlist{font-size:12px;color:var(--ink-soft);max-width:520px;line-height:1.7;}
+  header.top .asinlist b{color:var(--teal-700);}
+
+  .stats{
+    display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px;
+  }
+  .stat{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 22px;min-width:150px;flex:1;
+  }
+  .stat .num{font-size:26px;font-weight:700;color:var(--teal-900);}
+  .stat .label{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+
+  .section-title{
+    font-size:15px;font-weight:700;color:var(--teal-900);
+    margin:38px 0 16px;padding-left:10px;border-left:4px solid var(--teal-500);
+  }
+
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:20px;
+  }
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 20px 12px;position:relative;
+  }
+  .card h3{margin:0 0 2px;font-size:16px;color:var(--ink);}
+  .card .hint{font-size:11.5px;color:var(--ink-soft);margin:0 0 10px;}
+  .chart-holder{position:relative;height:280px;}
+  .legend-list{
+    display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .legend-item{
+    display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);
+    cursor:pointer;padding:3px 6px;border-radius:6px;transition:background .15s;
+  }
+  .legend-item:hover{background:var(--teal-100);color:var(--teal-900);}
+  .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .legend-item .cnt{font-weight:700;color:var(--ink);}
+
+  /* Modal */
+  .modal-mask{
+    display:none;position:fixed;inset:0;background:rgba(12,30,32,.45);
+    z-index:999;align-items:flex-start;justify-content:center;padding:5vh 20px;
+    backdrop-filter: blur(1px);
+  }
+  .modal-mask.open{display:flex;}
+  .modal{
+    background:#fff;border-radius:16px;max-width:1040px;width:100%;max-height:88vh;
+    display:flex;flex-direction:column;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .modal-head{
+    padding:18px 24px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .modal-head .htxt h2{margin:0;font-size:18px;color:var(--teal-900);}
+  .modal-head .htxt p{margin:3px 0 0;font-size:12.5px;color:var(--ink-soft);}
+  .modal-head .close-btn{
+    border:none;background:var(--teal-100);color:var(--teal-900);width:32px;height:32px;
+    border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0;
+  }
+  .modal-search{padding:12px 24px;border-bottom:1px solid var(--line);}
+  .modal-search input{
+    width:100%;padding:9px 14px;border-radius:8px;border:1px solid var(--line);
+    font-size:13px;background:var(--bg);outline:none;
+  }
+  .modal-search input:focus{border-color:var(--teal-500);}
+  .modal-body{overflow:auto;padding:0 24px 20px;flex:1;}
+  table.reviews{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.reviews thead th{
+    text-align:left;position:sticky;top:0;background:#fff;
+    padding:10px 8px;border-bottom:2px solid var(--teal-900);color:var(--teal-900);
+    white-space:nowrap;
+  }
+  table.reviews tbody td{
+    padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink);
+  }
+  table.reviews tbody tr:hover{background:var(--teal-100);}
+  .star-badge{
+    display:inline-block;padding:1px 8px;border-radius:20px;font-weight:700;font-size:11.5px;
+  }
+  .s5{background:#dcf0ee;color:var(--teal-700);}
+  .s4{background:#e6f2ce;color:#5a7a1a;}
+  .s3{background:#fdefd0;color:#a06b0d;}
+  .s2{background:#fbe0d0;color:#a44a1f;}
+  .s1{background:#f7d6d6;color:#a3312f;}
+  td.content-cell{max-width:340px;}
+  td.content-cell .orig{color:var(--ink-soft);font-size:11px;margin-top:3px;display:none;}
+  td.content-cell .orig.shown{display:block;}
+  .empty-hint{padding:40px;text-align:center;color:var(--ink-soft);font-size:13px;}
+
+  footer{margin-top:50px;color:var(--ink-soft);font-size:11.5px;text-align:center;}
+
+  @media (max-width:640px){
+    .wrap{padding:24px 14px 60px;}
+    header.top h1{font-size:22px;}
+    .chart-holder{height:230px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="titleblock">
+      <h1>评论洞察分析 · 防水床笠 / 床垫保护垫</h1>
+      <p>ASIN B0GR7ZV555 及关联型号 · 日本站评论数据</p>
+    </div>
+    <div class="asinlist" id="asinlist"></div>
+  </header>
+
+  <div class="stats" id="statsRow"></div>
+
+  <div class="section-title">星级与人群分布</div>
+  <div class="grid" id="gridTop"></div>
+
+  <div class="section-title">使用期望 · 客户购买时希望达成的目的与改进诉求</div>
+  <div class="grid" id="gridExpect"></div>
+
+  <div class="section-title">实际体验感受</div>
+  <div class="grid" id="gridExperience"></div>
+
+  <div class="section-title">价值体验</div>
+  <div class="grid" id="gridValue"></div>
+
+  <footer>点击任意扇区或图例，可查看对应标签下的具体评论内容原文与译文（点击表格行可展开/收起日文原文）。</footer>
+</div>
+
+<div class="modal-mask" id="modalMask">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="htxt">
+        <h2 id="modalTitle">数据详情</h2>
+        <p id="modalSub"></p>
+      </div>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-search">
+      <input type="text" id="modalSearch" placeholder="在结果中搜索关键词…" oninput="renderTable()">
+    </div>
+    <div class="modal-body">
+      <table class="reviews">
+        <thead>
+          <tr>
+            <th>ASIN</th><th>星级</th><th>标题</th><th>评论内容</th><th>型号</th><th>评论人</th><th>日期</th>
+          </tr>
+        </thead>
+        <tbody id="modalTbody"></tbody>
+      </table>
+      <div class="empty-hint" id="emptyHint" style="display:none;">未找到匹配的评论</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const REVIEWS = [{"asin": "B0GR7P8JDM", "title": "皮肤感觉很好，推荐！", "title_orig": "肌触りも良くてお勧め！", "content": "我还没泼过水，所以不知道它的防水效果如何，但我喜欢它，因为它不像防水片那样嘎吱作响，而且摸起来感觉很好！", "content_orig": "まだ水をこぼしたことがないので防水効果わからないが、シャリシャリとした防水シーツ感はなく、肌触りも良いので気に入っている！", "model": "色: ホワイト | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "miya", "date": "2026-10-16", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3N2HF81YMB5M7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR898YJW", "title": "花丸", "title_orig": "ハナマル", "content": "我买这个是为了防止我的孩子尿床！\n您可以放心，它不会渗入您的床垫！\n\n晒的时候先擦背面，再擦正面就完美了✨", "content_orig": "子供のおねしょ防止に買いました！\nマットレスに染み込むことないので安心できます！\n\n乾かす時は裏面から乾かして、次に表面乾かせば完璧です✨", "model": "色: ライトグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "K", "date": "2026-10-15", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RFS2ZYZWY8EQ0/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR898YJW", "title": "背面的防水面很容易撕裂而无法使用。", "title_orig": "裏の防水面はすぐ破れて使えない", "content": "我和丈夫买了 4 个作为替代品，因为我们的狗有时表现不佳。\n当我把它从床上取下来清洗时，里面的防水表面会被我的指甲夹住而破裂，如果我继续使用它，我的狗的尿液会渗入蒲团中。\n如果不小心处理，它会被卡住并撕裂，从而无法使用。\n我应该先买一个试试再做决定。", "content_orig": "愛犬がたまに粗相をするために、夫と私、洗い替えに4枚購入しました。\n内側の防水面ですが、洗濯をするためにベッドから外した際に、自分の爪が引っ掛かっただけで破れてしまい、そのまま使うとそこから布団に愛犬のオシッコが染み込みます。\n気を抜いて扱うと引っ掛けてしまい、また破れてしまい、使えません。\n試しに1枚だけ購入してから決めれば良かったです。", "model": "色: ライトグレー | サイズ: ダブル 140*200cm", "star": 1, "reviewer": "101", "date": "2026-10-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RV6Z8C82C35HU/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR85B88C", "title": "布料手感很好", "title_orig": "生地が気持ちいい", "content": "我买这个是为了防止我的孩子尿床。\n我不知道它的防水性如何，因为它还没有被弄湿，但侧面保护得很好，所以我感觉很安全。", "content_orig": "子どものおねしょ対策用に購入しました。\nまだ濡れていないので防水力は分かりませんが、横もしっかりガードされているので安心です。", "model": "色: ホワイト | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "Ka", "date": "2026-10-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3KUTQCD8FBZU9/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR85B88C", "title": "皮肤感觉良好且易于使用", "title_orig": "肌触りが良く使いやすい", "content": "我担心防水床单典型的干燥和闷热感，但外部材料很柔软，触感与普通床垫一样温和。\n由于是一体式产品，您再也不用担心要设置两片“防水床单+床垫垫”了。\n我也喜欢它是盒式的。", "content_orig": "防水シーツ特有の「カサカサ感」や蒸れが心配でしたが、表地が柔らかく、普通の敷きパッドと変わらない優しい肌触りです。\n一体型なので、今までの「防水シーツ＋敷きパッド」の2枚をセットする手間がなくなりました。\nボックスタイプなのも気に入っています。", "model": "色: ホワイト | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "本田 晃一", "date": "2026-10-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2JO1QUODKYWT6/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7KW7F2", "title": "我认为这是值得的", "title_orig": "値段相応かと思います", "content": "下单后第二天就到了。\n我在评论中读到它很难干燥，但由于附带了带有干燥说明的纸，所以我想按照说明清洗并干燥它。\n布料的质感看起来也不错。\n由于是防止儿童尿布漏水的措施，只要防水、不弄脏垫子就可以了。", "content_orig": "注文後翌日には届きました。\n乾かすのが難しいとレビューで見ましたが、乾かし方の紙が同梱されていたため、早速その通りに洗って乾かしてみたいと思います。\n生地感も良さそうです。\n子供のオムツ漏れ対策なので、防水はマットに染みなければ良しです。", "model": "色: ダークグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "ゆん", "date": "2026-10-12", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1HXVUH1RCQ2IH/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR87TKT2", "title": "非常方便", "title_orig": "とても便利", "content": "我正在寻找防水床单和床垫合二为一的东西，所以我买了这个。非常方便和容易，因为它可以一件完成！", "content_orig": "防水シーツと敷きパッドが一体型になっているものを探していたので、こちらを購入しました。1枚で完結するのでとても便利で楽です！", "model": "色: ライトグレー | サイズ: クイーン 160*200cm", "star": 5, "reviewer": "なもん", "date": "2026-10-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3BG3BDQ5IPQV4/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR8DWL57", "title": "用于如厕训练", "title_orig": "トイレトレーニング用に", "content": "我买了这个作为替换厕所，因为我的孩子正在接受如厕训练。该面料坚固且易于使用。", "content_orig": "子どものトイレトレーニング中なので洗い替え用に買い足しました。生地がしっかりしていて使いやすいです。", "model": "色: カーキ | サイズ: シングル 100*200cm", "star": 5, "reviewer": "mai", "date": "2026-10-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1H8CCI36G5CNG/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WT3RM", "title": "我买了但是失败了", "title_orig": "買って失敗", "content": "我买这个是因为它说可以容纳30厘米厚的床垫，但26厘米的床垫不能盖住底部。\n顶部和底部的边缘勉强能放进去，但两侧有点短，无法覆盖底部。\n我买了好几次都失败了，因为每次睡觉的时候它似乎都会脱落。\n另外，垫子表面写得很厚，手感很好，但几乎和普通的封面纸一样。\n垫子的厚度随你的喜好而定，所以最好购买 Nitori 或类似的垫子。", "content_orig": "30cmの厚さのマットレスまでいけるとあったので買ったのですが、26cmのマットレスで下までカバーされませんでした。\n上下はかろうじてギリギリ縁が入ったかなぐらいでしたが、両サイドはちょっと短くて下までは覆えませんでした。\n何度か寝るたび外れそうになるので買って失敗しました。\nあとパッドの面が厚さ、手触りがいいように書かれていましたが普通のカバーシーツとほぼ変わりません。\nパッドは気持ち程度の厚さがあるかなくらいで別にパッドはニトリなどで買ったほうがいいです。", "model": "色: ダークグレー | サイズ: セミダブル 120*200cm", "star": 1, "reviewer": "М", "date": "2026-10-07", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1PY0SYTOAJUJO/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P874G", "title": "使用没有问题", "title_orig": "問題ない使用", "content": "本来有股怪味，不过洗了之后就没有了！\n我正在寻找防水床单，因为我有一个孩子，所以我购买了这些。我在这些床单上使用棉毛巾，没有任何问题。", "content_orig": "独特の臭いがあったけど、洗濯したら問題なくなりました！\n子供がいるため防水シーツを探しており、購入。このシーツの上に一枚綿タオルを引いて問題なく使用してます。", "model": "色: ライトグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "myco", "date": "2026-10-07", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R13J80C1SS4PUF/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR847QYG", "title": "质感好！", "title_orig": "風合いよし！", "content": "我用它作为露营时的充气垫。防水性能和质感都不错！", "content_orig": "キャンプのインフレーターマットに使用しました。防水性能◎風合い◎でいい感じでした！", "model": "色: カーキ | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "katou", "date": "2026-09-30", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RSDLVU9S6894I/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR898YJW", "title": "非常好", "title_orig": "とてもいい", "content": "我很高兴我买了它", "content_orig": "買ってよかったです", "model": "色: ライトグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "yamad", "date": "2026-09-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RB99WQAVEMY3V/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7N6HFQ", "title": "皮肤感觉良好", "title_orig": "肌触りが良い", "content": "购买前我很担心，因为其他人的评论表明干燥需要花费一些精力，但他们也提供了如何干燥的说明，当我使用该方法时，它干燥得很好。我松了口气。我还没有使用过它，但它对我的皮肤感觉很好，我很期待使用它。", "content_orig": "他の方の口コミで乾かすのに工夫が必要となっていて、購入前に不安がありましたが乾かし方の説明書も同封して貰えていて、その方法で乾かしたらしっかり乾きました。安心しました。まだ使用して無いですが、肌触りが良く使うのが楽しみです。", "model": "色: ホワイト | サイズ: シングル 100*200cm", "star": 5, "reviewer": "さやえんどう", "date": "2026-09-22", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1KPKIOPF0GJ6D/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR87TKT2", "title": "不错买", "title_orig": "Nice buy", "content": "非常有帮助，完美的尺寸和良好的材料", "content_orig": "Very helpful and perfect size and good material", "model": "色: ライトグレー | サイズ: クイーン 160*200cm", "star": 5, "reviewer": "Pratik Mehta", "date": "2026-09-18", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RUXPAM5BXE5NF/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7KW7F2", "title": "做工非常好", "title_orig": "なかなか良い作り", "content": "触感很好，最重要的是，它不需要垫子，所以很容易穿上。", "content_orig": "肌触りも良く、何よりベットパッドがいらないのですごく簡単に装着できます。", "model": "色: ダークグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "k", "date": "2026-09-16", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1AVAQCQFV42AU/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7N6HFQ", "title": "面料坚固光滑", "title_orig": "しっかりしたサラサラ生地", "content": "面料坚实光滑。预期的防水效果。", "content_orig": "しっかりしたサラサラ生地。防水効果に期待。", "model": "色: ホワイト | サイズ: シングル 100*200cm", "star": 5, "reviewer": "Hasumi", "date": "2026-09-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R34PZLTPLCTMU8/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7KW7F2", "title": "防水但皮肤感觉很好！", "title_orig": "防水なのに肌触り良し！", "content": "虽然它是防水的，但它的材质触感柔软，所以使用起来很舒服。当我训练孩子如厕时，这很方便。", "content_orig": "防水なのに肌触りの良い素材で、気持ち良く利用しております。子供のトイレトレーニング中なので、便利です。", "model": "色: ダークグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "せいこ", "date": "2026-09-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RV6UM1WB8WAP7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR847QYG", "title": "柔软的！", "title_orig": "柔らかい！", "content": "我不喜欢其他防水床单，因为它们会发出嘎吱嘎吱的声音，但这些防水床单非常柔软，不会发出任何噪音，因此非常适合与孩子一起睡觉。洗涤后容易积水，因此晾干时需要小心。", "content_orig": "他のウォータープルーフのシーツはシャカシャカ音がして嫌だったのですが、これは生地が柔らかくて音がしないので子供と寝るのにとても良いです。洗濯後は水がたまりやすいので乾かすのに工夫が必要です。", "model": "色: カーキ | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "リリ", "date": "2026-09-11", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3C3TKTAHQXR1C/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P8JDM", "title": "完美尺寸", "title_orig": "サイズ感バッチリ", "content": "我喜欢这种材料，因为它与我的床垫完美契合，并且似乎可以防尘。我在床单下面使用它来防止污渍。", "content_orig": "自分が使っているマットレスにぴったりで汚れを弾きそうな素材で気に入っています。シーツの下に装着して汚れ防止として使っています。", "model": "色: ホワイト | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "wkwksan", "date": "2026-09-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RC24XTT5WDRS/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WT3RM", "title": "好的", "title_orig": "Good", "content": "很好", "content_orig": "It’s good", "model": "色: ダークグレー | サイズ: セミダブル 120*200cm", "star": 4, "reviewer": "Gita panday", "date": "2026-09-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R33LS5XM5SWZZH/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR884QJZ", "title": "很舒服。受到推崇的。", "title_orig": "大変快適です。オススメ。", "content": "触感柔软、光滑，非常舒适。完全防水，使用方便、舒适。\n受到推崇的。", "content_orig": "肌触り良く、サラサラでとても気持ちよいです。しっかり防水で使いやすく快適。\nオススメです。", "model": "色: カーキ | サイズ: クイーン 160*200cm", "star": 5, "reviewer": "れん", "date": "2026-09-02", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R241YV0S4QGV2J/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WT3RM", "title": "没有脆脆的感觉", "title_orig": "シャカシャカ感がない", "content": "使用起来很舒适，没有防水特有的晃动感！", "content_orig": "撥水特有のシャカシャカ具合もなく快適に使えています！", "model": "色: ダークグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "ら", "date": "2026-09-01", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R14GFDUPJLGSS7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WT3RM", "title": "完全防水，让您安心无忧！我的皮肤感觉很好，我很满意。", "title_orig": "全面防水で安心！肌触りも良くて満足です", "content": "我一直在寻找完全防水的东西并买了它。\n它不像床垫那么厚，但表面的厚度刚刚好，感觉比我以前用过的更柔软、更舒适。我能够在完全防水的情况下睡得很舒服，所以买它是一个不错的决定。", "content_orig": "全面防水のものを探して購入しました。\n敷きパッドほどの分厚さはありませんが、表面に程よい厚みがあり、以前使っていたものよりも肌触りが柔らかくて気持ち良いです。しっかり防水しながら快適に寝られるので、買って正解でした。", "model": "色: ダークグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "mahi-mahi", "date": "2026-08-21", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RM24H1F1ARK0J/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["厚度", "触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR85B88C", "title": "非常好", "title_orig": "とても良いです", "content": "它很光滑，皮肤感觉非常舒适。床很舒服，我睡得很香。", "content_orig": "さらさらでとても肌心地が良いです。寝心地もよく、ぐっすり寝れました。", "model": "色: ホワイト | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "組長", "date": "2026-08-21", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2P37H3FVJHY7I/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR847QYG", "title": "惊讶", "title_orig": "びっくり", "content": "我以为它会更硬，因为它是防水的，但感觉就像普通的棉织物一样，睡起来很舒服。", "content_orig": "防水だからもっとゴワゴワしているのかと思っていたら、普通の綿の生地と同じ感じで寝やすかったです。", "model": "色: カーキ | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "加賀 愛", "date": "2026-08-20", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2K5VEK2Y79UZO/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR8HJTBZ", "title": "又厚又安全！", "title_orig": "厚手で安心！", "content": "比某家家具店的更厚更安全！", "content_orig": "某家具屋さんのものに比べて\n厚手で安心感があります！", "model": "色: ホワイト | サイズ: クイーン 160*200cm", "star": 5, "reviewer": "ばっち", "date": "2026-08-19", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2F96BVP8USA6Z/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["厚度"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR898YJW", "title": "侧面也是防水的！", "title_orig": "サイドも防水できる！", "content": "我买了防水床单，以防孩子尿床。我无法在两者之间做出选择，所以我都买了，但是这个更好，因为它更厚，而且侧面也防水。\n摸起来手感也很好！", "content_orig": "子供のおねしょのため防水シーツを購入しました。２つ迷ってたので両方買いましたがこちらの方がしっかり厚みもありサイドも防水されるためよかったです。\n触り心地もGOOD！", "model": "色: ライトグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "11", "date": "2026-08-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3B0CM3FLMJMYL/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["厚度"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7ZV555", "title": "我感觉很好", "title_orig": "良い感じ", "content": "坚固的面料触感光滑舒适。\n它也是防水的，因此不会影响您的床垫。\n另一个优点是穿脱方便！\n不过，由于它是防水的，所以清洗时需要小心。", "content_orig": "しっかりした生地感で肌触りもサラサラで気持ち良い。\n防水タイプなのでマットレスに影響が出ないのも嬉しい。\n着脱しやすいのも高ポイント！\nただ防水タイプなので洗濯には工夫が必要ですね。", "model": "色: ダークグレー | サイズ: シングル 100*200cm", "star": 5, "reviewer": "☆", "date": "2026-08-13", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R30OL26HM7QAAM/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P874G", "title": "感觉光滑又舒服！", "title_orig": "サラサラで気持ち良い！", "content": "我在寻找新的防水片时发现了这一点，因为我使用的防水片的内部正在破裂，我选择它是因为我被三合一片的功能所吸引。\n\n如果您没有看到实际的防水床单，您可能会担心织物的质地和手感，但这些床单光滑舒适，填充物比侧面厚一点，最重要的是，它们是防水的，所以您可以放心，您的孩子会睡在上面！还有一张大号床，所以我想再买一张。", "content_orig": "使っていた防水シーツの内側がボロボロになり新しいものを探していた時に見つけて､１枚３役の機能性に惹かれこちらを選びました。\n\n防水シーツは実物を見ないと生地感や肌触りが心配になりますが、こちらはサラッとした生地で気持ち良く、パッド部分は側面より少し厚さがあり､何より防水なので子供たちが寝ても安心！クイーンサイズもあったのでもう１枚追加で購入しようと思います。", "model": "色: ライトグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "おまめちゃん", "date": "2026-08-12", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3KBFF3AZGAQGN/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7KW7F2", "title": "防水又安全！易于清洁，因为可以彻底清洗！", "title_orig": "防水で安心！丸洗いできるのでお手入れも簡単！", "content": "我被它是一体式的事实所吸引，所以我买了它。\n到现在为止，我一直都是分层使用床垫和防水床单，这意味着我要洗很多衣服，但现在我只需要一层，这大大减轻了家务负担。\n表面柔软光滑。我不必担心防水床单典型的僵硬或松脆的问题，而且睡起来非常舒服。\n四周都有橡胶，所以即使翻身也不会滑落。\n它防水的事实有助于防止儿童弄湿床。\n因为不用担心床垫弄脏，所以我觉得特别推荐给有小孩的家庭。\n床垫和防水床单合二为一，真的很方便。", "content_orig": "一体型というのに惹かれて購入しました。\n今までは敷きパッドと防水シーツを重ねて使っていたので、洗濯物が多くて大変だったのですが、これなら1枚で済むので家事の負担がかなり減りました。\n表面はやわらかくてサラサラ。防水シーツ特有のゴワつきやシャカシャカ感がほとんど気にならず、寝心地も快適でした。\n全周ゴム付きなので寝返りを打ってもズレにくかったです。\n防水なのが子どものおねしょ対策として助かります。\nマットレスまで汚れる心配が少ないので、小さなお子さんがいるご家庭には特におすすめかと思います。\n敷きパッド・防水シーツがこれ1枚で完結するのが本当に便利でした。", "model": "色: ダークグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "ももこ", "date": "2026-08-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R33MIR9AMSBGZ3/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适", "不易移位"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR898YJW", "title": "果然如预料的那样！", "title_orig": "期待通りでした！", "content": "我买这个是为了帮助我的孩子尿床。\n我现在只有 1 条床单，而不是 3 条床单（床单、床垫和防水床单），因此它可以保持在原位，并且更容易清洗。\n皮肤感觉很好，而且不会感觉闷热。\n我还不知道它有多耐用，但如果看起来不错，我正在考虑再买一个作为替代品。", "content_orig": "こどものおねしょ対策に購入しました。\nシーツ、ベッドパッド、防水シーツと3枚敷いていたのが1枚になり、ずれることもなく洗濯も楽になりました。\n肌触りも良く、蒸れる感じもありません。\n耐久性はまだわかりませんが、良さそうなら洗い替えにもう1枚買おうかなと思っています。", "model": "色: ライトグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "Taka", "date": "2026-07-31", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3PVA5BIDRCAKT/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["不易移位"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适", "透气性好"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WF718", "title": "防水效果极佳", "title_orig": "防水効果抜群", "content": "我认为它防水很好，但另一方面，当我洗它时，它没有完全脱水，而且很难干燥。", "content_orig": "防水がしっかりしてるのはすごくいいと思ったのですが、逆に洗う時脱水しきらず干すのに大変でした💦", "model": "色: ライトグレー | サイズ: シングル 100*200cm", "star": 4, "reviewer": "はる", "date": "2026-07-28", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2J15YAR80SB2K/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WF718", "title": "我喜欢它！", "title_orig": "気に入りました！", "content": "下单后很快就到了，包装很好，非常喜欢！\n它也非常防水，所以我正在考虑购买另一件作为替代品。", "content_orig": "注文してから届くのも早く梱包も丁寧で、品物もとても気に入りました！\n防水もしっかりしていて、洗い替えにもう一枚購入を検討しています。", "model": "色: ライトグレー | サイズ: シングル 100*200cm", "star": 5, "reviewer": "Amazon カスタマー", "date": "2026-07-27", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1BDE6XLI0TMTM/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P874G", "title": "纯色织物", "title_orig": "しっかりした生地", "content": "上次用的那件丢了后，我买了这一件。我买它是为了我孩子尿床。材质坚固且易于清洗，所以我期待将来使用它。", "content_orig": "前回使っていたものが\n敗れてしまい今回こちらを購入\n子どものおねしょ用に買いました\n素材がしっかりしており洗濯がしやすく\nこれからの使用に期待です", "model": "色: ライトグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "あいす", "date": "2026-07-18", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RN4Q6ZRKT8PDO/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7ZV555", "title": "好的！ ！", "title_orig": "良い！！", "content": "皮肤感觉很好！\n也很受出汗的孩子们的欢迎^_^", "content_orig": "肌触りがよかったです！\n汗かきの子供達にも好評でした^_^", "model": "色: ダークグレー | サイズ: シングル 100*200cm", "star": 5, "reviewer": "あき", "date": "2026-07-18", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3H2MZ6TB1XHH4/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P8JDM", "title": "固体防水", "title_orig": "しっかりした防水加工", "content": "我因为我的猫的不良行为而买了这个。当我尝试在上面滴水时，另一侧没有漏水。布料比我预想的要结实，防水也扎实，所以洗的时候喜欢放进洗衣袋里，小心别撕破。", "content_orig": "猫の粗相の為に購入しました。試しに水を滴らしてみたら、反対側に水漏れしていませんでした。想像以上に生地もしっかりしていて、防水加工もしっかりしているので、洗う時は洗濯ネットに入れて破れないように気をつけて使っていきたいです。", "model": "色: ホワイト | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "earthangel", "date": "2026-07-15", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1CCQ8IXZWMVQL/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR8DWL57", "title": "很光滑，感觉很好", "title_orig": "サラサラしていて気持ち良いです", "content": "我立即尝试使用它。易于安装且完美。与普通床单不同，它们是三维的，看起来很奢华。摸起来非常光滑，感觉非常舒服。它防水防水，并且可以完全清洗，所以我很满意我购买了一个好的产品。", "content_orig": "早速使ってみました。簡単に取付出来ピッタリです。一般的なシーツとは違く、立体的な作りで、豪華に見えます。肌触りも凄くサラサラしていて、とっても気持ち良いです。撥水性や防水性もあり、丸洗いも出来て、良い商品を購入したなと満足してます。", "model": "色: カーキ | サイズ: シングル 100*200cm", "star": 5, "reviewer": "鈴", "date": "2026-07-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RAWQ0WWABOTIB/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适", "高级感"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7ZV555", "title": "完美的！", "title_orig": "ピッタリ！", "content": "我将它固定在带腿的法式床垫上（223 毫米厚），非常完美。\n不知道防水不，不过看来不用担心孙子过来会尿床了。\n摸起来感觉很正常，并且完全覆盖了床垫，所以我很高兴买了它。", "content_orig": "フランスベッドの脚付マットレス(厚さ223mm)に付けたが、ピッタリでした。\n防水はまだ分からないけど、孫が泊まりに来た時に、おねしょの心配をしなくて良さそうです。\n肌触りも普通で、マットレスをすっぽり覆うので買って良かったです。", "model": "色: ダークグレー | サイズ: シングル 100*200cm", "star": 4, "reviewer": "larry", "date": "2026-07-07", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3JOHVZHZO7WH7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WF718", "title": "产品的质量超出了我的预期。", "title_orig": "商品は期待以上の品質でした。", "content": "该材料很坚固，我感觉很安全。\n它尺寸完美且易于使用。\n总的来说我很满意。", "content_orig": "素材もしっかりしていて、とても安心感があります。\nサイズもぴったりで使いやすいです。\n全体的にとても満足しています。", "model": "色: ライトグレー | サイズ: シングル 100*200cm", "star": 5, "reviewer": "Trang Anh", "date": "2026-06-30", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RBT55BISXR74G/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WF718", "title": "需要一些方法来干燥它", "title_orig": "乾かす工夫が必要", "content": "我认为第五面非常防水。\n当我清洗并挂干后再使用时，橡胶内部有很多水（大约是脸盆大小的一半），所以当水流出来时我很惊讶，因为我没有意识到这一点并将其挂干。 。它具有中等防水性。\n至于干燥，橡胶的内部和外部都很难干燥，所以正如说明书上所说，你必须有创意地干燥它，并且一段时间后你还必须将其翻过来。冬天可能一天都干不了？我很担心。\n\n这是一件我觉得不太容易洗的东西，除非我有空闲的一天。\n\n垫子不是很厚，但是也够用了。我也不介意这种气味。", "content_orig": "5面、かなりの防水かと思います。\n使用前に洗濯して干したら、ゴムの内側にかなり水が溜まっていて(洗面器半分ほど)、知らずに干したので、水が出てきてビックリしました。。程の防水です。\n乾かすのもゴムの内外は乾きにくいので説明書にある通り、干すには工夫が必要で、かつ、時間が経って裏返しも必要です。冬は1日で、乾かないかも？と心配。\n\n暇な日じゃないと簡単には洗えないなーと思う1品。\n\nパッドはあまり分厚さはないですが、それなりです。匂いなども気にはなりませんでした。", "model": "色: ライトグレー | サイズ: シングル 100*200cm", "star": 3, "reviewer": "Bali", "date": "2026-06-26", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1SBVSUEAXSCKX/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR87TKT2", "title": "希望耐用☆", "title_orig": "耐久性に期待したい☆", "content": "结构坚固。厚度刚刚好！颜色和图片一模一样，没有任何难闻的气味，一点也不掉毛。\n ★第四张是清洗脱水后→我喜欢它是防水的，但可以在洗衣机里清洗。但洗涤和脱水很弱。", "content_orig": "しっかりした作り。厚さもちょうどいい！色は画像の通りで嫌な匂いもなく、糸くずとかも全然ついてなかった♪\n★四枚目の画像は洗濯脱水後→防水力あるのに洗濯機で洗濯可能なのがいい。洗いも脱水も弱でしたけど。", "model": "色: ライトグレー | サイズ: クイーン 160*200cm", "star": 5, "reviewer": "まみむめﾓﾝ", "date": "2026-06-20", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R13U2US7AFJUQA/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["厚度", "颜色"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["颜色高级"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR898YJW", "title": "难道是重复了？", "title_orig": "リピートかな", "content": "它很有光泽，而且看起来很容易清洁。", "content_orig": "艶っぽいし、掃除もしやすそうで良い", "model": "色: ライトグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "yukioxx", "date": "2026-06-18", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RYO23739NJKHG/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR82G6D2", "title": "易于处理", "title_orig": "扱い易い", "content": "我为我父亲的护理床购买了这个。它不硬而且防水。背面是白色的，如图所示。我真的很喜欢它，因为它可以清洗并且易于处理。", "content_orig": "父の介護ベッド用に購入しました。ゴワゴワしておらずしっかりと防水してくれます。裏側は画像の様に白くなっています。丸洗い出来て扱い易いのでとても気に入っています。", "model": "色: カーキ | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "たんぽぽ", "date": "2026-06-16", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2CL2Z7035S5KM/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P874G", "title": "用于预防尿床", "title_orig": "おねしょ対策に", "content": "这是我第一次购买盒式防水床单，以防止我的孩子弄湿床。这些防水床单洗后感觉蓬松！我3岁的孩子抱着刚洗完的这个产品，高兴极了，说它毛茸茸的！我正在考虑购买额外的物品作为备用！浅灰色也很好看，而且不会太暗！", "content_orig": "子どものおねしょ対策のため初めてのボックスタイプの防水シーツ購入です。こちらの防水シーツは洗濯後ふわふわ感がある気がしました！3歳の子供が洗濯後の回収したばかりのこの商品を抱きしめふわふわーっと言って喜んでるくらいでした！予備のため追加購入も検討中です！ライトグレーも暗すぎず良かったです！", "model": "色: ライトグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "もちくま", "date": "2026-06-16", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R279G4UYX7XCQP/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适", "颜色高级"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR898YJW", "title": "很好", "title_orig": "良かった", "content": "摸起来似乎很舒服", "content_orig": "触り心地は良いそうです", "model": "色: ライトグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "おか", "date": "2026-06-15", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RNAKEWBDM39TY/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR8DWL57", "title": "触感柔软！", "title_orig": "肌触りいい！", "content": "触感柔软，颜色干净，让您安心入睡。", "content_orig": "肌触り良く清潔感のある色味で安心して眠れそうです。", "model": "色: カーキ | サイズ: シングル 100*200cm", "star": 5, "reviewer": "☆", "date": "2026-06-10", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1EB9NIWVX5X2W/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适", "颜色高级"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR847QYG", "title": "好的", "title_orig": "Nice", "content": "一开始有点不舒服，但很好，绝对喜欢。", "content_orig": "Little bit not comfy at first but nice, definitely like it.", "model": "色: カーキ | サイズ: ダブル 140*200cm", "star": 4, "reviewer": "Clau", "date": "2026-06-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RMM5FASHTLI5D/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7ZV555", "title": "用于儿童房", "title_orig": "子ども部屋用に", "content": "我买了这个给我孩子的床。它很棒，因为它覆盖了整个床垫。好像也防水", "content_orig": "子どものベッド用に買いました。マットレス全体を覆えるのでとてもいいです。防水性も良さそうです", "model": "色: ダークグレー | サイズ: シングル 100*200cm", "star": 5, "reviewer": "みみ", "date": "2026-06-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3GC2KJKG95T4H/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7ZV555", "title": "看起来不错", "title_orig": "良さそうです", "content": "我还没用过，不过好像整体是防水的。如果你不介意用的话，我想买一个替换的！\n交付也顺利且良好。", "content_orig": "まだ使用していませんが全体的に防水はしっかりしていそうな作りです\n使用してよければ替えを購入したいなと思います！\n配送もスムーズでよかったです", "model": "色: ダークグレー | サイズ: シングル 100*200cm", "star": 5, "reviewer": "schna しゅな", "date": "2026-06-07", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3JZRIZBLXWJSV/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WF718", "title": "我用了2个月了...", "title_orig": "2ヶ月使用しましたが、、、", "content": "使用两个月后，我写了一篇评论。\n我买这个产品是因为我的猫偷偷溜进卧室，把床垫误认为是猫砂盆。\n\n我想这是一般防水片材的通病，但防水片材的透湿性很差，而且很闷热。\n我们期待开发防水、高透气的材料，例如 GORE-TEX，而且触感舒适。\n\n另外，使用时请先在阳光下晒干后再使用。\n我强烈要求洗，但老婆说不用了，我们吵架了，我就继续用，但是有尘螨吗？嗯，我感觉很糟糕。\n\n我并不是说这是产品的错，因为我认为创造一个它们可以繁殖的环境可能更容易，因为产品的特性会增加湿度。", "content_orig": "使用期間2ヶ月経ったのでレビューします。\n猫が寝室に忍び込み、マットレスをトイレと間違えるのでこちらの商品を購入しました。\n\n防水シーツ全般に共通する課題だとは思いますが、透湿性が悪くとても蒸し暑いです。\nGORE-TEXなどの防水、高透湿の素材かつ肌触りが良い素材が開発される事を心待ちにしています。\n\nまた使用する際は選択天日干しをしてから使用しましょう。\n私は洗うことを強く要望しましたが\n妻が不要と喧嘩になりかけたのでそのまま使いましたがダニ？ですかね大変な思いをしました。\n\n商品の特性上湿度が高まるので繁殖しやすい環境を作りやすいのかもしれないなとも思うので\nこの商品のせいだとは言いません。", "model": "色: ライトグレー | サイズ: シングル 100*200cm", "star": 2, "reviewer": "無名レビュアー", "date": "2026-06-04", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3H3C1KFPUILW7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["透气性差"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P874G", "title": "垫子太薄了，没有任何用处。", "title_orig": "パッドが薄すぎて使い物にならない。", "content": "这作为一个产品是不可行的。\n我觉得还是不要买比较好。\n我是很久以前买的，5月30号就从包里拿出来使用了。\n当你试图把它放在床上时，摸起来感觉很奇怪。\n我想也许我购买的产品没有附带垫子，所以我检查了我的购买历史记录。\n它被填充了。\n可能是夏天用的，但填充物的厚度大致相同。如果垫子不硬的话，它只是一张厚纸。\n有了这个，即使有水渗进去也就不奇怪了，而且它不会变得蓬松，而且因为它很薄，所以它变得脆脆的，我在上面睡不着。\n这是由于质量差异造成的吗？\n评论说这是一个好产品。\n最近，加垫床单的种类有所增加，但劣质产品的数量似乎也有所增加。\n这里的产品介绍是华丽丽的文字。照片质量太好了，可能是AI的原因。\n请不要销售此类产品。", "content_orig": "これは商品としては成り立ってないですね。\n購入しない方がベターだと思います。\nかなり前に購入し、5月30日に使用する為、袋から取り出しました。\nベッドに敷こうとすると不思議な手触り。\nひょっとしたら、パッド付きではない商品を購入したかと思い、購入履歴を確認。\nパッド付きでした。\n夏用かもしれませんが、パッドの厚みはほぼし。多少あるもののパッドに硬さが無ければ\nただの厚めのシーツ。\nこれなら水分が浸透しても不思議ではないし、ふわふわすることもなく、薄い分、シャカシャカしてこれでは寝れないですね。\nこれは品質のバラつきでしょうか？\nレビューには良い商品と書いてあります。\n最近、パッド付きシーツの種類が\n増えましたが、その分、品質の悪い商品も増えてるようですね。\nここでの商品紹介は美辞麗句な言葉のオンパレード。写真もAIなのか品質良すぎ。\nそのような商品は販売しないでいただきたい、", "model": "色: ライトグレー | サイズ: セミダブル 120*200cm", "star": 1, "reviewer": "Take Nagoya", "date": "2026-05-29", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3CNUA3US5VNZ3/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["厚度"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR898YJW", "title": "皮肤感觉良好", "title_orig": "肌触りがいい", "content": "我买这个是为了防止我的宠物皮肤粗糙，但考虑到它是由防水材料制成的，它的触感出奇的柔软，而且很容易作为垫的一个整体部分使用。", "content_orig": "ペットの粗相対策で購入しましたが撥水素材のわりに意外と肌触りもよく、パットと一体型でつけるのも楽でした。", "model": "色: ライトグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "M♡", "date": "2026-05-13", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RQ9EJ5LLE3RPX/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7KW7F2", "title": "很好", "title_orig": "良かった", "content": "当我为孩子盗汗和尿床寻找防水垫时，我发现了这个产品。\n虽然很难洗，但我觉得防水很好。\n我想从现在开始我会尝试使用它。", "content_orig": "子どもの寝汗やおねしょに防水マットを探していた時に、この商品を見つけました。\n洗濯が大変ですがしっかり防水されていると感じました。\nこれから使ってみようと思います。", "model": "色: ダークグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "足立 喬", "date": "2026-05-12", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1UA7IHGBF32E/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR847QYG", "title": "缝起来很容易...", "title_orig": "縫製がとれやすかった…", "content": "刚洗完，前面的缝线就磨损了，所以我退货了，然后又买了它，但使用了5天后，线就磨损了。遗憾的是，它是如此方便且受人赞赏的产品，却磨损得如此之快。否则，我认为这是一个非常好的产品。这次我决定就这么用，因为退货比较麻烦。", "content_orig": "洗濯しただけで表面の縫製部分がほつれてしまい一度返品し再度購入したのですがやはり使用して5日で糸がほつれてしまいました。すごく便利でありがたい商品だった分だけすぐにほつれるのは残念でした。それがなければとてもよい商品だと思います。返品作業も面倒なので今回はそのまま使用することにしました。", "model": "色: カーキ | サイズ: ダブル 140*200cm", "star": 2, "reviewer": "ぶー", "date": "2026-05-10", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RBFEGJ4QWJ4F5/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["开线"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WF718", "title": "易于穿脱", "title_orig": "着脱簡単", "content": "易于穿脱！购买单人床垫和半双人床垫。很容易穿上。我很期待♪", "content_orig": "着脱簡単！シングルマットレスとセミダブル用に購入。簡単に着けられました。楽しみです♪", "model": "色: ライトグレー | サイズ: シングル 100*200cm", "star": 5, "reviewer": "磯", "date": "2026-05-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RMY6V3ZCVCPGC/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WF718", "title": "好的", "title_orig": "良い", "content": "太好了，我只需要一张床单，因为床单和垫子是一体的！\n因为是防水的，所以清洗起来有点困难。", "content_orig": "シーツとパッドが一体型なので1枚ですむのが良かった！\n防水仕様のため洗濯が少し大変", "model": "色: ライトグレー | サイズ: シングル 100*200cm", "star": 5, "reviewer": "まきちゃん", "date": "2026-05-08", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RRBPCTKX6553D/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P8JDM", "title": "不染色", "title_orig": "染みない", "content": "一般禁止在床上喝咖啡。但我当时正在喝酒。\n所以我最后洒了一点。\n不过，并没有渗透到下面的床上。", "content_orig": "コーヒーを普通はベッドの上で飲むのは御法度。ですが、私は飲んでいました。\nで少しですけどこぼす始末。\nですが下のベッドまで染み込むことはありませんでした", "model": "色: ホワイト | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "あいみ", "date": "2026-05-06", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1HX6EPH6ZR1L4/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P8JDM", "title": "床笠的缺点", "title_orig": "ボックスシーツの弱点", "content": "与任何床笠一样，睡觉时中间的两侧都会突出，所以我希望您采取一些措施，例如将中间部分系在后面或用尼龙搭扣固定。\n产品不会发出任何沙沙声，柔软舒适。", "content_orig": "どのボックスシーツもだけど、寝てるうちに真ん中の両側がはみ出してくるので、真ん中部分を裏で結ぶなり、マジックテープとかでつけるなり、なんとかして欲しい。\n商品はガサガサ音も無し、やわらかくて気持ちいいです", "model": "色: ホワイト | サイズ: セミダブル 120*200cm", "star": 3, "reviewer": "user", "date": "2026-04-26", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1KPO8ME1GR07K/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR8DWL57", "title": "既防水又舒适的床垫", "title_orig": "防水性と快適さに満足できる敷きパッド", "content": "做工比我想象的要扎实，感觉质量超出了价格。\n触感光滑舒适，防水盖延伸至两侧，让您不用担心。\n穿脱方便，清洗方便，是一款非常人性化的产品。", "content_orig": "思っていた以上にしっかりした作りで、価格以上の品質に感じました。\n肌触りもサラサラで気持ちよく、防水カバーが側面まであるので安心です。\n着脱しやすく洗濯も楽で、使い勝手の良い商品でした。", "model": "色: カーキ | サイズ: シングル 100*200cm", "star": 5, "reviewer": "まさる", "date": "2026-04-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3F7SJSMTMBLQI/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["触感舒适"], "价值体验": ["物有所值"]}, {"asin": "B0GR7WF718", "title": "便利", "title_orig": "便利", "content": "我买这个是为了防止我的孩子撒尿。我很高兴买了这个，因为我只需要洗一张，而不是以前必须洗的两张床单和床单。它是完全防水的。", "content_orig": "子どものおしっこ対策で購入しました。今まで敷きパッドとBOXシーツ2枚洗っていたのが1枚で済むので購入してよかったです。しっかり防水してくれました。", "model": "色: ライトグレー | サイズ: シングル 100*200cm", "star": 5, "reviewer": "sr", "date": "2026-04-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1793WVL9YNC4V/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7N6HFQ", "title": "对于手感和易用性没有任何抱怨！", "title_orig": "肌触りも使い勝手も文句なし！", "content": "购买作为替代品。由于是一体式，所以安装简单！\n以前，我在睡觉时遇到了护垫移动的问题，但这款护垫贴合牢固，根本不会移动。面料光滑、亲肤舒适，质地非常适合一年中的这个时候。性价比很好，我对我的购买非常满意。", "content_orig": "衣替えで購入。一体型なのでとにかく設置が簡単です！\nこれまでは寝ている間にパッドがズレるのが悩みでしたが、これはしっかりフィットして全くズレません。生地もサラサラで肌心地が良く、今の時期にぴったりな質感でした。コスパも良く、満足度の高い買い物になりました。", "model": "色: ホワイト | サイズ: シングル 100*200cm", "star": 5, "reviewer": "柴又", "date": "2026-04-21", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1AQMO596HILNX/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适", "不易移位", "具有性价比"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["触感舒适"], "价值体验": ["性价比高"]}, {"asin": "B0GR7KW7F2", "title": "不打滑！", "title_orig": "ズレない！", "content": "到现在为止，所有的床笠都已经移动了，我有点紧张，但这些真的根本没有移动！\n面料不硬挺，舒适。", "content_orig": "今までどのボックスシーツもズレて微妙にストレスだったのですが、これはマジ全くズレない！\n生地もゴワゴワしてなくて快適です。", "model": "色: ダークグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "S", "date": "2026-04-20", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RYOTMK50PLW90/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["不易移位"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WT3RM", "title": "很方便", "title_orig": "便利です", "content": "因为我有孩子，所以我一直在寻找防水床单以防止尿床。\n我认为这是一个很棒的产品，因为床垫是一体式的，所以你不必担心清洗和应用多个部件。\n到目前为止，它只是表面类型，所以我很庆幸它有一个防水盖，也覆盖了侧面。\n面料光滑，手感好。", "content_orig": "子どもがいるのでおねしょ対策で防水シーツはマストで探していました。\n敷きパッドが一体型になっているので、何個も洗ったりつけたりする手間がなくなっていい商品だなと思います。\n今まで表面だけのタイプだったので側面まで防水カバーがついているのはありがたかったです。\n生地もサラサラしてて気持ちいいです。", "model": "色: ダークグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "こめ", "date": "2026-04-19", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2C3YQANY6M97O/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WT3RM", "title": "白色的线很碍眼", "title_orig": "白い糸が目障り", "content": "白线碍眼，缝得很紧。", "content_orig": "白い糸が目障り、しつかり縫製されている。", "model": "色: ダークグレー | サイズ: セミダブル 120*200cm", "star": 3, "reviewer": "ラッキーボーイ", "date": "2026-04-14", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RKTL2ZFKD0G8R/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WT3RM", "title": "性价比！", "title_orig": "コスパ！", "content": "防水且安全。它不易滑动，睡起来很舒服。性价比很满意！", "content_orig": "防水しっかりで安心。ズレにくく寝心地も良い。コスパ満足！", "model": "色: ダークグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "なお", "date": "2026-04-13", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R3QUAWYVP28X8O/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["具有性价比", "不易移位"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["触感舒适"], "价值体验": ["性价比高"]}, {"asin": "B0GR7KW7F2", "title": "床垫床单和防水床单的便捷组合", "title_orig": "敷布団シーツ、防水シーツが一体化便利", "content": "蒲团床单和防水床单合二为一，既方便又可以防止孩子漏尿。我很高兴买了这个，因为它不会渗入床垫。", "content_orig": "敷布団にシーツと防水シーツが一体化してて便利\n子供のお漏らし防止の為にひいてます。敷布団に染み渡ることがなく買って良かったです。", "model": "色: ダークグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "きよちゃん", "date": "2026-04-12", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2779MDNF8DDKK/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7N6HFQ", "title": "严密防水", "title_orig": "しっかり防水", "content": "我买了防水床单，以防孩子尿床或流鼻血。\n垫子最好不要做防水的。", "content_orig": "子供達のおねしょや鼻血用した時のために防水シーツを購入。\nしっかり防水できてしてのマットにしないのがいいですね。", "model": "色: ホワイト | サイズ: シングル 100*200cm", "star": 5, "reviewer": "TS", "date": "2026-04-10", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1489L2HNKIDK2/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR847QYG", "title": "考虑到价格，我对它很满意，它防水，摸起来手感很好。", "title_orig": "値段を考えるとかなり満足度が高く、防水性があって肌触りもいい感じです", "content": "考虑到价格，我对它很满意，它防水，摸起来手感很好。\n我的印象是防水床单会又硬又闷，但这些比我想象的要软，而且感觉很好。表面很光滑，我没有感到任何不适。\n\n特别方便的是，床垫和床笠是一体的。它易于穿脱，四周均采用橡胶固定，因此在您睡觉时不会滑落。我不必每次都单独准备床单和垫子，这是一个巨大的帮助。因为我养了宠物，所以很容易使用它作为尿床和出汗的对策，而且对于保护床垫也很有帮助。可以在洗衣机中清洗也很有帮助。", "content_orig": "値段を考えるとかなり満足度が高く、防水性があって肌触りもいい感じです。\n防水シーツってゴワついたり蒸れやすかったりするイメージがあったんですが、これは思ったより肌触りがよく、普通に気持ちいいです。表面もさらっとしていて、不快感はあまりありませんでした。\n\n特に、敷きパッドとボックスシーツが一体型なのも便利です。付け外しが楽だし、全周ゴムでしっかり固定されるので、寝ている間にズレにくいのも良かったです。毎回シーツとパッドを別々に整えなくていいので、地味に助かっています。ペットを飼っているのでおねしょや汗対策として使いやすく、マットレスを守れるのは大きいです。洗濯機で丸洗いできるのも助かります。", "model": "色: カーキ | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "IT技術者", "date": "2026-04-10", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R202U8R9PEYWAA/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适", "不易移位", "具有性价比"], "冷感体验": ["无匹配标签"], "产品质量": ["品质牢固"], "感官感受": ["触感舒适"], "价值体验": ["性价比高"]}, {"asin": "B0GR85B88C", "title": "将 3 种功能合二为一，非常划算。", "title_orig": "1枚3役でお得です", "content": "我对三合一角色很感兴趣并购买了它。\n填充部分也足够厚实，橡胶高度可容纳30cm厚度，空间充裕，不用担心掉落。\n而且皮肤感觉真的很好！\n它具有防水功能，即使出汗也能舒适入睡。\n这次我买了一张双人床，但我想买一张新的，也想买一张单人床。", "content_orig": "1枚3役にそそられ購入させてもらいました。\n敷きパッドの部分もちゃんと厚みもありゴムの高さも厚さ30cmまで対応してるので余裕もあり外れる心配もなさそうです。\nそれに肌触りがすごくいいです！\n防水タイプなので汗をかいても快適に寝れます。\n今回ダブルを購入しましたが洗い替えとシングルも購入したいと思ってます。", "model": "色: ホワイト | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "ぐっち", "date": "2026-04-09", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R31X3M26SGBETZ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["厚度", "触感舒适", "具有性价比"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["物有所值", "性价比高"]}, {"asin": "B0GR82G6D2", "title": "睡起来很舒服", "title_orig": "寝心地良し", "content": "我担心睡在防水床单上的舒适度，但由于外面有棉，摸起来很舒服。\n再加上护垫的作用，睡得很舒服。\n更多关于防水性能和耐用性。", "content_orig": "防水シーツなので寝心地が心配だったが、表側にコットンが貼ってあるので快適な肌触り。\nパッドの効果も相まって心地よい寝心地だった。\n防水性能と耐久性についてはこれから。", "model": "色: カーキ | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "Amazon カスタマー", "date": "2026-04-07", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R7PH5Y93R1FSQ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7KW7F2", "title": "我还不知道怎么用", "title_orig": "使い勝手はまだわかりません", "content": "我给了它 5 分，因为我想要一张礼券，但是......\n看起来是防水的，但是洗起来很麻烦。\n我犹豫着要不要洗，因为晴天必须把它挂在外面晾干……（笑）\n我想知道是否会重复", "content_orig": "ギフト券欲しさに🌟5にしましたが…\n防水機能はちゃんとしてそうだけど\nとにかく洗うのが大変です。\n天気のいい日に外で干すしかなく洗うのを躊躇してしまうくらい…(笑)\nリピはなしかなぁ", "model": "色: ダークグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "カンタロウ", "date": "2026-04-05", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2RWTTAQL1KOFB/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR898YJW", "title": "出售时购买的", "title_orig": "セールで購入", "content": "感觉很好而且不会变。", "content_orig": "ズレなくて良い感じです。", "model": "色: ライトグレー | サイズ: ダブル 140*200cm", "star": 5, "reviewer": "lil", "date": "2026-04-01", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R324K71J8HTMFI/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P874G", "title": "您可以放心，床笠是防水的。", "title_orig": "ボックスシーツが防水だと安心", "content": "由于不需要清洗，所以我决定使用可以保护弹簧的防水型。\n安装没有问题，而且似乎不会很快脱落。我很高兴现在闷热的感觉似乎还没有消失。", "content_orig": "洗い替えがなかったのもあり、スプリングを保護できる防水タイプにしてみました。\n取り付け問題なく、すぐに外れることもなさそうです。蒸れ感もいまのとこなさそうでよかったです。", "model": "色: ライトグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "🐥", "date": "2026-03-31", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R7EZX6VPS9T63/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P874G", "title": "皮肤感觉良好", "title_orig": "肌触りが良い", "content": "皮肤感觉良好，让您睡得安稳。\n它具有防水功能，即使在容易出汗的夏天也可以放心使用。", "content_orig": "肌触りも良く、ぐっすりと寝れます。\n防水なので、汗をかきやすい夏でも、安心して使えます。", "model": "色: ライトグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "あつし", "date": "2026-03-30", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2K6ZB1N6PVKXQ/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7P8JDM", "title": "我对孩子的尿床措施感到满意。", "title_orig": "子供のおねしょ対策に満足です", "content": "我有时和孩子睡小双人床，所以买了这个，防止孩子尿床。\n如果尿床渗透到你的床上，时间一长就会导致床泛黄、发臭、发霉，所以需要立即处理，但如果你提前采取措施防止它渗入你的床，你就不用担心床内长霉菌了。\n这些床单触感柔软，睡觉舒适，而且价格合理。", "content_orig": "セミダブルのベッドで、子供と一緒に寝ることもあり、子供のおねしょ対策に購入しました。\nおねしょがベッドに染み込んだ場合、時間が経過すると黄ばみや臭い、カビの原因となるため、すぐに対処がする必要がありますが、予め、ベッド内に染み込まない対策をしておけば、ベッド内にカビが生える心配もいりません。\nこのシーツは肌触りもよく、寝心地もいいし、お値段も満足です。", "model": "色: ホワイト | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "Amazon カスタマー", "date": "2026-03-30", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1O487DKPOXZ26/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适", "具有性价比"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["性价比高"]}, {"asin": "B0GR7VM6BG", "title": "我很高兴买了它，因为即使弄脏了，它也不会一直漏到底部。", "title_orig": "汚れても下まで漏れがないので、購入してよかった", "content": "我买这个是为了防止我的孩子弄湿床并防止床垫被汗弄脏。\n布料柔软舒适。\n我以前购买的其他防水片材因被水浸湿而遇到问题，但使用本产品时，与皮肤接触的部分会变脏，但它们不会在下面漏水，所以我很高兴购买了它们。\n我正在考虑购买更多。", "content_orig": "子どものおねしょ防止と汗で敷布団が汚れるのを防ぐために購入しました。\n布は肌触りがよく気持ちいいです。\n過去に購入した別の防水シーツは染み込んでいて困りましたが、この商品は肌に触れる部分は汚れますが、下に漏れないので購入してよかったなと思います。\n追加で購入しようと考えています。", "model": "色: ダークグレー | サイズ: クイーン 160*200cm", "star": 5, "reviewer": "natsumi", "date": "2026-03-26", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R32R4KKY4RD2F7/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["触感舒适"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["触感舒适"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7N6HFQ", "title": "它比我预期的更薄并且易于使用。", "title_orig": "思ったより薄手で使いやすい。", "content": "我认为它非常好并且适合即将到来的季节。\n我对低廉的价格感到满意。", "content_orig": "これからのシーズンに適していてとても良いと思います。\n値段も安く満足しました。", "model": "色: ホワイト | サイズ: シングル 100*200cm", "star": 5, "reviewer": "Amazon カスタマー", "date": "2026-03-25", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/RF0O16T9220SM/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["具有性价比"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["性价比高"]}, {"asin": "B0GR8DWL57", "title": "我第一次买防水布。", "title_orig": "防水シーツ初めて買いました", "content": "当我把湿毛巾放在上面时，它确实湿了，但我感觉它很快就干了。打开的时候有一点味道，但是戴上之后就没事了。我期待着洗它，因为它看起来干得很快。", "content_orig": "濡れたタオルを置いてみたら湿ることは湿りましたが乾きが早かった気がします。開けたては若干においが気になりましたがつけてみたら大丈夫でした。洗濯しても乾くのが早そうなので洗うのも楽しみです。", "model": "色: カーキ | サイズ: シングル 100*200cm", "star": 5, "reviewer": "ますたー", "date": "2026-03-24", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R24MCF982KZBON/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["无匹配标签"]}, {"asin": "B0GR7WT3RM", "title": "质量大于价格", "title_orig": "値段以上のクオリティでした", "content": "我对质量非常满意，超出了价格。在我继续使用它之前我不知道它的耐用性，所以我很期待将来看到它。", "content_orig": "お値段以上の品質でとても満足しています。耐久性については使用を続けてみないとわからないため、今後に期待しています。", "model": "色: ダークグレー | サイズ: セミダブル 120*200cm", "star": 5, "reviewer": "つよしん", "date": "2026-03-23", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R1PSS5WF7VBDQW/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["无匹配标签"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["物有所值"]}, {"asin": "B0GR7WF718", "title": "易于设置", "title_orig": "セットしやすい", "content": "质量满意，价格便宜。\n至于耐用性，我刚买的还不知道，所以还是期待吧^_^", "content_orig": "安くてこのクオリティなら満足。\nあとは耐久性ですが、まだ買ったばかりなのでわからないため期待を込めて^_^", "model": "色: ライトグレー | サイズ: シングル 100*200cm", "star": 5, "reviewer": "ridiamo", "date": "2026-03-21", "link": "https://www.amazon.co.jp/portal/customer-reviews/srp/-/R2XX1IDA9J9SIU/ref=cm_cr_getr_d_rvw_ttl?ie=UTF8", "使用人群": ["自用"], "使用期望": ["具有性价比"], "冷感体验": ["无匹配标签"], "产品质量": ["无匹配标签"], "感官感受": ["无匹配标签"], "价值体验": ["性价比高"]}];
+
+const PALETTE = ["#0e7c86","#2ca6a4","#8fd0cd","#e7a13b","#c1502e","#6b8f3f",
+                 "#3c6e8f","#a6667a","#8a7dc9","#5aa0c9","#d68c3a","#7a9e6b",
+                 "#b06a9e","#4f8a8b"];
+const GREY = "#c7d3d1";
+
+function colorFor(label, idx){
+  if(label === '无匹配标签') return GREY;
+  return PALETTE[idx % PALETTE.length];
+}
+
+// ---------- stats ----------
+function renderStats(){
+  const total = REVIEWS.length;
+  const avg = (REVIEWS.reduce((s,r)=>s+(r.star||0),0)/REVIEWS.filter(r=>r.star).length).toFixed(2);
+  const asins = [...new Set(REVIEWS.map(r=>r.asin).filter(Boolean))];
+  const withImg = REVIEWS.filter(r=>r['产品质量'].some(t=>t!=='无匹配标签')).length;
+  const coolGood = REVIEWS.filter(r=>r['冷感体验'].includes('冷感体验好')).length;
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat"><div class="num">${total}</div><div class="label">评论总数</div></div>
+    <div class="stat"><div class="num">${avg} ★</div><div class="label">平均星级</div></div>
+    <div class="stat"><div class="num">${asins.length}</div><div class="label">关联 ASIN / 型号数</div></div>
+    <div class="stat"><div class="num">${coolGood}</div><div class="label">明确反馈冷感体验好</div></div>
+    <div class="stat"><div class="num">${withImg}</div><div class="label">提及具体品质问题</div></div>
+  `;
+  document.getElementById('asinlist').innerHTML =
+    '涉及 ASIN：<b>' + asins.join('</b> · <b>') + '</b>';
+}
+
+// ---------- generic pie builder ----------
+// dim: field name in REVIEWS, or 'star' special
+function buildCounts(dim){
+  const counts = {};
+  if(dim === 'star'){
+    for(let s=1;s<=5;s++) counts[s+' 星'] = 0;
+    REVIEWS.forEach(r=>{ if(r.star) counts[r.star+' 星']++; });
+  } else if(dim === '使用人群'){
+    REVIEWS.forEach(r=>{
+      (r[dim]||[]).forEach(tag=>{
+        counts[tag] = (counts[tag]||0)+1;
+      });
+    });
+  } else {
+    REVIEWS.forEach(r=>{
+      (r[dim]||[]).forEach(tag=>{
+        counts[tag] = (counts[tag]||0)+1;
+      });
+    });
+  }
+  return counts;
+}
+
+function filterReviews(dim, label){
+  if(dim === 'star'){
+    const s = parseInt(label);
+    return REVIEWS.filter(r=>r.star===s);
+  }
+  return REVIEWS.filter(r=>(r[dim]||[]).includes(label));
+}
+
+function makeCard(container, opts){
+  const {id, title, hint, dim} = opts;
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <h3>${title}</h3>
+    <p class="hint">${hint}</p>
+    <div class="chart-holder"><canvas id="${id}"></canvas></div>
+    <div class="legend-list" id="${id}_legend"></div>
+  `;
+  container.appendChild(card);
+
+  const counts = buildCounts(dim);
+  let labels = Object.keys(counts);
+  if(dim === 'star'){
+    labels = ['5 星','4 星','3 星','2 星','1 星'];
+  } else {
+    labels.sort((a,b)=>{
+      if(a==='无匹配标签') return 1;
+      if(b==='无匹配标签') return -1;
+      return counts[b]-counts[a];
+    });
+  }
+  const data = labels.map(l=>counts[l]);
+  const colors = labels.map((l,i)=>colorFor(l,i));
+
+  const ctx = document.getElementById(id).getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data, backgroundColor: colors, borderColor:'#ffffff', borderWidth:2 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      cutout:'52%',
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          callbacks:{
+            label: (c)=>{
+              const total = c.dataset.data.reduce((a,b)=>a+b,0);
+              const pct = total? (c.parsed/total*100).toFixed(1):0;
+              return `${c.label}: ${c.parsed} 条 (${pct}%)`;
+            }
+          }
+        }
+      },
+      onClick: (evt, elements)=>{
+        if(!elements.length) return;
+        const idx = elements[0].index;
+        openModal(dim, title, labels[idx], colors[idx]);
+      }
+    }
+  });
+
+  const legendEl = document.getElementById(id+'_legend');
+  const total = data.reduce((a,b)=>a+b,0);
+  labels.forEach((l,i)=>{
+    const pct = total? (data[i]/total*100).toFixed(1):0;
+    const item = document.createElement('div');
+    item.className='legend-item';
+    item.innerHTML = `<span class="legend-dot" style="background:${colors[i]}"></span>${l} <span class="cnt">${data[i]}</span> (${pct}%)`;
+    item.onclick = ()=> openModal(dim, title, l, colors[i]);
+    legendEl.appendChild(item);
+  });
+}
+
+// ---------- modal ----------
+let currentResults = [];
+function openModal(dim, title, label, color){
+  currentResults = filterReviews(dim, label);
+  document.getElementById('modalTitle').innerText = `${title} — ${label}`;
+  document.getElementById('modalSub').innerText = `共 ${currentResults.length} 条相关评论 · 点击行可展开/收起日文原文`;
+  document.getElementById('modalSearch').value = '';
+  document.getElementById('modalMask').classList.add('open');
+  renderTable();
+}
+function closeModal(){
+  document.getElementById('modalMask').classList.remove('open');
+}
+document.getElementById('modalMask').addEventListener('click', (e)=>{
+  if(e.target.id==='modalMask') closeModal();
+});
+
+function starBadge(s){
+  return `<span class="star-badge s${s}">${'★'.repeat(s)}${'☆'.repeat(5-s)}</span>`;
+}
+
+function renderTable(){
+  const q = document.getElementById('modalSearch').value.trim().toLowerCase();
+  let rows = currentResults;
+  if(q){
+    rows = rows.filter(r =>
+      (r.content||'').toLowerCase().includes(q) ||
+      (r.title||'').toLowerCase().includes(q) ||
+      (r.asin||'').toLowerCase().includes(q) ||
+      (r.model||'').toLowerCase().includes(q)
+    );
+  }
+  const tbody = document.getElementById('modalTbody');
+  const emptyHint = document.getElementById('emptyHint');
+  if(rows.length===0){
+    tbody.innerHTML='';
+    emptyHint.style.display='block';
+    return;
+  }
+  emptyHint.style.display='none';
+  tbody.innerHTML = rows.map(r=>`
+    <tr onclick="this.querySelector('.orig').classList.toggle('shown')">
+      <td>${r.asin||''}</td>
+      <td>${r.star? starBadge(r.star):''}</td>
+      <td>${escapeHtml(r.title||'')}</td>
+      <td class="content-cell">${escapeHtml(r.content||'').replace(/\n/g,'<br>')}
+        <div class="orig">${escapeHtml(r.content_orig||'').replace(/\n/g,'<br>')}</div>
+      </td>
+      <td>${escapeHtml(r.model||'')}</td>
+      <td>${escapeHtml(r.reviewer||'')}</td>
+      <td>${r.date||''}</td>
+    </tr>
+  `).join('');
+}
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ---------- build all cards ----------
+renderStats();
+
+makeCard(document.getElementById('gridTop'), {
+  id:'chartStar', title:'星级分布', dim:'star',
+  hint:'评论星级 1～5 星占比'
+});
+makeCard(document.getElementById('gridTop'), {
+  id:'chartUser', title:'使用人群', dim:'使用人群',
+  hint:'自用 或 送礼 购买动机判定'
+});
+
+makeCard(document.getElementById('gridExpect'), {
+  id:'chartExpect', title:'使用期望', dim:'使用期望',
+  hint:'购买动机、期待达成的核心目的与改进建议'
+});
+
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartCool', title:'冷感功能体验', dim:'冷感体验',
+  hint:'对冷却/接触凉感效果的实际体验反馈'
+});
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartQuality', title:'产品质量', dim:'产品质量',
+  hint:'耐用性、工艺与质量问题的具体反馈'
+});
+makeCard(document.getElementById('gridExperience'), {
+  id:'chartSensory', title:'感官感受', dim:'感官感受',
+  hint:'触感、颜色、透气性等主观感受'
+});
+
+makeCard(document.getElementById('gridValue'), {
+  id:'chartValue', title:'价值体验', dim:'价值体验',
+  hint:'价格与体验是否匹配的评价'
+});
+</script>
+</body>
+</html>
